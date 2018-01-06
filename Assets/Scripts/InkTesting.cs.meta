@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8af5742a831935e41adabb9000f95854
+timeCreated: 1515168848
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - storyJSON: {fileID: 4900000, guid: d39ed9bdb7c07d74e81fad897ba90ec2, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

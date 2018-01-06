@@ -22,9 +22,21 @@ public class BasicInkExample : MonoBehaviour {
     //Added Vars
     bool keyDown = false;
 
-	void Awake () {
-		StartStory();
+    //Camera for testing positions
+    Camera cam;
+
+    //Transform
+    Transform target;
+
+    private void Start()
+    {
+        StartStory();
+    }
+    void Awake () {
+
+       // StartStory();
 	}
+
 
 	void StartStory () {
 		story = new Story (inkJSONAsset.text);
@@ -89,9 +101,17 @@ public class BasicInkExample : MonoBehaviour {
 	}
 
 	void CreateContentView (string text) {
-		Text storyText = Instantiate (textPrefab) as Text;
+        cam = Camera.main;
+
+        if(cam != null)
+            Debug.Log("Camera Loaded");
+
+        Text storyText = Instantiate (textPrefab) as Text;
 		storyText.text = text;
 		storyText.transform.SetParent (canvas.transform, false);
+        target = storyText.transform;
+        Vector3 screenPos = cam.WorldToScreenPoint(target.position);
+        Debug.Log("Position of text is: " + screenPos.x + ", " + screenPos.y +", " + screenPos.z);
 	}
 
 	Button CreateChoiceView (string text) {
@@ -104,7 +124,12 @@ public class BasicInkExample : MonoBehaviour {
 		HorizontalLayoutGroup layoutGroup = choice.GetComponent <HorizontalLayoutGroup> ();
 		layoutGroup.childForceExpandHeight = false;
 
-		return choice;
+        cam = Camera.main;
+
+        Vector3 screenPos = cam.WorldToScreenPoint(choiceText.transform.position);
+        Debug.Log("Position of button "+ " " + " is: " + screenPos.x + ", " + screenPos.y + ", " + screenPos.z);
+
+        return choice;
 	}
 
 	void RemoveChildren () {

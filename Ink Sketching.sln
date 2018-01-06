@@ -1,9 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ink Sketching", "Assembly-CSharp-firstpass.csproj", "{5184C6C2-0A9C-2F17-CDE3-9D715F963C39}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ink Sketching", "Ink Sketching.csproj", "{7EC55AE0-0B47-6A97-F6A4-0D4DE193107C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ink Sketching", "Assembly-CSharp-Editor-firstpass.csproj", "{2506A4AE-DCD8-1688-4B8B-484633A05E3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ink Sketching.Plugins", "Ink Sketching.Plugins.csproj", "{B8F70EB0-B204-6070-9B42-C4F1BEF12A76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ink Sketching.Editor.Plugins", "Ink Sketching.Editor.Plugins.csproj", "{CCFCAABB-782E-8DD8-4D45-9B8C1C426B76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,19 +13,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5184C6C2-0A9C-2F17-CDE3-9D715F963C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5184C6C2-0A9C-2F17-CDE3-9D715F963C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5184C6C2-0A9C-2F17-CDE3-9D715F963C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5184C6C2-0A9C-2F17-CDE3-9D715F963C39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2506A4AE-DCD8-1688-4B8B-484633A05E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2506A4AE-DCD8-1688-4B8B-484633A05E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2506A4AE-DCD8-1688-4B8B-484633A05E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2506A4AE-DCD8-1688-4B8B-484633A05E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EC55AE0-0B47-6A97-F6A4-0D4DE193107C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EC55AE0-0B47-6A97-F6A4-0D4DE193107C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EC55AE0-0B47-6A97-F6A4-0D4DE193107C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EC55AE0-0B47-6A97-F6A4-0D4DE193107C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F70EB0-B204-6070-9B42-C4F1BEF12A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F70EB0-B204-6070-9B42-C4F1BEF12A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F70EB0-B204-6070-9B42-C4F1BEF12A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F70EB0-B204-6070-9B42-C4F1BEF12A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCFCAABB-782E-8DD8-4D45-9B8C1C426B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCFCAABB-782E-8DD8-4D45-9B8C1C426B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCFCAABB-782E-8DD8-4D45-9B8C1C426B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCFCAABB-782E-8DD8-4D45-9B8C1C426B76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
