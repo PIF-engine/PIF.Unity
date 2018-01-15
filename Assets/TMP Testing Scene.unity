@@ -287,11 +287,11 @@ RectTransform:
   m_Father: {fileID: 1997454185}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 164, y: 309}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -1206.5, y: 271}
   m_SizeDelta: {x: 5, y: 5}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1622986512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +337,7 @@ GameObject:
   - component: {fileID: 1997454188}
   - component: {fileID: 1997454187}
   - component: {fileID: 1997454186}
+  - component: {fileID: 1997454190}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -371,7 +372,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1997454184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de6d1d432c4b1624cba299db3959a716, type: 3}
+  m_Script: {fileID: 11500000, guid: 522d63b41323d8b4f9471e75720dc49e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 641915594}
@@ -435,3 +436,15 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1997454190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1997454184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67b43486a776990438743b7730ec2012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 1622986510}
