@@ -3,27 +3,67 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class TMPDisplayer : MonoBehaviour
 {
 
 
+    private bool USESCREEN = true;
+
 
     public GameObject parentObj;
     public GameObject textPrefab;
+    private List<GameObject> activeWords = new List<GameObject>();
 
 
     //Debug String
-    string wordString;
+    public string text;
+
+    private Vector3 offset;
+    private Vector3 spaceMove;
+    private Vector3 nlMove;
+    private float rightMargin = float.MaxValue;
 
     // Use this for initialization
     void Start()
     {
+        activeWords = new List<GameObject>();
 
-        wordString = "This is a test of Text Mesh Pro!";
+        var space = Instantiate(textPrefab);
+        space.transform.SetParent(parentObj.transform);
+        space.transform.localScale = new Vector3(1, 1, 1);
 
-        CreateText();
+        // Space Character vector and new line vector setup
+        TextMeshPro m_Space = space.GetComponent<TextMeshPro>();
+        m_Space.text = "␣"; //space
+        m_Space.ForceMeshUpdate();
+        RectTransform r_Space = space.GetComponent<RectTransform>();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(r_Space); //rebuild to get exact size of space
+        spaceMove = new Vector3(r_Space.sizeDelta.x / 2, 0, 0);
+        nlMove = new Vector3(0, -r_Space.sizeDelta.y * 1.5F); //multiplier for line spacing
+        
+        Destroy(space); //remove it now that we're done with it
 
+
+        resetOffset();
+
+        createMargin();
+
+    }
+
+    private void createMargin()
+    {
+        if (USESCREEN)
+        {
+            Vector3 worldSpace = transform.TransformPoint(parentObj.transform.position);
+            Vector3 margin = Camera.main.WorldToScreenPoint(worldSpace);
+            Debug.Log("X LEFT MARGIN IS " + margin.x);
+            Debug.Log("X RIGHT MARGIN IS " + (Screen.width - margin.x));
+            margin.x = Screen.width - margin.x;
+            worldSpace = Camera.main.ScreenToWorldPoint(margin);
+            rightMargin = worldSpace.x;
+         }
     }
 
     // Update is called once per frame
@@ -33,36 +73,16 @@ public class TMPDisplayer : MonoBehaviour
     }
 
 
-    void CreateText()
+    public void CreateText()
     {
-        List<string> words = new List<string>(wordString.Split(' '));
+        List<string> words = new List<string>(text.Split(' '));
         Transform parentTrans = parentObj.transform;
         Vector3 parentPos = parentTrans.position;
+        
+        //Check for overflow here
 
-        //Mesh mesh = parentObj.GetComponent<MeshFilter>().mesh;
-        /*Debug.Log("size: x=" + mesh.bounds.size.x
-            + ", y=" + mesh.bounds.size.y + ", z=" + mesh.bounds.size.z);*/
 
-        //var deltax = mesh.bounds.size.x;
-        //var deltay = mesh.bounds.size.z; //3D to 2D transformation
 
-        Vector3 offset = parentPos - new Vector3(0, 0, 0.1F);
-
-        /*
-         *  Setup space character
-         */
-
-        var space = Instantiate(textPrefab);
-        space.transform.SetParent(parentTrans);
-        space.transform.localScale = new Vector3(1, 1, 1);
-
-        TextMeshPro m_Space = space.GetComponent<TextMeshPro>();
-        m_Space.text = "␣"; //space
-        m_Space.ForceMeshUpdate();
-        RectTransform r_Space = space.GetComponent<RectTransform>();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(r_Space); //rebuild to get exact size of space
-        Vector3 spaceMove = new Vector3(r_Space.sizeDelta.x / 2, 0, 0);
-        Destroy(space); //remove it now that we're done with it
 
         //bool firstWord = true;
         foreach (string s in words)
@@ -100,15 +120,54 @@ public class TMPDisplayer : MonoBehaviour
             word.transform.position = offset;
 
 
-            //Move offset to end of word, then past the space
+            //Move offset to end of word
             offset += moveX;
-            offset += spaceMove;
 
+            //if we pass the margin (Overflow), newline
+            Vector3 offsetWorldPos = transform.TransformPoint(offset);
+            if(offsetWorldPos.x >= rightMargin)
+            {
+                NewLine();
+                offset += moveX;
+                word.transform.position = offset;
+            } else
+            { //other wise we just move a space
+                offset += spaceMove;
+            }
+            
+
+            //Add the new word to the word list
+            activeWords.Add(word);
+
+
+            //Debug Positions
             Vector3 camRelative = Camera.main.transform.InverseTransformPoint(word.transform.position);
             Debug.Log(word.name + " pos: " + Camera.main.WorldToScreenPoint(camRelative));
 
 
         }
 
+    }
+
+    public void NewLine()
+    {
+        offset.x = parentObj.transform.position.x;
+        offset += nlMove;
+    }
+
+    public void RemoveText()
+    {
+        if (activeWords.Count <= 0)
+            return;
+        foreach(GameObject o in activeWords)
+        {
+            Destroy(o);
+        }
+        resetOffset();
+    }
+
+    void resetOffset()
+    {
+        offset = parentObj.transform.position + new Vector3(0, 0, -0.1F);
     }
 }
