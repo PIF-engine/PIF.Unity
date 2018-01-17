@@ -4,6 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using Ink.Runtime;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 public class TMPDisplayer : MonoBehaviour
 {
@@ -14,6 +17,7 @@ public class TMPDisplayer : MonoBehaviour
 
     public GameObject parentObj;
     public GameObject textPrefab;
+    public string storyChoiceLog;
     private List<GameObject> activeWords = new List<GameObject>();
 
 
@@ -25,10 +29,39 @@ public class TMPDisplayer : MonoBehaviour
     private Vector3 nlMove;
     private float rightMargin = float.MaxValue;
 
+    private Regex rgx;
+    private int pageNum;
+    private int sentenceNum;
+    private int wordNum;
+
+    public bool logging;
+
     // Use this for initialization
     void Start()
     {
         activeWords = new List<GameObject>();
+        storyChoiceLog = "S";
+        rgx = new Regex("[^a-zA-Z0-9 \\.-]");
+
+        pageNum = 0;
+        sentenceNum = 0;
+        wordNum = 0;
+
+        logging = true;
+
+
+        //setup log
+
+        if (logging)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Application.dataPath + "/log.csv", true))
+            {
+                file.WriteLine("Res: " + Screen.width + "x" + Screen.height);
+                file.WriteLine("");
+                file.WriteLine("");
+                file.WriteLine("Time, Story, Word, Word Num, Sentence Num, Page Num, BoundMin, BoundMax");
+            }
+        }
 
         var space = Instantiate(textPrefab);
         space.transform.SetParent(parentObj.transform);
@@ -92,6 +125,8 @@ public class TMPDisplayer : MonoBehaviour
             word.transform.SetParent(parentTrans); //change this to starting point if we want one
             word.transform.localScale = new Vector3(1, 1, 1);
 
+            
+
             //Word Setup
             TextMeshPro m_Text = word.GetComponent<TextMeshPro>();
 
@@ -106,6 +141,8 @@ public class TMPDisplayer : MonoBehaviour
             BoxCollider coll = word.GetComponent<BoxCollider>();
             Vector3 collSize = new Vector3(rect.sizeDelta.x, rect.sizeDelta.y, 0);
             coll.size = collSize;
+
+            
 
 
             //TODO Put check for overflow here later
@@ -141,11 +178,14 @@ public class TMPDisplayer : MonoBehaviour
 
 
             //Debug Positions
-            Vector3 camRelative = Camera.main.transform.InverseTransformPoint(word.transform.position);
-            Debug.Log(word.name + " pos: " + Camera.main.WorldToScreenPoint(camRelative));
+            Vector3 camRelative = word.transform.TransformPoint(word.transform.localPosition);
+            Debug.Log(word.name + " screen pos: " + Camera.main.WorldToScreenPoint(camRelative));
 
-
+            logWordToFile(word);
+            wordNum++;
         }
+        logBlankLine();
+        sentenceNum++;
 
     }
 
@@ -164,10 +204,61 @@ public class TMPDisplayer : MonoBehaviour
             Destroy(o);
         }
         resetOffset();
+        pageNum++;
+        wordNum = 0;
+        sentenceNum = 0;
+        
     }
 
     void resetOffset()
     {
         offset = parentObj.transform.position + new Vector3(0, 0, -0.1F);
+    }
+
+    void logWordToFile(GameObject word)
+    {
+        if (!logging) return;
+        using (System.IO.StreamWriter file = new System.IO.StreamWriter(Application.dataPath + "/log.csv", true))
+        {
+            string text = word.GetComponent<TextMeshPro>().text;
+
+            BoxCollider coll = word.GetComponent<BoxCollider>();
+            Vector3 min = coll.bounds.min;
+            Vector3 max = coll.bounds.max;
+            //min = word.transform.TransformPoint(word.transform.localPosition + min);
+            //max = word.transform.TransformPoint(word.transform.localPosition + max);
+
+            string minScreen = "(x:";
+            minScreen += Camera.main.WorldToScreenPoint(min).x;
+            minScreen += "  y:";
+            minScreen += Camera.main.WorldToScreenPoint(min).y;
+            minScreen += ")";
+
+            string maxScreen = "(x:";
+            maxScreen += Camera.main.WorldToScreenPoint(max).x;
+            maxScreen += "  y:";
+            maxScreen += Camera.main.WorldToScreenPoint(max).y;
+            maxScreen += ")";
+
+            string output = DateTime.UtcNow.ToString("HH:mm:ss")+":" + DateTime.UtcNow.Millisecond + ", ";
+            output += storyChoiceLog + ", ";
+            output += rgx.Replace(text, "") + ", ";
+            output += wordNum + ", ";
+            output += sentenceNum + ", ";
+            output += pageNum + ", ";
+            output += minScreen + ", ";
+            output += maxScreen + ", ";
+            file.WriteLine(output);
+        }
+
+        //Debug.Log(Application.dataPath + "/log.csv");     
+    }
+
+    void logBlankLine()
+    {
+        using (System.IO.StreamWriter file = new System.IO.StreamWriter(Application.dataPath + "/log.csv", true))
+        {
+            file.WriteLine("");
+        }
     }
 }

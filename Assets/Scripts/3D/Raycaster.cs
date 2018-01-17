@@ -26,12 +26,12 @@ public class Raycaster : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(pos);
         ray.origin -= new Vector3(0, 0, 1000F);
 
-        Debug.Log("Raycasting from " + ray.origin.ToString());
+        Debug.Log("Raycasting from " + pos.ToString());
         
         RaycastHit hit;
 
         //Sphere cast to simulate closest!
-        if (Physics.SphereCast(ray, 10F, out hit, 10000F))
+        if (Physics.SphereCast(ray, 50F, out hit, 10000F))
         {
             Debug.Log("Hit object: " + hit.collider.gameObject.name);
         } else

@@ -14,13 +14,15 @@ public class InkTesting : MonoBehaviour {
     //This is the same start point as the TMPDisplayer
     public GameObject startPoint;
     private TMPDisplayer display;
-    
 
+    private bool waitForChoice;
 
     // Use this for initialization
     void Start () {
 
         display = gameObject.GetComponent<TMPDisplayer>();
+
+        waitForChoice = false;
 
        // m_Text = canvas.GetComponentInChildren<TextMeshProUGUI>(); 
         StartStory();
@@ -36,7 +38,7 @@ public class InkTesting : MonoBehaviour {
         {
             if(story.currentChoices.Count >= 1)
             {
-                story.ChooseChoiceIndex(0);
+                MakeChoice(0);
                 clear = true;
                 advance = true;
             }
@@ -44,7 +46,7 @@ public class InkTesting : MonoBehaviour {
         {
             if (story.currentChoices.Count >= 2)
             {
-                story.ChooseChoiceIndex(1);
+                MakeChoice(1);
                 clear = true;
                 advance = true;
             }
@@ -52,22 +54,18 @@ public class InkTesting : MonoBehaviour {
         {
             if (story.currentChoices.Count >= 3)
             {
-                story.ChooseChoiceIndex(2);
+                MakeChoice(2);
                 clear = true;
                 advance = true;
             }
         } else if (Input.GetKeyDown("space"))
         {
-            if(story.canContinue)
-            {
-                advance = true;
-            }
+            advance = true;
         }
 
         if(clear)
         {
             display.RemoveText();
-            AdvanceStory();
         }
         if (advance)
         {
@@ -87,7 +85,6 @@ public class InkTesting : MonoBehaviour {
 
     void AdvanceStory()
     {
-
         if (story.canContinue)
         {
             string text = story.Continue().Trim();
@@ -95,10 +92,11 @@ public class InkTesting : MonoBehaviour {
             display.CreateText();
             Debug.Log(text);
             display.NewLine();
-        }
-
-        if(story.currentChoices.Count > 0)
+            return;
+        } else if (story.currentChoices.Count > 0 && !waitForChoice)
         {
+            waitForChoice = true;
+            display.logging = false;
             for(int i = 0; i < story.currentChoices.Count; i++)
             {
                 string ct = story.currentChoices[i].text.Trim();
@@ -107,10 +105,17 @@ public class InkTesting : MonoBehaviour {
                 display.NewLine();
                 display.CreateText();
             }
+            display.logging = true;
         }
     
     }
 
+    void MakeChoice(int i)
+    {
+        story.ChooseChoiceIndex(i);
+        display.storyChoiceLog += "->" + i;
+        waitForChoice = false;
+    }
 
 
 }
