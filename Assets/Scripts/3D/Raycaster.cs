@@ -14,14 +14,15 @@ public class Raycaster : MonoBehaviour {
     void Update()
     {
 
+        //Debug for testing if Raycaster is working
         if (Input.GetMouseButtonDown(0))
         {
             doRaycast(Input.mousePosition);
         }
     }
 
-
-    void doRaycast(Vector3 pos)
+    //Takes a pos in pixel coordinates
+    public void doRaycast(Vector3 pos)
     {
         Ray ray = Camera.main.ScreenPointToRay(pos);
         ray.origin -= new Vector3(0, 0, 1000F);
