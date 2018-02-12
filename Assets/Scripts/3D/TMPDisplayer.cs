@@ -7,6 +7,7 @@ using System;
 using Ink.Runtime;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Linq;
 
 public class TMPDisplayer : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class TMPDisplayer : MonoBehaviour
     private float rightMargin = float.MaxValue;
 
     private Regex rgx;
+    private Regex opentagrgx;
+    private Regex closetagrgx;
+    private List<string> tagList;
     private int pageNum;
     private int sentenceNum;
     private int wordNum;
@@ -40,8 +44,12 @@ public class TMPDisplayer : MonoBehaviour
     void Start()
     {
         activeWords = new List<GameObject>();
+        tagList = new List<string>();
         storyChoiceLog = "S";
         rgx = new Regex("[^a-zA-Z0-9 \\.-]");
+        opentagrgx  = new Regex( @"<\w+(=" + "\".*?\"" + @")?>");
+        closetagrgx = new Regex(@"</\w+(=" + "\".*?\"" + @")?>");
+
 
         pageNum = 0;
         sentenceNum = 0;
@@ -108,27 +116,136 @@ public class TMPDisplayer : MonoBehaviour
 
     public void CreateText()
     {
+
+        //TESTING WORD
+
+        /*
+        var testWord = Instantiate(textPrefab);
+        testWord.name = "TestingSentance";
+        testWord.transform.SetParent(parentObj.transform);
+        testWord.transform.localScale = new Vector3(1, 1, 1);
+
+        TextMeshPro m_TestText = testWord.GetComponent<TextMeshPro>();
+
+        m_TestText.text = text;
+        m_TestText.ForceMeshUpdate();
+
+        */        
+
+
+        /***
+         * DEBUG RETURN FOR TESTING TEXT SPLITTING!
+         **/
+        //return;
+
+
+
         List<string> words = new List<string>(text.Split(' '));
         Transform parentTrans = parentObj.transform;
         Vector3 parentPos = parentTrans.position;
-        
+
         //Check for overflow here
 
 
 
+        //setup formatting tags
+        Stack<string> tagStack = new Stack<string>();
+
+
 
         //bool firstWord = true;
-        foreach (string s in words)
+        foreach (string sValue in words)
         {
+            //Copy our foreach value, so we can edit it dynamically (needed due to c# MM)
+            string s = sValue;
+
+            //if we have a RT tag opening, we add it to our list
+            if(opentagrgx.IsMatch(s))
+            {
+                //we add the tag to our open tags list
+                tagList.AddRange(opentagrgx.Matches(s).Cast<Match>().Select(m => m.Value).ToArray<string>());
+
+                string debugprint = "Adding tags to list. Current list tags are: \n";
+                tagList.ForEach(str => debugprint += str + "\n");
+                
+                Debug.Log(debugprint);
+
+                //and remove it from the string (Probably unessessary, but lets not take a chance
+                //s = opentagrgx.Replace(s, "");
+
+            }
+
+            //Add all active tags to the begining of our string
+            string tagBuilder = "";
+            string dbprint = "Current Tags:\n";
+            foreach(string tag in tagList)
+            {
+                //if this tag is still open
+                if (!s.Contains(tag))
+                    tagBuilder += tag;
+                dbprint += tag + "\n";
+            }
+            s = tagBuilder + s;
+            Debug.Log(dbprint);
+
+
+            //Finally, remove all tags that close from our active list
+            if(closetagrgx.IsMatch(s))
+            {
+                List<string> closeList = closetagrgx.Matches(s).Cast<Match>().Select(m => m.Value).ToList<string>();
+                closeList = closeList.Select(str => str.Replace(@"/", "")).ToList<string>();
+
+                string debugprint = "Attempting to remove  these tags: \n";
+                closeList.ForEach(str => debugprint += str + "\n");
+                Debug.Log(debugprint);
+
+                //So, I heard you like scheme...
+                //This performs the code snippet commented out below, but without violating c# MM
+                tagList = tagList.Select(str => 
+                (str.Contains("=")) ?
+                    ((closeList.Contains(
+                        str.Substring(0,str.IndexOf("=")) + ">") ? 
+                            str.Substring(0,str.IndexOf("=")) + ">" 
+                            : str))
+                    : str
+                ).ToList<string>();
+                /*
+                foreach(string str in tagList)
+                {
+                    if(str.Contains("=")) //closeList contains this tag
+                    {
+                        string trim = str.Substring(0, str.IndexOf("=")) + ">";
+                        if (closeList.Contains(trim))
+                        {
+                            str = trim;
+                        }
+                    }
+                }*/
+
+                tagList = tagList.Except<string>(closeList).ToList<string>();
+
+            }
+
+
+            /**
+             * 
+             * TODO: FIX COMPOUND TAG!-
+             * \\\\\
+             * 
+             * 
+             */
+
+
             var word = Instantiate(textPrefab);
             word.name = textPrefab.name + "_" + s;
             word.transform.SetParent(parentTrans); //change this to starting point if we want one
             word.transform.localScale = new Vector3(1, 1, 1);
 
-            
+
 
             //Word Setup
             TextMeshPro m_Text = word.GetComponent<TextMeshPro>();
+
 
             m_Text.text = s;
             m_Text.ForceMeshUpdate();
@@ -178,8 +295,8 @@ public class TMPDisplayer : MonoBehaviour
 
 
             //Debug Positions
-            Vector3 camRelative = word.transform.TransformPoint(word.transform.localPosition);
-            Debug.Log(word.name + " screen pos: " + Camera.main.WorldToScreenPoint(camRelative));
+            //Vector3 camRelative = word.transform.TransformPoint(word.transform.localPosition);
+            //Debug.Log(word.name + " screen pos: " + Camera.main.WorldToScreenPoint(camRelative));
 
             logWordToFile(word);
             wordNum++;
@@ -199,6 +316,7 @@ public class TMPDisplayer : MonoBehaviour
     {
         if (activeWords.Count <= 0)
             return;
+
         foreach(GameObject o in activeWords)
         {
             Destroy(o);
