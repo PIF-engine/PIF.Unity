@@ -32,7 +32,9 @@ namespace Ink.UnityIntegration {
 			}
 		}
 
-		public bool compileAutomatically = true;
+        public DefaultAsset defaultJsonAssetPath;
+
+        public bool compileAutomatically = true;
 		public bool delayInPlayMode = true;
 		public bool handleJSONFilesAutomatically = true;
 
@@ -41,7 +43,16 @@ namespace Ink.UnityIntegration {
 		public CustomInklecateOptions customInklecateOptions = new CustomInklecateOptions();
 		[System.Serializable]
 		public class CustomInklecateOptions {
+			#if UNITY_EDITOR_LINUX
+			public bool runInklecateWithMono = true;
+			#else
 			public bool runInklecateWithMono;
+			#endif
+			public string[] monoPaths = {
+				"/usr/bin/mono", 
+				"/usr/local/bin/mono", 
+				"/Library/Frameworks/Mono.framework/Versions/Current/Commands/mono"
+			};
 			public string additionalCompilerOptions;
 			public DefaultAsset inklecate;
 		}

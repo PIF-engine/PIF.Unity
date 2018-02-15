@@ -14,15 +14,19 @@ MonoBehaviour:
   inkLibrary:
   - compileAutomatically: 0
     inkAsset: {fileID: 102900000, guid: 86fe133faeab7384c8530fab6f9eb95b, type: 3}
+    jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: d39ed9bdb7c07d74e81fad897ba90ec2, type: 3}
   - compileAutomatically: 0
     inkAsset: {fileID: 102900000, guid: f1c4521816701b347b9b6ad6fef5fada, type: 3}
+    jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: abe57f9340eb130489b8b6933835caed, type: 3}
   - compileAutomatically: 0
     inkAsset: {fileID: 102900000, guid: a5f419bf119e8724fa374678f01af0cd, type: 3}
+    jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: b11c347692e4dd046806d2eaa90088e3, type: 3}
   - compileAutomatically: 0
     inkAsset: {fileID: 102900000, guid: 1460e815e969b43b8a83a7caa8b48c27, type: 3}
+    jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
   pendingCompilationStack: []
   compilationStack: []
