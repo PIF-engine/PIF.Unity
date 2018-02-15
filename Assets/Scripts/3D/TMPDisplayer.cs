@@ -227,13 +227,9 @@ public class TMPDisplayer : MonoBehaviour
             }
 
 
-            /**
-             * 
-             * TODO: FIX COMPOUND TAG!-
-             * \\\\\
-             * 
-             * 
-             */
+           
+
+
 
 
             var word = Instantiate(textPrefab);
@@ -263,6 +259,9 @@ public class TMPDisplayer : MonoBehaviour
 
 
             //TODO Put check for overflow here later
+            //m_Text.
+
+
 
 
             //Move offset half the required amount
