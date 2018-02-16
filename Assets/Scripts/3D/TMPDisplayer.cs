@@ -106,16 +106,23 @@ public class TMPDisplayer : MonoBehaviour
             var end = charInfoArr[wordInfo.lastCharacterIndex];
 
             float maxy = float.MinValue;
+            float miny = float.MaxValue;
             for (int j = wordInfo.firstCharacterIndex; j <= wordInfo.lastCharacterIndex; j++)
             {
                 if (maxy < charInfoArr[j].topRight.y)
                 {
                     maxy = charInfoArr[j].topRight.y;
                 }
+                if(miny > charInfoArr[j].bottomLeft.y)
+                {
+                    miny = charInfoArr[j].bottomLeft.y;
+                }
             }
 
+            Vector3 min = start.bottomLeft;
+            min.y = miny;
+            min = this.transform.TransformPoint(min);
 
-            Vector3 min = this.transform.TransformPoint(start.bottomLeft);
 
             Vector3 max = end.topRight;
             max.y = maxy;
