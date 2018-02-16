@@ -16,16 +16,7 @@ public class TMPTestDisplay : MonoBehaviour {
 
         activeBounds = new List<GameObject>();
 
-        text = "This is a test <size=200><i>sentence</size> we will</i> test!\n\nIt has several cool things to test";
-
-        UpdateBounds();
-        RemoveText();
-        text = "lol deleted";
-        UpdateBounds();
-        NewLine();
-        NewLine();
-        text += "jaja";
-        UpdateBounds();
+        text = "";
 	}
 	
 	// Update is called once per frame

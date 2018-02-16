@@ -11,8 +11,6 @@ public class InkTesting : MonoBehaviour {
     public TextAsset storyJSON;
     private Story story;
 
-    //This is the same start point as the TMPDisplayer
-    public GameObject startPoint;
     private TMPDisplayer display;
 
     private bool waitForChoice;
@@ -89,7 +87,7 @@ public class InkTesting : MonoBehaviour {
         {
             string text = story.Continue().Trim();
             display.CreateText(text);
-            Debug.Log(text);
+            //Debug.Log(text);
             display.NewLine();
             return;
         } else if (story.currentChoices.Count > 0 && !waitForChoice)
@@ -99,7 +97,7 @@ public class InkTesting : MonoBehaviour {
             for(int i = 0; i < story.currentChoices.Count; i++)
             {
                 string ct = story.currentChoices[i].text.Trim();
-                Debug.Log(ct);
+                //Debug.Log(ct);
                 display.NewLine();
                 display.CreateText(ct);
             }

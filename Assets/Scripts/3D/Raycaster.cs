@@ -21,11 +21,13 @@ public class Raycaster : MonoBehaviour {
         }
     }
 
-    //Takes a pos in pixel coordinates
+    //Takes a pos in screen coordinates
     public void doRaycast(Vector3 pos)
     {
+
+        pos.y = Screen.currentResolution.height - pos.y;
         Ray ray = Camera.main.ScreenPointToRay(pos);
-        ray.origin -= new Vector3(0, 0, 1000F);
+        
 
         Debug.Log("Raycasting from " + pos.ToString());
         

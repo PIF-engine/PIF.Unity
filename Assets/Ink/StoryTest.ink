@@ -1,4 +1,4 @@
-- <b><i>I</i> <color="red">looked at<sup>2</sup></b> <color="blue">Mons<i>ieur</color> Fo</i>g</color>g
+- I looked at Monsieur Fogg
 *   ... and I could contain myself no longer.
     'What is the purpose of our journey, Monsieur?'
     'A wager,' he replied.

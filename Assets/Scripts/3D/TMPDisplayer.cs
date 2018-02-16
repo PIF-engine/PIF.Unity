@@ -130,15 +130,15 @@ public class TMPDisplayer : MonoBehaviour
 
 
             string word = wordInfo.GetWord();
-            Debug.Log(word + " min: " + min);
-            Debug.Log(word + " max: " + max);
+            //Debug.Log(word + " min: " + min);
+            //Debug.Log(word + " max: " + max);
 
             var center = (max + min) / 2;
-            Debug.Log(word + " center: " + center);
+            //Debug.Log(word + " center: " + center);
 
             var wordBounds = new GameObject();
             activeBounds.Add(wordBounds);
-            wordBounds.name = "Bounds_" + word;
+            wordBounds.name = "B_" + word;
             var coll = wordBounds.AddComponent<BoxCollider>();
             coll.transform.SetParent(this.transform);
             coll.center = center;
@@ -156,6 +156,7 @@ public class TMPDisplayer : MonoBehaviour
         text = "";
         pageNum++;
         UpdateBounds();
+        Debug.Log("page++");
     }
 
     public void NewLine()

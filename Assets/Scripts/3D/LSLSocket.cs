@@ -31,8 +31,11 @@ public class LSLSocket : InletFloatSamples {
         float x = newSample[0];
         float y = newSample[1];
 
+        //y = Screen.currentResolution.height - y;
+
         var screenPos = new Vector3(x, y, 0);
-        Debug.Log("Recieved LSL Sample at: " + timeStamp);
+
+
         caster.doRaycast(screenPos);
     }
 
@@ -70,4 +73,5 @@ public class LSLSocket : InletFloatSamples {
         if (pullSamplesContinuously)
             pullSamples();
     }
+
 }
