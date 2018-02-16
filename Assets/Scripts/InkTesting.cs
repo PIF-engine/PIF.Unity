@@ -88,8 +88,7 @@ public class InkTesting : MonoBehaviour {
         if (story.canContinue)
         {
             string text = story.Continue().Trim();
-            display.text = text;
-            display.CreateText();
+            display.CreateText(text);
             Debug.Log(text);
             display.NewLine();
             return;
@@ -101,9 +100,8 @@ public class InkTesting : MonoBehaviour {
             {
                 string ct = story.currentChoices[i].text.Trim();
                 Debug.Log(ct);
-                display.text = ct;
                 display.NewLine();
-                display.CreateText();
+                display.CreateText(ct);
             }
             display.logging = true;
         }
