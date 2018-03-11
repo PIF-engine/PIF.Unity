@@ -4,4 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/TMP 3D Testing.unity
+    guid: 4c1651d2e1a180b48a19e7c87cbb6e0c

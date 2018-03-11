@@ -37,3 +37,6 @@ Assets/log.csv
 Windows Mouse-1.10.zip
 test.exe
 UnityPlayer.dll
+test_Data/
+WinPixEventRuntime.dll
+Assets/log.csv.meta

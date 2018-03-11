@@ -36,7 +36,7 @@ public class LSLSocket : InletFloatSamples {
         var screenPos = new Vector3(x, y, 0);
 
 
-        caster.doRaycast(screenPos);
+        caster.DoRaycast(screenPos);
     }
 
 

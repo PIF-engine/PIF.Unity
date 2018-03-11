@@ -41,7 +41,7 @@ namespace Assets.LSL4Unity.EditorExtensions
             {
                 RenameLibFile(pluginDirectory, LSLEditorIntegration.lib64Name, LSLEditorIntegration.lib32Name, LSLEditorIntegration.SO_ENDING);
             }
-
+/*
             if (target == BuildTarget.StandaloneOSXIntel)
             {
                 RenameLibFile(pluginDirectory, LSLEditorIntegration.lib32Name, LSLEditorIntegration.lib64Name, LSLEditorIntegration.BUNDLE_ENDING);
@@ -49,7 +49,7 @@ namespace Assets.LSL4Unity.EditorExtensions
             else if (target == BuildTarget.StandaloneOSXIntel64)
             {
                 RenameLibFile(pluginDirectory, LSLEditorIntegration.lib64Name, LSLEditorIntegration.lib32Name, LSLEditorIntegration.BUNDLE_ENDING);
-            }
+            }*/
         }
 
         private static void RenameLibFile(string pluginDirectory , string sourceName, string nameOfObsoleteFile, string fileEnding)

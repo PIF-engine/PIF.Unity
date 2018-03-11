@@ -13,8 +13,6 @@ public class TMPDisplayer : MonoBehaviour
 {
 
 
-    private bool USESCREEN = true;
-
 
     public GameObject parentObj;
     public GameObject textPrefab;
@@ -25,15 +23,9 @@ public class TMPDisplayer : MonoBehaviour
     //Debug String
     public string text;
 
-    private Vector3 offset;
-    private Vector3 spaceMove;
-    private Vector3 nlMove;
-    private float rightMargin = float.MaxValue;
-
     private Regex rgx;
     private Regex opentagrgx;
     private Regex closetagrgx;
-    private List<string> tagList;
     private int pageNum;
     private int sentenceNum;
 
@@ -43,11 +35,8 @@ public class TMPDisplayer : MonoBehaviour
     void Start()
     {
         activeBounds = new List<GameObject>();
-        tagList = new List<string>();
         storyChoiceLog = "S";
-        rgx = new Regex("[^a-zA-Z0-9 \\.-]");
-        opentagrgx  = new Regex( @"<\w+(=" + "\".*?\"" + @")?>");
-        closetagrgx = new Regex(@"</\w+(=" + "\".*?\"" + @")?>");
+        rgx = new Regex("<^a-zA-Z0-9 \\.->");
 
 
         pageNum = 0;
