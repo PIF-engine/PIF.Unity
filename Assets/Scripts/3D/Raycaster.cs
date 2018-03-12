@@ -66,8 +66,13 @@ public class Raycaster : MonoBehaviour {
         
         RaycastHit hit;
 
-        //Sphere cast to simulate closest!
-        if (Physics.SphereCast(ray, 50F, out hit, 10000F))
+        //Raycast to look for direct hit (For 3D work)
+        if(Physics.Raycast(ray, out hit, 10000F))
+        {
+            Debug.Log("Direct Hit object: " + hit.collider.gameObject.name);
+        }
+        //Sphere cast to simulate closest! not 100% accurate in 3D
+        else if (Physics.SphereCast(ray, 25F, out hit, 10000F))
         {
             Debug.Log("Hit object: " + hit.collider.gameObject.name);
         } else
@@ -79,6 +84,12 @@ public class Raycaster : MonoBehaviour {
     //takes a pos in absolute screen coordinates (Real screen as opposed to unity window)
     public void DoAbsoluteRaycast(Vector3 pos)
     {
+        if(Screen.fullScreen)
+        {
+            DoRaycast(pos);
+            return;
+        }
+
         RECT rct;
 
         if (!GetWindowRect(new HandleRef(this, FindWindow(null, "Ink Sketching")), out rct))
