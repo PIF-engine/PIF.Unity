@@ -11,14 +11,15 @@ public class InkTesting : MonoBehaviour {
     public TextAsset storyJSON;
     private Story story;
 
-    private TMPDisplayer display;
+    public GameObject TargetTMPDisplayPrefab;
+    private TMPDisplayer targetDisplay;
 
     private bool waitForChoice;
 
     // Use this for initialization
     void Start () {
 
-        display = gameObject.GetComponent<TMPDisplayer>();
+        targetDisplay = TargetTMPDisplayPrefab.GetComponent<TMPDisplayer>();
 
         waitForChoice = false;
 
@@ -63,7 +64,7 @@ public class InkTesting : MonoBehaviour {
 
         if(clear)
         {
-            display.RemoveText();
+            targetDisplay.RemoveText();
         }
         if (advance)
         {
@@ -86,22 +87,22 @@ public class InkTesting : MonoBehaviour {
         if (story.canContinue)
         {
             string text = story.Continue().Trim();
-            display.CreateText(text);
+            targetDisplay.CreateText(text);
             //Debug.Log(text);
-            display.NewLine();
+            targetDisplay.NewLine();
             return;
         } else if (story.currentChoices.Count > 0 && !waitForChoice)
         {
             waitForChoice = true;
-            display.logging = false;
+            targetDisplay.logging = false;
             for(int i = 0; i < story.currentChoices.Count; i++)
             {
                 string ct = story.currentChoices[i].text.Trim();
                 //Debug.Log(ct);
-                display.NewLine();
-                display.CreateText(ct);
+                targetDisplay.NewLine();
+                targetDisplay.CreateText(ct);
             }
-            display.logging = true;
+            targetDisplay.logging = true;
         }
     
     }
@@ -109,7 +110,7 @@ public class InkTesting : MonoBehaviour {
     void MakeChoice(int i)
     {
         story.ChooseChoiceIndex(i);
-        display.storyChoiceLog += "->" + i;
+        targetDisplay.storyChoiceLog += "->" + i;
         waitForChoice = false;
     }
 
