@@ -14,8 +14,8 @@ public class TMPDisplayer : MonoBehaviour
 
 
 
-    public GameObject parentObj;
-    public GameObject textPrefab;
+    //public GameObject parentObj;
+    //public GameObject textPrefab;
     public string storyChoiceLog;
     private List<GameObject> activeBounds = new List<GameObject>();
 
@@ -132,7 +132,12 @@ public class TMPDisplayer : MonoBehaviour
             coll.transform.SetParent(this.transform);
             coll.center = center;
 
-            coll.size = max - min;
+            Vector3 collVect = max - min;
+            collVect.z = 0.0F;
+
+            coll.size = collVect;
+
+            
 
             logWordToFile(wordBounds, word,i);
 
