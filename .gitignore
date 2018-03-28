@@ -40,3 +40,5 @@ UnityPlayer.dll
 test_Data/
 WinPixEventRuntime.dll
 Assets/log.csv.meta
+PIF Director/Director/bin/Debug/Director.exe.config
+PIF Director/Director/bin/Debug/Director.exe
