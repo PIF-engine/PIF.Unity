@@ -145,6 +145,12 @@ public class TMPDisplayer : MonoBehaviour
 
     }
 
+    public List<GameObject> GetActiveBounds()
+    {
+        return activeBounds;
+    }
+
+
     public void RemoveText()
     {
         text = "";
