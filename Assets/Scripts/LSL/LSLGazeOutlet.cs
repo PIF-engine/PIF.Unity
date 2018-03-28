@@ -44,7 +44,12 @@ public class LSLGazeOutlet : MonoBehaviour {
 
     public MomentForSampling sampling;
 
+
+    //Public fields for prefabs
     public GameObject TargetTMPDisplayPrefab;
+    public GameObject FOVERig;
+
+
     private TMPDisplayer targetDisplay;
     private Raycaster raycast;
 
@@ -80,8 +85,7 @@ public class LSLGazeOutlet : MonoBehaviour {
         //Will be using the FOVEGazeCast?
         if(useFOVEGazeCast)
         {
-            //TODO implement FOVE gazecast based on bounds list
-            return;
+            cASTRET = raycast.DoFOVECast(FOVERig, TargetTMPDisplayPrefab);
         }
         else
         {
