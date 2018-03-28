@@ -30,7 +30,13 @@ public class Raycaster : MonoBehaviour {
 
 #endif
 
-
+    public struct CASTRET
+    {
+        public string Name;
+        public float x;
+        public float y;
+        public float z;
+    }
 
     // Use this for initialization
     void Start()
@@ -42,21 +48,13 @@ public class Raycaster : MonoBehaviour {
     void Update()
     {
 
-        //Debug for testing if Raycaster is working
-        if (Input.GetMouseButtonDown(0))
-        {
-            DoRaycast(Input.mousePosition);
-        }
-
-        if( Input.GetKeyDown("f"))
-        {
-            DoAbsoluteRaycast(Input.mousePosition);
-        }
     }
 
     //Takes a pos in screen coordinates (Unity Window)
-    public void DoRaycast(Vector3 pos)
+    public CASTRET DoScreencast(Vector3 pos)
     {
+
+        CASTRET ret;
 
         //pos.y = Screen.currentResolution.height - pos.y;
         Ray ray = Camera.main.ScreenPointToRay(pos);
@@ -70,15 +68,21 @@ public class Raycaster : MonoBehaviour {
         if(Physics.Raycast(ray, out hit, 10000F))
         {
             Debug.Log("Direct Hit object: " + hit.collider.gameObject.name);
+            ret = ParseCast(hit.collider.gameObject.name, pos);
         }
         //Sphere cast to simulate closest! not 100% accurate in 3D
         else if (Physics.SphereCast(ray, 25F, out hit, 10000F))
         {
             Debug.Log("Hit object: " + hit.collider.gameObject.name);
+            ret = ParseCast(hit.collider.gameObject.name, pos);
         } else
         {
             Debug.Log("Missed!");
+            ret = ParseCast("MISSED CAST!", new Vector3(0, 0, 0));
         }
+
+
+        return ret;
     }
 
     //takes a pos in absolute screen coordinates (Real screen as opposed to unity window)
@@ -86,7 +90,7 @@ public class Raycaster : MonoBehaviour {
     {
         if(Screen.fullScreen)
         {
-            DoRaycast(pos);
+            DoScreencast(pos);
             return;
         }
 
@@ -108,7 +112,20 @@ public class Raycaster : MonoBehaviour {
 
         pos.x -= left;
         pos.y -= bottom;
-        DoRaycast(pos);
+        DoScreencast(pos);
         
+    }
+
+    private CASTRET ParseCast(string name, Vector3 pos)
+    {
+        CASTRET ret = new CASTRET
+        {
+            Name = name,
+            x = pos.x,
+            y = pos.y,
+            z = pos.z
+        };
+
+        return ret;
     }
 }
