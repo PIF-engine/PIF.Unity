@@ -16,6 +16,7 @@ namespace Director
     {
 
         private bool attemptingConnection = false;
+        private int currentChoice = -1;
 
         public Form1()
         {
@@ -37,8 +38,15 @@ namespace Director
             if (attemptingConnection) return;
             attemptingConnection = true;
             ConnectButton.Text = "Attempting to connect!";
-            Thread inputStream = new Thread(this.ProcessStream);
-            inputStream.Start();
+
+            Thread inputVectorStream = new Thread(this.ProcessVectorStream);
+            inputVectorStream.Start();
+
+            Thread inputChoiceStream = new Thread(this.ProcessChoiceStream);
+            inputChoiceStream.Start();
+
+            Thread choiceOutlet = new Thread(this.SendChoiceOutlet);
+            choiceOutlet.Start();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -67,8 +75,25 @@ namespace Director
             }
         }
 
+        public void SendChoiceOutlet()
+        {
+            liblsl.StreamInfo info = new liblsl.StreamInfo("Unity.Ink.Choice", "Ink.Choice", 1, 100, liblsl.channel_format_t.cf_int32, "sddsfsdf");
+            liblsl.StreamOutlet outlet = new liblsl.StreamOutlet(info);
+            int[] data = new int[1];
+            while (true)
+            {
+                if (currentChoice != -1)
+                {
+                    data[0] = currentChoice;
+                    currentChoice = -1;
+                    outlet.push_sample(data);
+                }
+                System.Threading.Thread.Sleep(10);
+            }
 
-        public void ProcessStream()
+        }
+
+        public void ProcessVectorStream()
         {
             liblsl.StreamInfo[] results = liblsl.resolve_stream("type" , "Unity.VectorName");
             liblsl.StreamInlet inlet = new liblsl.StreamInlet(results[0]);
@@ -94,6 +119,35 @@ namespace Director
 
         }
 
+        public void ProcessChoiceStream()
+        {
+            liblsl.StreamInfo[] results = liblsl.resolve_stream("type", "Choice.Request");
+            liblsl.StreamInlet inlet = new liblsl.StreamInlet(results[0]);
+
+            string[] sample = new string[1];
+
+            while(true)
+            {
+                inlet.pull_sample(sample);
+
+                if(sample[0] == "request")
+                {
+                    MethodInvoker inv = delegate
+                    {
+                        ResponceStatus.Text = "Responce Requested!";
+                    };
+                    this.Invoke(inv);
+                } else if (sample[0] == "recieved")
+                {
+                    MethodInvoker inv = delegate
+                    {
+                        ResponceStatus.Text = "No Responce Requested";
+                    };
+                    this.Invoke(inv);
+                }
+            }
+        }
+
         private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
 
@@ -103,5 +157,19 @@ namespace Director
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            currentChoice = 0;
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            currentChoice = 1;
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            currentChoice = 2;
+        }
+
     }
 }

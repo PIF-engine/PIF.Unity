@@ -13,7 +13,11 @@ public class InkFOVEEventManager : MonoBehaviour
     private Story story;
 
     public GameObject TargetTMPDisplayPrefab;
+    public GameObject LSLChoiceOutlet;
+    public GameObject LSLChoiceInput;
     private TMPDisplayer targetDisplay;
+    private LSLChoiceOutlet choiceOutlet;
+    private LSLChoiceInput choiceInput;
 
     private bool waitForChoice;
 
@@ -22,6 +26,11 @@ public class InkFOVEEventManager : MonoBehaviour
     {
 
         targetDisplay = TargetTMPDisplayPrefab.GetComponent<TMPDisplayer>();
+        if (LSLChoiceOutlet != null)
+            choiceOutlet = LSLChoiceOutlet.GetComponent<LSLChoiceOutlet>();
+        if (LSLChoiceInput != null)
+            choiceInput = LSLChoiceInput.GetComponent<LSLChoiceInput>();
+
 
         waitForChoice = false;
 
@@ -35,12 +44,36 @@ public class InkFOVEEventManager : MonoBehaviour
     {
         bool clear = false;
         bool advance = false;
+        int choice = -1;
+
+        if(choiceOutlet != null && story.currentChoices.Count >= 1)
+        {
+            if (waitForChoice == false)
+            {
+                AdvanceStory();
+                choiceOutlet.RequestResponce();
+                return;
+            }
+            else
+            {
+                if (choiceInput == null) return;
+                //logic for getting the choice remotely
+
+                choice = choiceInput.GetLastChoice();
+                if (choice == -1) return;
+                clear = true;
+                advance = true;
+                choiceInput.ClearLastChoice();
+                choiceOutlet.StopRequest();
+            }
+        }
+
 
         if (Input.GetKeyDown("1"))
         {
             if (story.currentChoices.Count >= 1)
             {
-                MakeChoice(0);
+                choice = 0;
                 clear = true;
                 advance = true;
             }
@@ -49,7 +82,7 @@ public class InkFOVEEventManager : MonoBehaviour
         {
             if (story.currentChoices.Count >= 2)
             {
-                MakeChoice(1);
+                choice = 1;
                 clear = true;
                 advance = true;
             }
@@ -58,7 +91,7 @@ public class InkFOVEEventManager : MonoBehaviour
         {
             if (story.currentChoices.Count >= 3)
             {
-                MakeChoice(2);
+                choice = 2;
                 clear = true;
                 advance = true;
             }
@@ -67,7 +100,10 @@ public class InkFOVEEventManager : MonoBehaviour
         {
             advance = true;
         }
-
+        if(choice >= 0)
+        {
+            MakeChoice(choice);
+        }
         if (clear)
         {
             targetDisplay.RemoveText();
@@ -114,7 +150,13 @@ public class InkFOVEEventManager : MonoBehaviour
 
     }
 
-    void MakeChoice(int i)
+    public bool IsWaitingForChoice()
+    {
+        return waitForChoice;
+    }
+
+
+    public void MakeChoice(int i)
     {
         story.ChooseChoiceIndex(i);
         targetDisplay.storyChoiceLog += "->" + i;
