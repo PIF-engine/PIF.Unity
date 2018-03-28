@@ -542,7 +542,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1216296225}
-  - component: {fileID: 1216296218}
   - component: {fileID: 1216296219}
   - component: {fileID: 1216296222}
   - component: {fileID: 1216296220}
@@ -553,17 +552,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1216296218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1216296217}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff4813adb56179469e31c1a7b193773, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1216296219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,6 +808,7 @@ MonoBehaviour:
   ChannelCount: 4
   sampling: 1
   TargetTMPDisplayPrefab: {fileID: 1476322100}
+  FOVERig: {fileID: 1661741242}
   useFOVEGazeCast: 0
 --- !u!224 &1469781285
 RectTransform:
@@ -993,9 +982,19 @@ Prefab:
       propertyPath: m_ClearFlags
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010313761880, guid: 042142d01b081ab4ca555ec74a04c2cb,
+        type: 2}
+      propertyPath: position
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1661741242 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1645652068882044, guid: 042142d01b081ab4ca555ec74a04c2cb,
+    type: 2}
+  m_PrefabInternal: {fileID: 1641013620}
 --- !u!1 &1699163815
 GameObject:
   m_ObjectHideFlags: 0

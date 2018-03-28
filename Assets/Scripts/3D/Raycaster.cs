@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -115,6 +116,33 @@ public class Raycaster : MonoBehaviour {
         pos.y -= bottom;
         DoScreencast(pos);
         
+    }
+
+    //TODO TEST THIS WITH THE FOVE!
+    public CASTRET DoFOVECast(GameObject FOVERig, GameObject TargetTMPDisplay)
+    {
+        CASTRET ret;
+
+        FoveInterface fove = FOVERig.GetComponentInChildren<FoveInterface>();
+        TMPDisplayer display = TargetTMPDisplay.GetComponent<TMPDisplayer>();
+
+        List<GameObject> activeBounds = display.GetActiveBounds();
+
+        List<Collider> activeColliders = activeBounds.Select(x => x.GetComponent<Collider>()).ToList();
+        
+        Collider coll;
+        fove.Gazecast(activeColliders, out coll);
+
+        if(coll == null)
+        {
+            ret = ParseCast("MISSED CAST!", new Vector3(-1, -1, -1));
+        }
+        else
+        {
+            ret = ParseCast(coll.gameObject.name, coll.gameObject.transform.position);
+        }
+
+        return ret;
     }
 
     private CASTRET ParseCast(string name, Vector3 pos)
