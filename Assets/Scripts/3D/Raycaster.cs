@@ -58,7 +58,8 @@ public class Raycaster : MonoBehaviour {
 
         //pos.y = Screen.currentResolution.height - pos.y;
         Ray ray = Camera.main.ScreenPointToRay(pos);
-        
+
+        ray.origin = (ray.origin - ray.direction * 100);
 
         Debug.Log("Raycasting from " + pos.ToString());
         
@@ -71,14 +72,14 @@ public class Raycaster : MonoBehaviour {
             ret = ParseCast(hit.collider.gameObject.name, pos);
         }
         //Sphere cast to simulate closest! not 100% accurate in 3D
-        else if (Physics.SphereCast(ray, 25F, out hit, 10000F))
+        else if (Physics.SphereCast(ray, .025F, out hit, 10000F))
         {
             Debug.Log("Hit object: " + hit.collider.gameObject.name);
             ret = ParseCast(hit.collider.gameObject.name, pos);
         } else
         {
             Debug.Log("Missed!");
-            ret = ParseCast("MISSED CAST!", new Vector3(0, 0, 0));
+            ret = ParseCast("MISSED CAST!", new Vector3(-1, -1, -1));
         }
 
 
