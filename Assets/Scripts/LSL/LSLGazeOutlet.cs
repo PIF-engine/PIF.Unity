@@ -50,7 +50,6 @@ public class LSLGazeOutlet : MonoBehaviour {
     public GameObject FOVERig;
 
 
-    private TMPDisplayer targetDisplay;
     private Raycaster raycast;
 
     public bool useFOVEGazeCast;
@@ -67,10 +66,11 @@ public class LSLGazeOutlet : MonoBehaviour {
 
         outlet = new liblsl.StreamOutlet(streamInfo);
 
-        targetDisplay = TargetTMPDisplayPrefab.GetComponent<TMPDisplayer>();
-
         gameObject.AddComponent<Raycaster>();
         raycast = gameObject.GetComponent<Raycaster>();
+
+
+        Time.fixedDeltaTime = 0.00833333333333F; //update 120 times a second, to sync with the FOVE eyetracking
     }
 
 

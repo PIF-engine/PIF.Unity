@@ -35,6 +35,10 @@
             this.ConnectButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.CurrentSampleText = new System.Windows.Forms.Label();
+            this.ResponceStatus = new System.Windows.Forms.Label();
+            this.Choice1Button = new System.Windows.Forms.Button();
+            this.Choice2Button = new System.Windows.Forms.Button();
+            this.Choice3Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // streamNameText
@@ -103,11 +107,54 @@
             this.CurrentSampleText.TabIndex = 6;
             this.CurrentSampleText.Click += new System.EventHandler(this.label3_Click);
             // 
+            // ResponceStatus
+            // 
+            this.ResponceStatus.AutoSize = true;
+            this.ResponceStatus.Location = new System.Drawing.Point(18, 236);
+            this.ResponceStatus.Name = "ResponceStatus";
+            this.ResponceStatus.Size = new System.Drawing.Size(252, 25);
+            this.ResponceStatus.TabIndex = 7;
+            this.ResponceStatus.Text = "No Responce Requested";
+            // 
+            // Choice1Button
+            // 
+            this.Choice1Button.Location = new System.Drawing.Point(23, 303);
+            this.Choice1Button.Name = "Choice1Button";
+            this.Choice1Button.Size = new System.Drawing.Size(132, 88);
+            this.Choice1Button.TabIndex = 8;
+            this.Choice1Button.Text = "Choose 1";
+            this.Choice1Button.UseVisualStyleBackColor = true;
+            this.Choice1Button.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // Choice2Button
+            // 
+            this.Choice2Button.Location = new System.Drawing.Point(161, 303);
+            this.Choice2Button.Name = "Choice2Button";
+            this.Choice2Button.Size = new System.Drawing.Size(132, 88);
+            this.Choice2Button.TabIndex = 9;
+            this.Choice2Button.Text = "Choose 2";
+            this.Choice2Button.UseVisualStyleBackColor = true;
+            this.Choice2Button.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // Choice3Button
+            // 
+            this.Choice3Button.Location = new System.Drawing.Point(299, 303);
+            this.Choice3Button.Name = "Choice3Button";
+            this.Choice3Button.Size = new System.Drawing.Size(132, 88);
+            this.Choice3Button.TabIndex = 10;
+            this.Choice3Button.Text = "Choose 3";
+            this.Choice3Button.UseVisualStyleBackColor = true;
+            this.Choice3Button.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1026, 825);
+            this.Controls.Add(this.Choice3Button);
+            this.Controls.Add(this.Choice2Button);
+            this.Controls.Add(this.Choice1Button);
+            this.Controls.Add(this.ResponceStatus);
             this.Controls.Add(this.CurrentSampleText);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ConnectButton);
@@ -132,6 +179,10 @@
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label CurrentSampleText;
+        private System.Windows.Forms.Label ResponceStatus;
+        private System.Windows.Forms.Button Choice1Button;
+        private System.Windows.Forms.Button Choice2Button;
+        private System.Windows.Forms.Button Choice3Button;
     }
 }
 
