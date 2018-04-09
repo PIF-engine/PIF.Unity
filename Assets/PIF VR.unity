@@ -656,6 +656,7 @@ MonoBehaviour:
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   LSLChoiceOutlet: {fileID: 1828031461}
   LSLChoiceInput: {fileID: 787827172}
+  usingLSL: 1
 --- !u!222 &1216296220
 CanvasRenderer:
   m_ObjectHideFlags: 2

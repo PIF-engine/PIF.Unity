@@ -20,6 +20,8 @@ public class InkFOVEEventManager : MonoBehaviour
     private LSLChoiceInput choiceInput;
 
     private bool waitForChoice;
+    public bool usingLSL;
+    private bool activeLSLConnection = false;
 
     // Use this for initialization
     void Start()
@@ -46,63 +48,75 @@ public class InkFOVEEventManager : MonoBehaviour
         bool advance = false;
         int choice = -1;
 
-        if(choiceOutlet != null && story.currentChoices.Count >= 1)
-        {
-            if (waitForChoice == false)
-            {
-                AdvanceStory();
-                choiceOutlet.RequestResponce();
-                return;
-            }
-            else
-            {
-                if (choiceInput == null) return;
-                //logic for getting the choice remotely
 
+        //Perform the expensive connectivity check only when we dont have a connection, and stop afterwards
+        if (usingLSL && choiceOutlet.HasConsumer())
+            activeLSLConnection = true;
+
+        //if we have a working LSL connection
+        if (activeLSLConnection)
+        {
+
+            // and if we're currently waiting for a choice
+            if (waitForChoice)
+            {
+                //Get the last choice from the input          
                 choice = choiceInput.GetLastChoice();
-                if (choice == -1) return;
-                clear = true;
-                advance = true;
-                choiceInput.ClearLastChoice();
+
+                //If the choice is invalid
+                if (choice < 0)
+                {
+                    //request a responce from the director
+                    choiceOutlet.RequestResponce();
+                }
+                else
+                {
+                    clear = true;
+                    advance = true;
+                }
+            }
+            else //otherwise we're not waiting for a choice
+            {
+                //so tell the director we have no requests and clear the choice buffer
                 choiceOutlet.StopRequest();
+                choiceInput.ClearLastChoice();
             }
         }
 
-
+        //Manual inputs for debugging
         if (Input.GetKeyDown("1"))
         {
-            if (story.currentChoices.Count >= 1)
-            {
-                choice = 0;
-                clear = true;
-                advance = true;
-            }
+
+            choice = 0;
+            clear = true;
+            advance = true;
+
         }
         else if (Input.GetKeyDown("2"))
         {
-            if (story.currentChoices.Count >= 2)
-            {
-                choice = 1;
-                clear = true;
-                advance = true;
-            }
+
+            choice = 1;
+            clear = true;
+            advance = true;
+
         }
         else if (Input.GetKeyDown("3"))
         {
-            if (story.currentChoices.Count >= 3)
-            {
-                choice = 2;
-                clear = true;
-                advance = true;
-            }
+
+            choice = 2;
+            clear = true;
+            advance = true;
         }
         else if (Input.GetKeyDown("space"))
         {
             advance = true;
         }
-        if(choice >= 0)
+
+
+        if (choice >= 0)
         {
-            MakeChoice(choice);
+            //attempt to make a choice. If its invalid, ignore the advance and clear flags
+            if (!MakeChoice(choice)) return;
         }
         if (clear)
         {
@@ -126,17 +140,21 @@ public class InkFOVEEventManager : MonoBehaviour
 
     void AdvanceStory()
     {
+        //if the story can continue, continue it
         if (story.canContinue)
         {
             string text = story.Continue().Trim();
             targetDisplay.CreateText(text);
-            //Debug.Log(text);
+            Debug.Log(text);
             targetDisplay.NewLine();
             return;
-        }
+        } //otherwise, we're either done or waiting for a choice
+        //if we're at a choice, but havent started waiting yet
         else if (story.currentChoices.Count > 0 && !waitForChoice)
         {
+            //start waiting, and display the choices
             waitForChoice = true;
+            bool logging = targetDisplay.logging;
             targetDisplay.logging = false;
             for (int i = 0; i < story.currentChoices.Count; i++)
             {
@@ -145,7 +163,7 @@ public class InkFOVEEventManager : MonoBehaviour
                 targetDisplay.NewLine();
                 targetDisplay.CreateText(ct);
             }
-            targetDisplay.logging = true;
+            targetDisplay.logging = logging;
         }
 
     }
@@ -155,12 +173,23 @@ public class InkFOVEEventManager : MonoBehaviour
         return waitForChoice;
     }
 
-
-    public void MakeChoice(int i)
+    //returns true if we made a successful choice
+    public bool MakeChoice(int i)
     {
+        Debug.Log("Num Choice: " + story.currentChoices.Count + ", choosing: " + i);
+        //If the director sends a bad message
+        if (i >= story.currentChoices.Count)
+        {
+            //Log the error and ignore the message received
+            //TODO: Implement proper communication for this case
+            Debug.Log("Invalid choice recieved!");
+            choiceInput.ClearLastChoice();
+            return false;
+        }
         story.ChooseChoiceIndex(i);
         targetDisplay.storyChoiceLog += "->" + i;
         waitForChoice = false;
+        return true;
     }
 
 

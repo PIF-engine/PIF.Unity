@@ -62,24 +62,24 @@ public class Raycaster : MonoBehaviour {
 
         ray.origin = (ray.origin - ray.direction * 100);
 
-        Debug.Log("Raycasting from " + pos.ToString());
+        //Debug.Log("Raycasting from " + pos.ToString());
         
         RaycastHit hit;
 
         //Raycast to look for direct hit (For 3D work)
         if(Physics.Raycast(ray, out hit, 10000F))
         {
-            Debug.Log("Direct Hit object: " + hit.collider.gameObject.name);
+            //Debug.Log("Direct Hit object: " + hit.collider.gameObject.name);
             ret = ParseCast(hit.collider.gameObject.name, pos);
         }
         //Sphere cast to simulate closest! not 100% accurate in 3D
         else if (Physics.SphereCast(ray, .025F, out hit, 10000F))
         {
-            Debug.Log("Hit object: " + hit.collider.gameObject.name);
+            //Debug.Log("Hit object: " + hit.collider.gameObject.name);
             ret = ParseCast(hit.collider.gameObject.name, pos);
         } else
         {
-            Debug.Log("Missed!");
+            //Debug.Log("Missed!");
             ret = ParseCast("MISSED CAST!", new Vector3(-1, -1, -1));
         }
 
@@ -122,16 +122,11 @@ public class Raycaster : MonoBehaviour {
     public CASTRET DoFOVECast(GameObject FOVERig, GameObject TargetTMPDisplay)
     {
         CASTRET ret;
-
-        FoveInterface fove = FOVERig.GetComponentInChildren<FoveInterface>();
         TMPDisplayer display = TargetTMPDisplay.GetComponent<TMPDisplayer>();
+        List<GameObject> objects = display.GetActiveBounds();
 
-        List<GameObject> activeBounds = display.GetActiveBounds();
-
-        List<Collider> activeColliders = activeBounds.Select(x => x.GetComponent<Collider>()).ToList();
+        Collider coll = GetFOVEGazeRaycastCollider(FOVERig, objects);
         
-        Collider coll;
-        fove.Gazecast(activeColliders, out coll);
 
         if(coll == null)
         {
@@ -144,6 +139,19 @@ public class Raycaster : MonoBehaviour {
         }
 
         return ret;
+    }
+
+    public Collider GetFOVEGazeRaycastCollider(GameObject FOVERig, List<GameObject> objects)
+    {
+
+        FoveInterface fove = FOVERig.GetComponentInChildren<FoveInterface>();
+
+        List<Collider> activeColliders = objects.Select(x => x.GetComponent<Collider>()).ToList();
+        Collider coll;
+        fove.Gazecast(activeColliders, out coll);
+
+
+        return coll;
     }
 
     private CASTRET ParseCast(string name, Vector3 pos)
