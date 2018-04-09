@@ -9,7 +9,7 @@ public class LSLChoiceInput : InletIntSamples {
     public GameObject EventSystem;
     private InkFOVEEventManager manager;
 
-    private int lastChoice;
+    private int lastChoice = -1;
 
     private bool connected = false;
 

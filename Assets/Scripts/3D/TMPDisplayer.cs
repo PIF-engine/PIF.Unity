@@ -42,8 +42,6 @@ public class TMPDisplayer : MonoBehaviour
         pageNum = 0;
         sentenceNum = 0;
 
-        logging = true;
-
 
         //setup log
 
@@ -73,6 +71,7 @@ public class TMPDisplayer : MonoBehaviour
         if (activeBounds.Count > 0)
         {
             activeBounds.ForEach(o => Destroy(o));
+            activeBounds.Clear();
         }
 
 
@@ -142,14 +141,19 @@ public class TMPDisplayer : MonoBehaviour
             logWordToFile(wordBounds, word,i);
 
         }
+        DebugTestColliders();
+    }
 
+    public void DebugTestColliders()
+    {      
+        List<Collider> activeColliders = activeBounds.Select(x => x.GetComponent<Collider>()).ToList();
+        activeColliders.ForEach(x => Debug.Log(x.name));    
     }
 
     public List<GameObject> GetActiveBounds()
     {
         return activeBounds;
     }
-
 
     public void RemoveText()
     {
