@@ -17,10 +17,14 @@ namespace Director
 
         private bool attemptingConnection = false;
         private int currentChoice = -1;
+        private static EventWaitHandle choiceEventHandler;
+        private bool responceRequested;
 
         public Form1()
         {
             InitializeComponent();
+            choiceEventHandler = new EventWaitHandle(false, EventResetMode.AutoReset);
+            responceRequested = false;
         }
 
         private void TextBox1_TextChanged(object sender, EventArgs e)
@@ -42,8 +46,8 @@ namespace Director
             Thread inputVectorStream = new Thread(this.ProcessVectorStream);
             inputVectorStream.Start();
 
-            Thread inputChoiceStream = new Thread(this.ProcessChoiceStream);
-            inputChoiceStream.Start();
+            Thread ChoiceInletThread = new Thread(this.ProcessChoiceMarker);
+            ChoiceInletThread.Start();
 
             Thread choiceOutlet = new Thread(this.SendChoiceOutlet);
             choiceOutlet.Start();
@@ -77,18 +81,19 @@ namespace Director
 
         public void SendChoiceOutlet()
         {
-            liblsl.StreamInfo info = new liblsl.StreamInfo("Unity.Ink.Choice", "Ink.Choice", 1, 100, liblsl.channel_format_t.cf_int32, "sddsfsdf");
+            liblsl.StreamInfo info = new liblsl.StreamInfo("Unity.Ink.Choice", "Ink.Choice", 1, 0, liblsl.channel_format_t.cf_int32, "sddsfsdf");
             liblsl.StreamOutlet outlet = new liblsl.StreamOutlet(info);
             int[] data = new int[1];
             while (true)
             {
+                choiceEventHandler.WaitOne();
                 if (currentChoice != -1)
                 {
                     data[0] = currentChoice;
                     currentChoice = -1;
                     outlet.push_sample(data);
                 }
-                System.Threading.Thread.Sleep(10);
+               
             }
 
         }
@@ -119,7 +124,7 @@ namespace Director
 
         }
 
-        public void ProcessChoiceStream()
+        public void ProcessChoiceMarker()
         {
             liblsl.StreamInfo[] results = liblsl.resolve_stream("type", "Choice.Request");
             liblsl.StreamInlet inlet = new liblsl.StreamInlet(results[0]);
@@ -135,6 +140,7 @@ namespace Director
                     MethodInvoker inv = delegate
                     {
                         ResponceStatus.Text = "Responce Requested!";
+                        responceRequested = true;
                     };
                     this.Invoke(inv);
                 } else if (sample[0] == "recieved")
@@ -142,6 +148,7 @@ namespace Director
                     MethodInvoker inv = delegate
                     {
                         ResponceStatus.Text = "No Responce Requested";
+                        responceRequested = false;
                     };
                     this.Invoke(inv);
                 }
@@ -160,16 +167,24 @@ namespace Director
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!responceRequested) return;
             currentChoice = 0;
+            choiceEventHandler.Set();          
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            if (!responceRequested) return;
             currentChoice = 1;
+            choiceEventHandler.Set();
         }
         private void button3_Click(object sender, EventArgs e)
         {
+            if (!responceRequested) return;
             currentChoice = 2;
+            choiceEventHandler.Set();
         }
+
+        
 
     }
 }
