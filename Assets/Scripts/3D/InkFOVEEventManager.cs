@@ -49,12 +49,8 @@ public class InkFOVEEventManager : MonoBehaviour
         int choice = -1;
 
 
-        //Perform the expensive connectivity check only when we dont have a connection, and stop afterwards
-        if (usingLSL && choiceOutlet.HasConsumer())
-            activeLSLConnection = true;
-
         //if we have a working LSL connection
-        if (activeLSLConnection)
+        if (usingLSL)
         {
 
             // and if we're currently waiting for a choice
@@ -77,9 +73,8 @@ public class InkFOVEEventManager : MonoBehaviour
             }
             else //otherwise we're not waiting for a choice
             {
-                //so tell the director we have no requests and clear the choice buffer
-                choiceOutlet.StopRequest();
                 choiceInput.ClearLastChoice();
+                choiceOutlet.ResponceRecieved();
             }
         }
 
