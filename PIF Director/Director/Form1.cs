@@ -19,6 +19,9 @@ namespace Director
         private int currentChoice = -1;
         private static EventWaitHandle choiceEventHandler;
         private bool responceRequested;
+        Thread VectorStreamInlet;
+        Thread ChoiceInlet;
+        Thread ChoiceOutlet;
 
         public Form1()
         {
@@ -34,14 +37,14 @@ namespace Director
             attemptingConnection = true;
             ConnectButton.Text = "Attempting to connect!";
 
-            Thread inputVectorStream = new Thread(this.ProcessVectorStream);
-            inputVectorStream.Start();
+            VectorStreamInlet = new Thread(this.ProcessVectorStream);
+            VectorStreamInlet.Start();
 
-            Thread ChoiceInletThread = new Thread(this.ProcessChoiceMarker);
-            ChoiceInletThread.Start();
+            ChoiceInlet = new Thread(this.ProcessChoiceMarker);
+            ChoiceInlet.Start();
 
-            Thread choiceOutlet = new Thread(this.SendChoiceOutlet);
-            choiceOutlet.Start();
+            ChoiceOutlet = new Thread(this.SendChoiceOutlet);
+            ChoiceOutlet.Start();
         }
 
 
@@ -164,6 +167,13 @@ namespace Director
         private void ExitButton_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void OnFormClose(object sender, FormClosedEventArgs e)
+        {
+            if (VectorStreamInlet != null) VectorStreamInlet.Abort();
+            if (ChoiceInlet != null)       ChoiceInlet.Abort();
+            if (ChoiceOutlet != null)      ChoiceOutlet.Abort();
         }
     }
 }
