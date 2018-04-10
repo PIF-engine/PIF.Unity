@@ -150,20 +150,30 @@ public class InkFOVEEventManager : MonoBehaviour
             return;
         } //otherwise, we're either done or waiting for a choice
         //if we're at a choice, but havent started waiting yet
-        else if (story.currentChoices.Count > 0 && !waitForChoice)
+        else if (story.currentChoices.Count > 0)
         {
-            //start waiting, and display the choices
-            waitForChoice = true;
-            bool logging = targetDisplay.logging;
-            targetDisplay.logging = false;
-            for (int i = 0; i < story.currentChoices.Count; i++)
+            //if We're waiting for a choice
+            if (!waitForChoice)
             {
-                string ct = story.currentChoices[i].text.Trim();
-                //Debug.Log(ct);
-                targetDisplay.NewLine();
-                targetDisplay.CreateText(ct);
+                //start waiting, and display the choices
+                waitForChoice = true;
+                bool logging = targetDisplay.logging;
+                targetDisplay.logging = false;
+                for (int i = 0; i < story.currentChoices.Count; i++)
+                {
+                    string ct = story.currentChoices[i].text.Trim();
+                    //Debug.Log(ct);
+                    targetDisplay.NewLine();
+                    targetDisplay.CreateText(ct);
+                }
+                targetDisplay.logging = logging;
             }
-            targetDisplay.logging = logging;
+        } else
+        {
+            //TODO: Add logic for end of story
+            Debug.Log("End of Story!");
+            return;
+            //End of story
         }
 
     }

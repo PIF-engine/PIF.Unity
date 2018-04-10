@@ -141,7 +141,6 @@ public class TMPDisplayer : MonoBehaviour
             logWordToFile(wordBounds, word,i);
 
         }
-        DebugTestColliders();
     }
 
     public void DebugTestColliders()

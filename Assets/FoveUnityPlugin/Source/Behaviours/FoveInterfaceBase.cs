@@ -285,7 +285,7 @@ namespace UnityEngine
 				{
 					case Rendering.GraphicsDeviceType.Direct3D11:
 					case Rendering.GraphicsDeviceType.Direct3D12:
-					case Rendering.GraphicsDeviceType.Direct3D9:
+					//case Rendering.GraphicsDeviceType.Direct3D9:
 						break;
 #if UNITY_5_4
 					case Rendering.GraphicsDeviceType.OpenGL2:
