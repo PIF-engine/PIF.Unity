@@ -55,12 +55,18 @@ public class LSLGazeOutlet : MonoBehaviour {
     public bool useFOVEGazeCast;
 
 
+    public void Awake()
+    {
+        //if we're using our output for gaze, set our target framerate to the framerate of the IR camera
+        Application.targetFrameRate = 120;
+    }
+
     //Set up our array for the current samples
     void Start () {
         // initialize the array once
         currentSample = new string[ChannelCount];
 
-        dataRate = LSLUtils.GetSamplingRateFor(sampling);
+        dataRate = LSLUtils.GetSamplingRateFor(sampling, false);
 
         streamInfo = new liblsl.StreamInfo(StreamName, StreamType, ChannelCount, dataRate, liblsl.channel_format_t.cf_string, unique_source_id);
 
@@ -70,7 +76,7 @@ public class LSLGazeOutlet : MonoBehaviour {
         raycast = gameObject.GetComponent<Raycaster>();
 
 
-        Time.fixedDeltaTime = 0.00833333333333F; //update 120 times a second, to sync with the FOVE eyetracking
+        //Time.fixedDeltaTime = 0.00833333333333F; //update 120 times a second, to sync with the FOVE eyetracking
     }
 
 

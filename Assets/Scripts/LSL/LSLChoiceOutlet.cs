@@ -45,23 +45,20 @@ public class LSLChoiceOutlet : MonoBehaviour {
     private bool requesting = false;
 
 
+    
+
 
     // Use this for initialization
     void Start () {
         currentSample = new string[ChannelCount];
 
-        dataRate = LSLUtils.GetSamplingRateFor(sampling);
+        dataRate = LSLUtils.GetSamplingRateFor(sampling, false);
 
         streamInfo = new liblsl.StreamInfo(StreamName, StreamType, ChannelCount, dataRate, liblsl.channel_format_t.cf_string, unique_source_id);
 
         outlet = new liblsl.StreamOutlet(streamInfo);
     }
 	
-	// Update is called once per frame
-	void Update () {
-        if (requesting)
-            pushSample();
-	}
 
     public void RequestResponce()
     {
@@ -81,11 +78,34 @@ public class LSLChoiceOutlet : MonoBehaviour {
 
     private void pushSample()
     {
-        if (outlet == null)
+        //if the outlet is not connected or we're not requesting, dont push a sample
+        if (!requesting || outlet == null)
             return;
 
         currentSample[0] = "request";
 
         outlet.push_sample(currentSample, liblsl.local_clock());
+    }
+
+
+    /*
+    * Do our sampling 
+    */
+    void FixedUpdate()
+    {
+        if (sampling == MomentForSampling.FixedUpdate)
+            pushSample();
+    }
+
+    void Update()
+    {
+        if (sampling == MomentForSampling.Update)
+            pushSample();
+    }
+
+    void LateUpdate()
+    {
+        if (sampling == MomentForSampling.LateUpdate)
+            pushSample();
     }
 }
