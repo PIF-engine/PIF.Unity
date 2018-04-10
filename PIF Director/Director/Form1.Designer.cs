@@ -39,6 +39,7 @@
             this.Choice1Button = new System.Windows.Forms.Button();
             this.Choice2Button = new System.Windows.Forms.Button();
             this.Choice3Button = new System.Windows.Forms.Button();
+            this.exitButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // streamNameText
@@ -48,7 +49,6 @@
             this.streamNameText.Size = new System.Drawing.Size(298, 31);
             this.streamNameText.TabIndex = 0;
             this.streamNameText.Text = "Unity.Gaze.VectorName";
-            this.streamNameText.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
             // 
             // streamNameLabel
             // 
@@ -58,7 +58,6 @@
             this.streamNameLabel.Size = new System.Drawing.Size(142, 25);
             this.streamNameLabel.TabIndex = 1;
             this.streamNameLabel.Text = "Stream Name";
-            this.streamNameLabel.Click += new System.EventHandler(this.Label1_Click);
             // 
             // label1
             // 
@@ -76,13 +75,12 @@
             this.streamTypeText.Size = new System.Drawing.Size(298, 31);
             this.streamTypeText.TabIndex = 2;
             this.streamTypeText.Text = "Unity.VectorName";
-            this.streamTypeText.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
             // 
             // ConnectButton
             // 
             this.ConnectButton.Location = new System.Drawing.Point(18, 89);
             this.ConnectButton.Name = "ConnectButton";
-            this.ConnectButton.Size = new System.Drawing.Size(137, 68);
+            this.ConnectButton.Size = new System.Drawing.Size(275, 115);
             this.ConnectButton.TabIndex = 4;
             this.ConnectButton.Text = "Connect to Stream";
             this.ConnectButton.UseVisualStyleBackColor = true;
@@ -96,7 +94,6 @@
             this.label2.Size = new System.Drawing.Size(167, 25);
             this.label2.TabIndex = 5;
             this.label2.Text = "Current Sample:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // CurrentSampleText
             // 
@@ -105,7 +102,6 @@
             this.CurrentSampleText.Name = "CurrentSampleText";
             this.CurrentSampleText.Size = new System.Drawing.Size(0, 25);
             this.CurrentSampleText.TabIndex = 6;
-            this.CurrentSampleText.Click += new System.EventHandler(this.label3_Click);
             // 
             // ResponceStatus
             // 
@@ -124,7 +120,7 @@
             this.Choice1Button.TabIndex = 8;
             this.Choice1Button.Text = "Choose 1";
             this.Choice1Button.UseVisualStyleBackColor = true;
-            this.Choice1Button.Click += new System.EventHandler(this.button1_Click);
+            this.Choice1Button.Click += new System.EventHandler(this.ChoiceButton1_Click);
             // 
             // Choice2Button
             // 
@@ -134,7 +130,7 @@
             this.Choice2Button.TabIndex = 9;
             this.Choice2Button.Text = "Choose 2";
             this.Choice2Button.UseVisualStyleBackColor = true;
-            this.Choice2Button.Click += new System.EventHandler(this.button2_Click);
+            this.Choice2Button.Click += new System.EventHandler(this.ChoiceButton2_Click);
             // 
             // Choice3Button
             // 
@@ -144,13 +140,24 @@
             this.Choice3Button.TabIndex = 10;
             this.Choice3Button.Text = "Choose 3";
             this.Choice3Button.UseVisualStyleBackColor = true;
-            this.Choice3Button.Click += new System.EventHandler(this.button3_Click);
+            this.Choice3Button.Click += new System.EventHandler(this.ChoiceButton3_Click);
+            // 
+            // exitButton
+            // 
+            this.exitButton.Location = new System.Drawing.Point(13, 688);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(280, 125);
+            this.exitButton.TabIndex = 11;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.Click += new System.EventHandler(this.ExitButton_Click_1);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1026, 825);
+            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.Choice3Button);
             this.Controls.Add(this.Choice2Button);
             this.Controls.Add(this.Choice1Button);
@@ -183,6 +190,7 @@
         private System.Windows.Forms.Button Choice1Button;
         private System.Windows.Forms.Button Choice2Button;
         private System.Windows.Forms.Button Choice3Button;
+        private System.Windows.Forms.Button exitButton;
     }
 }
 

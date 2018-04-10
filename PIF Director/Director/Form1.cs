@@ -27,15 +27,6 @@ namespace Director
             responceRequested = false;
         }
 
-        private void TextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void ConnectButton_Click(object sender, EventArgs e)
         {
@@ -53,15 +44,6 @@ namespace Director
             choiceOutlet.Start();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void UpdateUI(string component, string val)
         {
@@ -155,36 +137,33 @@ namespace Director
             }
         }
 
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ChoiceButton1_Click(object sender, EventArgs e)
         {
             if (!responceRequested) return;
             currentChoice = 0;
             choiceEventHandler.Set();          
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void ChoiceButton2_Click(object sender, EventArgs e)
         {
             if (!responceRequested) return;
             currentChoice = 1;
             choiceEventHandler.Set();
         }
-        private void button3_Click(object sender, EventArgs e)
+        private void ChoiceButton3_Click(object sender, EventArgs e)
         {
             if (!responceRequested) return;
             currentChoice = 2;
             choiceEventHandler.Set();
         }
 
-        
-
+        private void ExitButton_Click_1(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
