@@ -139,6 +139,19 @@ public class InkFOVEEventManager : MonoBehaviour
         if (story.canContinue)
         {
             string text = story.Continue().Trim();
+            //Newline filler word for a break
+            if(text == @"NEWLINE")
+            {
+                targetDisplay.NewLine();
+                AdvanceStory();
+                return;
+            //Newpage filler word to change the page
+            } else if(text == @"NEWPAGE")
+            {
+                targetDisplay.RemoveText();
+                AdvanceStory();
+                return;
+            }
             targetDisplay.CreateText(text);
             Debug.Log(text);
             targetDisplay.NewLine();
@@ -146,7 +159,7 @@ public class InkFOVEEventManager : MonoBehaviour
         } //otherwise, we're either done or waiting for a choice
         //if we're at a choice, but havent started waiting yet
         else if (story.currentChoices.Count > 0)
-        {
+        {             
             //if We're waiting for a choice
             if (!waitForChoice)
             {
