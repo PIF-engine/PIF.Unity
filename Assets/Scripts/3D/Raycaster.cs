@@ -9,7 +9,7 @@ public class Raycaster : MonoBehaviour {
 
 
     //wtf windows
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+#if UNITY_EDITOR
 
     [DllImport("user32.dll", EntryPoint = "FindWindow")]
     public static extern IntPtr FindWindow(System.String className, System.String windowName);
@@ -18,6 +18,8 @@ public class Raycaster : MonoBehaviour {
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
+
+#endif
 
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
@@ -29,7 +31,7 @@ public class Raycaster : MonoBehaviour {
     }
 
 
-#endif
+
 
     public struct CASTRET
     {
@@ -96,6 +98,7 @@ public class Raycaster : MonoBehaviour {
             return;
         }
 
+#if UNITY_EDITOR
         RECT rct;
 
         if (!GetWindowRect(new HandleRef(this, FindWindow(null, "Ink Sketching")), out rct))
@@ -115,7 +118,7 @@ public class Raycaster : MonoBehaviour {
         pos.x -= left;
         pos.y -= bottom;
         DoScreencast(pos);
-        
+#endif   
     }
 
     //TODO TEST THIS WITH THE FOVE!

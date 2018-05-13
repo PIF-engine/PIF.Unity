@@ -3,22 +3,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.IO;
+using System;
 
 public class InkTreeDump : MonoBehaviour {
 
     public TextAsset storyJSON;
-    
+
+    private string storyEnc;
+
+    public string fileLoc;
 
 	// Use this for initialization
 	void Start () {
-        DumpTree();
+        storyEnc = storyJSON.text;
+        //DumpTree();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void OnFileLocChanged(string str)
+    {
+        fileLoc = str;
+    }
 
+    public void DumpTreeFromFile()
+    {
+        if(!Uri.IsWellFormedUriString(fileLoc, UriKind.RelativeOrAbsolute))
+        {
+            Debug.LogError("Invalid file location!");
+            return;
+        }
+
+        //Read the text from directly from the test.txt file
+        StreamReader reader = new StreamReader(fileLoc);
+        
+        storyEnc= reader.ReadToEnd();     
+        reader.Close();
+
+        DumpTree();
+
+    }
 
     void DumpTree()
     {
@@ -32,8 +55,19 @@ public class InkTreeDump : MonoBehaviour {
         int count = story.currentChoices.Count;
         if(count == 0)
         {
-            Debug.Log("Done with branch: " + choiceList.Select(x => ""+x).Aggregate((i,j) => i + "-" + j));
-            Debug.Log(textsofar);
+            string id = "0";
+            if(choiceList.Count > 0)
+                id = Path.GetFileName(fileLoc) + choiceList.Select(x => "" + x).Aggregate((i, j) => i + "-" + j);
+
+            //Debug.Log("Done with branch: " + id);
+            //Debug.Log(textsofar);
+            string fileloc = Application.dataPath + "/" + id + ".txt";
+            Debug.Log("Outputting to: " + fileloc);
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(fileloc, false))
+            {
+                file.WriteLine(textsofar);
+            }
+
             return;
         } 
         for(int i = 0; i < count;i++)
@@ -47,7 +81,7 @@ public class InkTreeDump : MonoBehaviour {
 
     private Story ChoiceListToStory(List<int> choiceList)
     {
-        Story ret = new Story(storyJSON.text);
+        Story ret = new Story(storyEnc);
 
         for(int i = 0; i < choiceList.Count;i++)
         {
