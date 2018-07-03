@@ -56,6 +56,8 @@ public class Raycaster : MonoBehaviour {
     //Takes a pos in screen coordinates (Unity Window)
     public CASTRET DoScreencast(Vector3 pos)
     {
+        //if (Camera.main == null) return ParseCast("Invalid", Vector3.negativeInfinity);
+
 
         CASTRET ret;
 
@@ -82,7 +84,7 @@ public class Raycaster : MonoBehaviour {
         } else
         {
             //Debug.Log("Missed!");
-            ret = ParseCast("MISSED CAST!", new Vector3(-1, -1, -1));
+            ret = ParseCast("MISSED CAST!", Vector3.negativeInfinity);
         }
 
 
@@ -133,18 +135,18 @@ public class Raycaster : MonoBehaviour {
 
         if(coll == null)
         {
-            ret = ParseCast("MISSED CAST!", new Vector3(-1, -1, -1));
+            ret = ParseCast("MISSED CAST!", Vector3.negativeInfinity);
         }
         else
         {
-            
+            Debug.Log("Hit: " + coll.name);
             ret = ParseCast(coll.gameObject.name, coll.gameObject.transform.position);
         }
 
         return ret;
     }
 
-    public Collider GetFOVEGazeRaycastCollider(GameObject FOVERig, List<GameObject> objects)
+    public static Collider GetFOVEGazeRaycastCollider(GameObject FOVERig, List<GameObject> objects)
     {
 
         FoveInterface fove = FOVERig.GetComponentInChildren<FoveInterface>();

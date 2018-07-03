@@ -27,14 +27,17 @@ public class FOVEGazeConverg : MonoBehaviour {
         try
         {
             dat = rig.GetWorldGazeConvergence();
+            
         } catch (Exception e)
         {
-            Debug.Log("Error getting Gaze data! Destroying the debugger...");
+            Debug.LogError("Error getting Gaze data! Destroying the debugger...");
+            Debug.LogError(e.Message);
             Destroy(gameObject);
             return;
         }
         Vector3 endpoint = dat.ray.origin + (dat.ray.direction * dat.distance);
         gameObject.transform.position = endpoint;
+        //Debug.Log(endpoint);
 
 	}
 }

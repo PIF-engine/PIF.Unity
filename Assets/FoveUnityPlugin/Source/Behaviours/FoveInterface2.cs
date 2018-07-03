@@ -113,7 +113,7 @@ namespace UnityEngine
 			SFVR_Matrix44 lViewMat = new SFVR_Matrix44();
 			SFVR_Matrix44 rViewMat = new SFVR_Matrix44();
 
-			Matrix4x4 scale = Matrix4x4.Scale(new Vector3(worldScale, worldScale, worldScale));
+			//Matrix4x4 scale = Matrix4x4.Scale(new Vector3(worldScale, worldScale, worldScale));
 
 			// Something about the camera projections or relative translations means that I have to swap what the
 			// x-axis values so positive-x is left (not right, as it typically should be).

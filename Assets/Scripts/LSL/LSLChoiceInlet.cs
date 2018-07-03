@@ -4,7 +4,7 @@ using UnityEngine;
 using Assets.LSL4Unity.Scripts.AbstractInlets;
 using Assets.LSL4Unity.Scripts;
 
-public class LSLChoiceInput : InletIntSamples {
+public class LSLChoiceInlet : InletIntSamples {
 
     public GameObject EventSystem;
     private InkFOVEEventManager manager;

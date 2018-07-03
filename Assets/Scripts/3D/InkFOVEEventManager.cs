@@ -17,11 +17,10 @@ public class InkFOVEEventManager : MonoBehaviour
     public GameObject LSLChoiceInput;
     private TMPDisplayer targetDisplay;
     private LSLChoiceOutlet choiceOutlet;
-    private LSLChoiceInput choiceInput;
+    private LSLChoiceInlet choiceInput;
 
     private bool waitForChoice;
     public bool usingLSL;
-    private bool activeLSLConnection = false;
 
     // Use this for initialization
     void Start()
@@ -31,7 +30,7 @@ public class InkFOVEEventManager : MonoBehaviour
         if (LSLChoiceOutlet != null)
             choiceOutlet = LSLChoiceOutlet.GetComponent<LSLChoiceOutlet>();
         if (LSLChoiceInput != null)
-            choiceInput = LSLChoiceInput.GetComponent<LSLChoiceInput>();
+            choiceInput = LSLChoiceInput.GetComponent<LSLChoiceInlet>();
 
 
         waitForChoice = false;
@@ -63,7 +62,7 @@ public class InkFOVEEventManager : MonoBehaviour
                 if (choice < 0)
                 {
                     //request a responce from the director
-                    choiceOutlet.RequestResponce();
+                    choiceOutlet.RequestResponceMarker();
                 }
                 else
                 {
@@ -206,6 +205,7 @@ public class InkFOVEEventManager : MonoBehaviour
         }
         story.ChooseChoiceIndex(i);
         targetDisplay.storyChoiceLog += "->" + i;
+        choiceOutlet.WriteStoryTreeMarker(targetDisplay.storyChoiceLog);
         waitForChoice = false;
         return true;
     }
