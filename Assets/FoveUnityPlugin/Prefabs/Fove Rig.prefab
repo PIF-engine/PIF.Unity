@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4000013440253868}
   - component: {fileID: 20000013469000644}
   - component: {fileID: 114000010313761880}
+  - component: {fileID: 45950163751380000}
   m_Layer: 0
   m_Name: Fove Interface
   m_TagString: Untagged
@@ -36,6 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4000013084846212}
+  - component: {fileID: 114015601388341212}
   m_Layer: 0
   m_Name: Fove Rig
   m_TagString: Untagged
@@ -50,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1645652068882044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.9, z: -1.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013440253868}
@@ -106,6 +108,14 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!45 &45950163751380000
+Skybox:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010938986662}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 39cace2863926444a9a78daa8ae26413, type: 2}
 --- !u!114 &114000010313761880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,7 +139,7 @@ MonoBehaviour:
   gaze: 1
   orientation: 1
   position: 1
-  skipAutoCalibrationCheck: 1
+  skipAutoCalibrationCheck: 0
   disableTimewarp: 0
   disableFading: 0
   disableDistortion: 0
@@ -142,3 +152,15 @@ MonoBehaviour:
   antialiasSampleCount: 1
   overrideAntialiasing: 0
   enableRendering: 1
+--- !u!114 &114015601388341212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645652068882044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae49a1ad5d968d440ab3e2213d93279c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetFrameRate: -1

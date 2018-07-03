@@ -38,7 +38,7 @@ public class LSLGazeOutlet : MonoBehaviour {
         return false;
     }
 
-    public string StreamName = "Unity.Gaze.VectorName";
+    public string StreamName = "Unity.PIF.VectorName";
     public string StreamType = "Unity.VectorName";
     public int ChannelCount = 4; // { Name , x , y , z }
 
@@ -54,12 +54,6 @@ public class LSLGazeOutlet : MonoBehaviour {
 
     public bool useFOVEGazeCast;
 
-
-    public void Awake()
-    {
-        //if we're using our output for gaze, set our target framerate to the framerate of the IR camera
-        Application.targetFrameRate = 120;
-    }
 
     //Set up our array for the current samples
     void Start () {
@@ -86,24 +80,25 @@ public class LSLGazeOutlet : MonoBehaviour {
         if (outlet == null)
             return;
 
-        Raycaster.CASTRET cASTRET;
+        Raycaster.CASTRET CRET;
 
         //Will be using the FOVEGazeCast?
         if(useFOVEGazeCast)
         {
-            cASTRET = raycast.DoFOVECast(FOVERig, TargetTMPDisplayPrefab);
+            CRET = raycast.DoFOVECast(FOVERig, TargetTMPDisplayPrefab);
         }
         else
         {
-            cASTRET = raycast.DoScreencast(Input.mousePosition);
+            CRET = raycast.DoScreencast(Input.mousePosition);
         }
-
-        currentSample[0] = cASTRET.Name;
-        currentSample[1] = "" + cASTRET.x;
-        currentSample[2] = "" + cASTRET.y;
-        currentSample[3] = "" + cASTRET.z;
+        if (float.IsInfinity(CRET.x)) return; //missed!
+        currentSample[0] = CRET.Name;
+        currentSample[1] = "" + CRET.x;
+        currentSample[2] = "" + CRET.y;
+        currentSample[3] = "" + CRET.z;
 
         outlet.push_sample(currentSample, liblsl.local_clock());
+        Debug.Log("Pushed Word Sample");
     }
 
     /*

@@ -113,19 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &17382232 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000010938986662, guid: 042142d01b081ab4ca555ec74a04c2cb,
-    type: 2}
-  m_PrefabInternal: {fileID: 1641013620}
---- !u!45 &17382236
-Skybox:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 17382232}
-  m_Enabled: 1
-  m_CustomSkybox: {fileID: 2100000, guid: 39cace2863926444a9a78daa8ae26413, type: 2}
 --- !u!1 &195769759
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +148,53 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &538268280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 538268282}
+  - component: {fileID: 538268281}
+  m_Layer: 0
+  m_Name: LSLEyeVectorOutlet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &538268281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 538268280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30f463ed95862646a782ab661804f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StreamName: Unity.PIF.EyeConvergance
+  StreamType: Unity.EyeConvergance
+  ChannelCount: 6
+  sampling: 0
+  FOVERig: {fileID: 1661741242}
+  targetTMPDisplay: {fileID: 0}
+--- !u!4 &538268282
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 538268280}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.093642965, y: 2.1166413, z: -0.5325252}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &693925568
 GameObject:
@@ -374,12 +407,12 @@ Prefab:
     - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
         type: 2}
@@ -396,6 +429,22 @@ Prefab:
       propertyPath: m_margin.z
       value: 3.812237
       objectReference: {fileID: 0}
+    - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_text
+      value: Lorem ipsum dolor sit amet, regione dissentiunt est te, prima ceteros
+        constituam qui ne.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_textInfo.characterCount
+      value: 88
+      objectReference: {fileID: 0}
+    - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_textInfo.spaceCount
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a718f32d825fcd44ab18bc933f3c83c, type: 2}
   m_IsPrefabParent: 0
@@ -410,7 +459,7 @@ GameObject:
   - component: {fileID: 787827173}
   - component: {fileID: 787827175}
   m_Layer: 0
-  m_Name: LSLChoiceInput
+  m_Name: LSLChoiceInlet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,7 +490,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &787827175
 MonoBehaviour:
@@ -729,7 +778,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1216296217
 GameObject:
@@ -760,7 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7b4fd2bdb16134db0e4b22bc8a594c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storyJSON: {fileID: 4900000, guid: ff4bc9967b863324ebf5cda75a76dcd6, type: 3}
+  storyJSON: {fileID: 4900000, guid: d39ed9bdb7c07d74e81fad897ba90ec2, type: 3}
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   LSLChoiceOutlet: {fileID: 1828031461}
   LSLChoiceInput: {fileID: 787827172}
@@ -986,7 +1035,7 @@ GameObject:
   - component: {fileID: 1469781285}
   - component: {fileID: 1469781284}
   m_Layer: 0
-  m_Name: LSLGazeOutput
+  m_Name: LSLGazeOutlet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1003,13 +1052,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf86fa9e77e4b642be60577b7791c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StreamName: Unity.Gaze.VectorName
+  StreamName: Unity.PIF.VectorName
   StreamType: Unity.VectorName
   ChannelCount: 4
-  sampling: 1
+  sampling: 0
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   FOVERig: {fileID: 1661741242}
-  useFOVEGazeCast: 0
+  useFOVEGazeCast: 1
 --- !u!224 &1469781285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1132,11 +1181,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013084846212, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 4000013084846212, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: -1.4
       objectReference: {fileID: 0}
     - target: {fileID: 4000013084846212, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1157,25 +1206,6 @@ Prefab:
     - target: {fileID: 4000013084846212, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1645652068882044, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010313761880, guid: 042142d01b081ab4ca555ec74a04c2cb,
-        type: 2}
-      propertyPath: position
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 20000013469000644, guid: 042142d01b081ab4ca555ec74a04c2cb,
-        type: 2}
-      propertyPath: m_HDR
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010313761880, guid: 042142d01b081ab4ca555ec74a04c2cb,
-        type: 2}
-      propertyPath: skipAutoCalibrationCheck
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
@@ -1315,7 +1345,7 @@ GameObject:
   - component: {fileID: 1828031463}
   - component: {fileID: 1828031462}
   m_Layer: 0
-  m_Name: LSLChoiceOutput
+  m_Name: LSLChoiceOutlet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1345,7 +1375,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836395819
 GameObject:
@@ -1365,7 +1395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1836395820
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1607,7 +1637,7 @@ GameObject:
   - component: {fileID: 2050604827}
   - component: {fileID: 2050604826}
   - component: {fileID: 2050604828}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GazeDebugger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1669,7 +1699,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2050604828
 MonoBehaviour:

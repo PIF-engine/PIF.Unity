@@ -12,10 +12,13 @@ using System.Linq;
 public class TMPDisplayer : MonoBehaviour
 {
 
-
-
     //public GameObject parentObj;
     //public GameObject textPrefab;
+    [SerializeField]
+    private LSLChoiceOutlet markerOutlet;
+
+
+    [HideInInspector]
     public string storyChoiceLog;
     private List<GameObject> activeBounds = new List<GameObject>();
 
@@ -28,12 +31,19 @@ public class TMPDisplayer : MonoBehaviour
     private Regex closetagrgx;
     private int pageNum;
     private int sentenceNum;
+    private int wordNum;
 
     public bool logging;
 
     // Use this for initialization
     void Start()
     {
+        if(markerOutlet == null)
+        {
+            markerOutlet = FindObjectOfType<LSLChoiceOutlet>();
+            if (markerOutlet == null) Debug.LogError("Cant Find Choice Outlet!");
+        }
+
         activeBounds = new List<GameObject>();
         storyChoiceLog = "S";
         rgx = new Regex("<^a-zA-Z0-9 \\.->");
@@ -41,7 +51,7 @@ public class TMPDisplayer : MonoBehaviour
 
         pageNum = 0;
         sentenceNum = 0;
-
+        wordNum = 0;
 
         //setup log
 
@@ -58,12 +68,6 @@ public class TMPDisplayer : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void UpdateBounds()
     {
         //remove current bounds
@@ -75,7 +79,7 @@ public class TMPDisplayer : MonoBehaviour
         }
 
 
-        TextMeshPro m_Text = this.GetComponent<TextMeshPro>();
+        TextMeshPro m_Text = GetComponent<TextMeshPro>();
 
         m_Text.text = text;
         //m_Text.autoSizeTextContainer = true;
@@ -109,12 +113,12 @@ public class TMPDisplayer : MonoBehaviour
 
             Vector3 min = start.bottomLeft;
             min.y = miny;
-            min = this.transform.TransformPoint(min);
+            min = transform.TransformPoint(min);
 
 
             Vector3 max = end.topRight;
             max.y = maxy;
-            max = this.transform.TransformPoint(max);
+            max = transform.TransformPoint(max);
 
 
             string word = wordInfo.GetWord();
@@ -126,9 +130,10 @@ public class TMPDisplayer : MonoBehaviour
 
             var wordBounds = new GameObject();
             activeBounds.Add(wordBounds);
-            wordBounds.name = "B_" + word;
+            wordBounds.name = String.Format("({0},{1})_",pageNum,wordNum) + word; //(pg,wrdnm) as unique identifier for word
+            wordNum++; //Next word
             var coll = wordBounds.AddComponent<BoxCollider>();
-            coll.transform.SetParent(this.transform);
+            coll.transform.SetParent(transform);
             coll.center = center;
 
             Vector3 collVect = max - min;
@@ -158,7 +163,10 @@ public class TMPDisplayer : MonoBehaviour
     {
         text = "";
         pageNum++;
+        sentenceNum = 0; //reset our counters again
+        wordNum = 0;
         UpdateBounds();
+        markerOutlet.WriteStoryPageMarker(pageNum);
         Debug.Log("page++");
     }
 
@@ -171,8 +179,9 @@ public class TMPDisplayer : MonoBehaviour
     public void CreateText(string newtext)
     {
         text += newtext;
-        sentenceNum++;
+        wordNum = 0; //reset word counter
         UpdateBounds();
+        sentenceNum++; //incriment for the next sentence
     }
 
     void logWordToFile(GameObject bounds, string word, int wordnum)
