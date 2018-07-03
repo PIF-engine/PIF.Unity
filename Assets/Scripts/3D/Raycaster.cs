@@ -139,7 +139,7 @@ public class Raycaster : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Hit: " + coll.name);
+            //Debug.Log("Hit: " + coll.name);
             ret = ParseCast(coll.gameObject.name, coll.gameObject.transform.position);
         }
 

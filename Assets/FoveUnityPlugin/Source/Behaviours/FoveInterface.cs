@@ -427,49 +427,6 @@ namespace UnityEngine
 		}
 
 		/****************************************************************************************************\
-		 * Interface Helper Methods
-		\****************************************************************************************************/
-
-		private bool InternalGazecastHelperSingle(Collider col, out RaycastHit hit)
-		{
-			bool eyesInvalid = (_eyeRayLeft.origin == _eyeRayLeft.direction || _eyeRayRight.origin == _eyeRayRight.direction);
-			bool eyesInsideCollider = (col.bounds.Contains(_eyeRayLeft.origin) || col.bounds.Contains(_eyeRayRight.origin));
-
-			if (eyesInvalid || eyesInsideCollider)
-			{
-				hit = new RaycastHit();
-				return false;
-			}
-
-			if (col.Raycast(_eyeRayLeft, out hit, _farClip))
-				return true;
-
-			if (col.Raycast(_eyeRayRight, out hit, _farClip))
-				return true;
-
-			return false;
-		}
-
-		private RaycastHit[] InternalGazecastHelper_Multi(int layerMask, QueryTriggerInteraction queryTriggers)
-		{
-			bool eyesInvalid = (_eyeRayLeft.origin == _eyeRayLeft.direction || _eyeRayRight.origin == _eyeRayRight.direction);
-
-			if (eyesInvalid)
-			{
-				return null;
-			}
-
-			RaycastHit[] leftHits = Physics.RaycastAll(_eyeRayLeft, _farClip, layerMask, queryTriggers);
-			RaycastHit[] rightHits = Physics.RaycastAll(_eyeRayRight, _farClip, layerMask, queryTriggers);
-
-			RaycastHit[] total = new RaycastHit[leftHits.Length + rightHits.Length];
-			Array.Copy(leftHits, 0, total, 0, leftHits.Length);
-			Array.Copy(rightHits, 0, total, leftHits.Length, rightHits.Length);
-
-			return total;
-		}
-
-		/****************************************************************************************************\
 		 * Interface Methods
 		\****************************************************************************************************/
 		protected override Vector3 GetLeftEyePosition()
@@ -548,7 +505,7 @@ namespace UnityEngine
 			Vector3 rDirect = transform
 				.TransformDirection(new Vector3(localRay.direction.x, localRay.direction.y, localRay.direction.z))
 				.normalized;
-			return new GazeConvergenceData(new Ray(rOrigin, rDirect), localConvergence.distance, localConvergence.accuracy);
+			return new GazeConvergenceData(new Ray(rOrigin, rDirect), localConvergence.distance, localConvergence.pupilDilation);
 		}
 
 		/****************************************************************************************************\
@@ -845,7 +802,7 @@ namespace UnityEngine
 				return ((FoveInterfaceBase)_sAllLegacyInterfaces[0]).GetGazeConvergence();
 			}
 			Ray r = new Ray(Vector3.zero, Vector3.forward);
-			return new GazeConvergenceData(r, 1, 0);
+			return new GazeConvergenceData(r, 1);
 		}
 
 		/// <summary>

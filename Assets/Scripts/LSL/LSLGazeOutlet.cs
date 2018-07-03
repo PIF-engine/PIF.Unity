@@ -98,7 +98,7 @@ public class LSLGazeOutlet : MonoBehaviour {
         currentSample[3] = "" + CRET.z;
 
         outlet.push_sample(currentSample, liblsl.local_clock());
-        Debug.Log("Pushed Word Sample");
+        //Debug.Log("Pushed Word Sample");
     }
 
     /*

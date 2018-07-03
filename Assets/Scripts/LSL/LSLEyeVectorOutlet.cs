@@ -81,7 +81,7 @@ public class LSLEyeVectorOutlet : MonoBehaviour
     /// </summary>
     private void pushSample()
     {
-        if (outlet == null || isInvalid)
+        if (isInvalid)
             return;
 
         Vector3 eyeDir = FoveInterface.GetLeftEyeVector();
@@ -95,15 +95,19 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         Collider coll = Raycaster.GetFOVEGazeRaycastCollider(FOVERig, objects);
 
         Vector3 endpoint;
-        if(coll != null)
+
+        var dat = foveHeadset.GetWorldGazeConvergence();
+        if (coll != null)
         {
             endpoint = coll.transform.position;
         }
         else
         {
-            var dat = foveHeadset.GetWorldGazeConvergence();
+
             endpoint = dat.ray.origin + (dat.ray.direction * dat.distance);
         }
+
+        Debug.Log("Pupil Dil: " + dat.pupilDilation);
 
         //Eye Vector (left eye)
         currentSample[0] = eyeDir.x;
