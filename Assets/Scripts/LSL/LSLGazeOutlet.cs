@@ -40,7 +40,7 @@ public class LSLGazeOutlet : MonoBehaviour {
 
     public string StreamName = "Unity.PIF.VectorName";
     public string StreamType = "Unity.VectorName";
-    public int ChannelCount = 4; // { Name , x , y , z }
+    private const int ChannelCount = 4; // { Name , x , y , z }
 
     public MomentForSampling sampling;
 
@@ -68,9 +68,6 @@ public class LSLGazeOutlet : MonoBehaviour {
 
         gameObject.AddComponent<Raycaster>();
         raycast = gameObject.GetComponent<Raycaster>();
-
-
-        //Time.fixedDeltaTime = 0.00833333333333F; //update 120 times a second, to sync with the FOVE eyetracking
     }
 
 
@@ -91,7 +88,7 @@ public class LSLGazeOutlet : MonoBehaviour {
         {
             CRET = raycast.DoScreencast(Input.mousePosition);
         }
-        if (float.IsInfinity(CRET.x)) return; //missed!
+        //if (float.IsInfinity(CRET.x)) return; //missed!
         currentSample[0] = CRET.Name;
         currentSample[1] = "" + CRET.x;
         currentSample[2] = "" + CRET.y;

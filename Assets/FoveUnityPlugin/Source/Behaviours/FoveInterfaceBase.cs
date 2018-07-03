@@ -801,6 +801,12 @@ namespace UnityEngine
 			return new Vector3(p.x, p.y, p.z);
 		}
 
+
+        public static bool GetAttentionValue()
+        {
+            return _sAttention;
+        }
+
 		/// <summary>
 		/// Returns the direction the left eye is looking right now.
 		/// </summary>
