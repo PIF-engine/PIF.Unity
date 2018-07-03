@@ -17,7 +17,7 @@ namespace UnityEngine
 		{
 			public const int MAJOR = 2;
 			public const int MINOR = 1;
-			public const int RELEASE = 1;
+			public const int RELEASE = 2;
 		}
 
 		protected static bool ReportErrorCodeIfNotNone(EFVR_ErrorCode code, string funcName)
@@ -126,6 +126,9 @@ namespace UnityEngine
 		protected static Vector3 _sHeadPosition;
 		protected static Vector3 _sEyeVecLeft = Vector3.forward;
 		protected static Vector3 _sEyeVecRight = Vector3.forward;
+		protected static GazeConvergenceData _sGazeConvergence;
+		protected static float _sPupilDilation;
+		protected static bool _sAttention;
 
 		protected static float usedIOD;
 
@@ -441,7 +444,7 @@ namespace UnityEngine
 		}
 
 		/// <summary>
-		/// Struct representing the vector pointing where the user is looking.
+		/// Struct representing the vector pointing where the user is looking. Updated by Gilad Ostrin to include pupil dilation
 		/// </summary>
 		/// <remarks>
 		/// The vector (from the center of the player's head in world space) that can be used to approximate the point
@@ -453,28 +456,40 @@ namespace UnityEngine
 			/// </summary>
 			/// <param name="ray">A FOVE-native SFVR_Ray structure</param>
 			/// <param name="distance">The distance from start, Range: 0 to inf</param>
-			/// <param name="accuracy">Accuracy as float of 0 to 1 representing how confident you should be
 			/// in the values presented.</param>
-			public GazeConvergenceData(SFVR_Ray ray, float distance, float accuracy)
+			public GazeConvergenceData(SFVR_Ray ray, float distance)
 			{
 				this.ray = new Ray(new Vector3(ray.origin.x, ray.origin.y, ray.origin.z), new Vector3(ray.direction.x, ray.direction.y, ray.direction.z));
 				this.distance = distance;
-				this.accuracy = accuracy;
-			}
+                this.pupilDilation = 1f; //default value of 1
+            }
+
+            public GazeConvergenceData(SFVR_Ray ray, float distance, float pupilDilation)
+            {
+                this.ray = new Ray(new Vector3(ray.origin.x, ray.origin.y, ray.origin.z), new Vector3(ray.direction.x, ray.direction.y, ray.direction.z));
+                this.distance = distance;
+                this.pupilDilation = pupilDilation;
+            }
 
 			/// <summary>
 			/// Contructor to set Gaze Convergence data based on a Unity native Ray instance
 			/// </summary>
 			/// <param name="ray">Unity's Ray structure</param>
 			/// <param name="distance">The distance from start, Range: 0 to inf</param>
-			/// <param name="accuracy">Accuracy as float of 0 to 1 representing how confident you should be
 			/// in the values presented.</param>
-			public GazeConvergenceData(Ray ray, float distance, float accuracy)
+			public GazeConvergenceData(Ray ray, float distance)
 			{
 				this.ray = ray;
 				this.distance = distance;
-				this.accuracy = accuracy;
+                this.pupilDilation = 1f; //default value of 1
 			}
+
+            public GazeConvergenceData(Ray ray, float distance, float pupilDilation)
+            {
+                this.ray = ray;
+                this.distance = distance;
+                this.pupilDilation = pupilDilation;
+            }
 
 			/// <summary>
 			/// A normalized (1 unit long) ray indicating the starting reference point and direction of the user's gaze
@@ -484,11 +499,8 @@ namespace UnityEngine
 			/// How far out along the normalized ray the user's eyes are converging.
 			/// </summary>
 			public float distance;
-			/// <summary>
-			/// How likely the convergence ray and distance are judged to be accurate on a scale from [0-1). Values of
-			/// zero should be assumed to be unusable for depth-based decision making (e.g. depth of field effects).
-			/// </summary>
-			public float accuracy;
+
+            public float pupilDilation;
 		}
 
 		/****************************************************************************************************\
@@ -596,11 +608,9 @@ namespace UnityEngine
 				hit = new RaycastHit();
 				return false;
 			}
-			
-			if (col.Raycast(_eyeRayLeft, out hit, _farClip))
-				return true;
 
-			if (col.Raycast(_eyeRayRight, out hit, _farClip))
+			var localConvergence = GetGazeConvergence();
+			if (col.Raycast(localConvergence.ray, out hit, _farClip))
 				return true;
 
 			return false;
@@ -615,14 +625,8 @@ namespace UnityEngine
 				return null;
 			}
 
-			RaycastHit[] leftHits = Physics.RaycastAll(_eyeRayLeft, _farClip, layerMask, queryTriggers);
-			RaycastHit[] rightHits = Physics.RaycastAll(_eyeRayRight, _farClip, layerMask, queryTriggers);
-
-			RaycastHit[] total = new RaycastHit[leftHits.Length + rightHits.Length];
-			Array.Copy(leftHits, 0, total, 0, leftHits.Length);
-			Array.Copy(rightHits, 0, total, leftHits.Length, rightHits.Length);
-
-			return total;
+			var localConvergence = GetGazeConvergence();
+			return Physics.RaycastAll(localConvergence.ray, _farClip, layerMask, queryTriggers);
 		}
 
 		/// <summary>
@@ -720,7 +724,7 @@ namespace UnityEngine
 				}
 			}
 
-			return false;
+			return which != null;
 		}
 
 		/// <summary>
@@ -1033,6 +1037,13 @@ namespace UnityEngine
 				}
 			}
 
+			SFVR_GazeConvergenceData conv;
+			_sHeadset.GetGazeConvergence(out conv);
+
+			_sGazeConvergence = new GazeConvergenceData(conv.ray, conv.distance, conv.pupilDilation);
+			_sPupilDilation = conv.pupilDilation;
+			_sAttention = conv.attention;
+
 			_sHasUpdatedStaticData = true;
 		}
 
@@ -1086,9 +1097,8 @@ namespace UnityEngine
 		public GazeConvergenceData GetGazeConvergence_Raw()
 		{
 			CheckStaticConcurrency();
-			SFVR_GazeConvergenceData convergence;
-			_sHeadset.GetGazeConvergence(out convergence);
-			return new GazeConvergenceData(convergence.ray, convergence.distance, convergence.accuracy);
+
+			return new GazeConvergenceData(_sGazeConvergence.ray, _sGazeConvergence.distance,_sGazeConvergence.pupilDilation);
 		}
 
 		/// <summary>
@@ -1099,14 +1109,37 @@ namespace UnityEngine
 		public GazeConvergenceData GetGazeConvergence()
 		{
 			CheckStaticConcurrency();
-			SFVR_GazeConvergenceData convergence;
-			_sHeadset.GetGazeConvergence(out convergence);
 
-			Vector3 origin = FoveUnityUtils.GetUnityVector(convergence.ray.origin) + transform.position;
-			Vector3 direction = transform.TransformDirection(FoveUnityUtils.GetUnityVector(convergence.ray.direction));
+			Vector3 origin = _sGazeConvergence.ray.origin + transform.position;
+			Vector3 direction = transform.TransformDirection(_sGazeConvergence.ray.direction);
 			Ray worldRay = new Ray(origin, direction);
 
-			return new GazeConvergenceData(worldRay, convergence.distance, convergence.accuracy);
+			return new GazeConvergenceData(worldRay, _sGazeConvergence.distance, _sGazeConvergence.pupilDilation);
+		}
+
+		/// <summary>
+		/// Returns how big the user's pupils are, generally. This is as a ratio compared to when they calibrated. So if
+		/// the user's pupils are bigger than during calibration this will be greater than 1. If smaller, then it will be
+		/// between 0 and 1. Hard limits are 0 and Infinity (though neither is likely).
+		/// </summary>
+		/// <returns>A value indicating the user's pupil size.</returns>
+		public float GetPupilDilation()
+		{
+			CheckStaticConcurrency();
+
+			return _sPupilDilation;
+		}
+
+		/// <summary>
+		/// Returns whether or not the user is focusing on what they're looking at. This is generally an assessment of
+		/// whether their eyes are moving around rapidly or focusing generally on something that seems consistent.
+		/// </summary>
+		/// <returns>Whether or not the user appears to be visually focused on something.</returns>
+		public bool GetGazeAttention()
+		{
+			CheckStaticConcurrency();
+
+			return _sAttention;
 		}
 
 		/// <summary>

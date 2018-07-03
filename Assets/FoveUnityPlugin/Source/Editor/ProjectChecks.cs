@@ -353,20 +353,16 @@ namespace FoveSettings
 			if (settings.interfaceChoice == InterfaceChoice.DualCameras)
 				return true;
 
-#if UNITY_5_5_OR_NEWER
 			return PlayerSettings.stereoRenderingPath == StereoRenderingPath.SinglePass
+#if UNITY_5_5_OR_NEWER
 				|| PlayerSettings.stereoRenderingPath == StereoRenderingPath.Instancing
-#else
-			return true;
 #endif
-			;
+				;
 		}
 
 		protected override void RealFix(FoveSettings settings)
 		{
-#if UNITY_5_5_OR_NEWER
 			PlayerSettings.stereoRenderingPath = StereoRenderingPath.SinglePass;
-#endif
 		}
 	}
 
