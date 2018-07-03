@@ -39,7 +39,7 @@ public class LSLEyeVectorOutlet : MonoBehaviour
 
     public string StreamName = "Unity.PIF.EyeConvergance";
     public string StreamType = "Unity.EyeConvergance";
-    public int ChannelCount = 6; // { Name , x , y , z }
+    private const int ChannelCount = 10; // {  Vector3 EyeLeft, Vector3 EyeRight, Vector3 ConvergPnt, float pupilSize }
 
     public MomentForSampling sampling;
 
@@ -84,8 +84,8 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         if (isInvalid)
             return;
 
-        Vector3 eyeDir = FoveInterface.GetLeftEyeVector();
-
+        Vector3 eyeDirLeft = FoveInterface.GetLeftEyeVector();
+        Vector3 eyeDirRight = FoveInterface.GetRightEyeVector();
 
         //Convergance Calc. We check for the current bound object first, as reading throws off the convergence number
 
@@ -107,17 +107,25 @@ public class LSLEyeVectorOutlet : MonoBehaviour
             endpoint = dat.ray.origin + (dat.ray.direction * dat.distance);
         }
 
-        Debug.Log("Pupil Dil: " + dat.pupilDilation);
+        Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());
 
         //Eye Vector (left eye)
-        currentSample[0] = eyeDir.x;
-        currentSample[0] = eyeDir.y;
-        currentSample[0] = eyeDir.z;
+        currentSample[0] = eyeDirLeft.x;
+        currentSample[1] = eyeDirLeft.y;
+        currentSample[2] = eyeDirLeft.z;
+
+        //Eye Vector (Right eye)
+        currentSample[3] = eyeDirRight.x;
+        currentSample[4] = eyeDirRight.y;
+        currentSample[5] = eyeDirRight.z;
 
         //Converg Point
-        currentSample[0] = endpoint.x;
-        currentSample[0] = endpoint.y;
-        currentSample[0] = endpoint.z;
+        currentSample[6] = endpoint.x;
+        currentSample[7] = endpoint.y;
+        currentSample[8] = endpoint.z;
+
+        //pupilSize
+        currentSample[9] = dat.pupilDilation;
 
         outlet.push_sample(currentSample, liblsl.local_clock());
         //Debug.Log("Pushed EyeConv Sample");

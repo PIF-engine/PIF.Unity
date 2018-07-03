@@ -47,6 +47,7 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="pageNum">The page number that has has begun to be displayed</param>
     public void WriteStoryPageMarker(int pageNum)
     {
+        Write("ENDPAGE: " + (pageNum-1));
         Write("NEXTPAGE: " + pageNum);
     }
 }
