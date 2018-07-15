@@ -84,6 +84,9 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         if (isInvalid)
             return;
 
+        if (FoveInterface.IsEyeTrackingCalibrating())
+            return;
+
         Vector3 eyeDirLeft = FoveInterface.GetLeftEyeVector();
         Vector3 eyeDirRight = FoveInterface.GetRightEyeVector();
 
@@ -107,7 +110,7 @@ public class LSLEyeVectorOutlet : MonoBehaviour
             endpoint = dat.ray.origin + (dat.ray.direction * dat.distance);
         }
 
-        Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());
+        //Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());
 
         //Eye Vector (left eye)
         currentSample[0] = eyeDirLeft.x;

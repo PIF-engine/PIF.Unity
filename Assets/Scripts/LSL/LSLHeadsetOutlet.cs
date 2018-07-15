@@ -63,10 +63,14 @@ public class LSLHeadsetOutlet : MonoBehaviour {
     /// </summary>
     private void pushSample()
     {
+        if (FoveInterface.IsEyeTrackingCalibrating())
+            return;
+
+
         Vector3 headsetPos = FoveInterface.GetHMDPosition();
         Quaternion headsetRot = FoveInterface.GetHMDRotation();
 
-        //Eye Vector (left eye)
+        //Head Position Vector
         currentSample[0] = headsetPos.x;
         currentSample[1] = headsetPos.y;
         currentSample[2] = headsetPos.z;
@@ -75,7 +79,7 @@ public class LSLHeadsetOutlet : MonoBehaviour {
         currentSample[3] = headsetRot.w;
         currentSample[4] = headsetRot.x;
         currentSample[5] = headsetRot.y;
-        currentSample[6] = headsetRot.y;
+        currentSample[6] = headsetRot.z;
 
         outlet.push_sample(currentSample, liblsl.local_clock());
     }
