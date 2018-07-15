@@ -179,7 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.EyeConvergance
   StreamType: Unity.EyeConvergance
-  ChannelCount: 6
   sampling: 1
   FOVERig: {fileID: 1661741242}
   targetTMPDisplay: {fileID: 0}
@@ -812,7 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7b4fd2bdb16134db0e4b22bc8a594c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storyJSON: {fileID: 4900000, guid: d39ed9bdb7c07d74e81fad897ba90ec2, type: 3}
+  storyJSON: {fileID: 4900000, guid: eb2620f17f1c82c458cf88a3054f110a, type: 3}
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   LSLChoiceOutlet: {fileID: 1828031461}
   LSLChoiceInput: {fileID: 787827172}
@@ -1058,7 +1057,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.VectorName
   StreamType: Unity.VectorName
-  ChannelCount: 4
   sampling: 1
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   FOVERig: {fileID: 1661741242}
@@ -1515,9 +1513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.HeadsetPosRot
   StreamType: Unity.HeadsetPosRot
-  ChannelCount: 7
   sampling: 1
-  FOVERig: {fileID: 1661741242}
 --- !u!1 &1880999334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1695,7 +1691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2050604826
 SpriteRenderer:
   m_ObjectHideFlags: 0
