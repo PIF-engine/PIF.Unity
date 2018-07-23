@@ -165,7 +165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &538268281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +445,16 @@ Prefab:
       propertyPath: m_textInfo.spaceCount
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+    - target: {fileID: 23364916950641724, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a718f32d825fcd44ab18bc933f3c83c, type: 2}
   m_IsPrefabAsset: 0
@@ -1063,7 +1073,7 @@ MonoBehaviour:
   sampling: 1
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   FOVERig: {fileID: 1661741242}
-  useFOVEGazeCast: 1
+  useFOVEGazeCast: 0
 --- !u!224 &1469781285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1497,7 +1507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1846370562
 Transform:
   m_ObjectHideFlags: 0
@@ -1682,6 +1692,10 @@ Prefab:
     - target: {fileID: 6550298, guid: e3a26a06f6e628342bfd0d5eca4d2c0f, type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424158, guid: e3a26a06f6e628342bfd0d5eca4d2c0f, type: 2}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3a26a06f6e628342bfd0d5eca4d2c0f, type: 2}

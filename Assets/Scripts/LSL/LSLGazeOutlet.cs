@@ -77,7 +77,7 @@ public class LSLGazeOutlet : MonoBehaviour {
         if (outlet == null)
             return;
 
-        if (FoveInterface.IsEyeTrackingCalibrating())
+        if (useFOVEGazeCast && FoveInterface.IsEyeTrackingCalibrating())
             return;
 
         Raycaster.CASTRET CRET;
