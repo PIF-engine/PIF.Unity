@@ -29,11 +29,11 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="storyName">Name of the story</param>
     public void WriteStoryNameMarkerStart(string storyName)
     {
-        Write("# LSL_MARKER_STORY_" + storyName + "_START");
+        Write("STORY_" + storyName + "_START");
     }
     public void WriteStoryNameMarkerEnd(string storyName)
     {
-        Write("# LSL_MARKER_STORY_" + storyName + "_END");
+        Write("STORY_" + storyName + "_END");
     }
 
     /// <summary>
