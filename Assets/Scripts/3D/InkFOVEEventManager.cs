@@ -106,11 +106,6 @@ public class InkFOVEEventManager : MonoBehaviour
                     advance = true;
                 }
             }
-            else //otherwise we're not waiting for a choice
-            {
-                choiceInput.ClearLastChoice();
-                choiceOutlet.ResponceRecieved();
-            }
         }
 
         //Manual inputs for debugging
@@ -154,6 +149,14 @@ public class InkFOVEEventManager : MonoBehaviour
         if (clear)
         {
             targetDisplay.RemoveText();
+            // a valid choice has been made, reset LSL input if any, send back acknowledgment
+            if (usingLSL)
+            {
+                choiceInput.ClearLastChoice();
+                // NB: reding a "recieved" on keyboard input could confuse the Director?
+                choiceOutlet.ResponceRecieved();
+            }
+            
         }
 
         if (!advance) return;
