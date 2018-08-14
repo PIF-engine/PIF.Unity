@@ -1,4 +1,5 @@
-﻿using Assets.LSL4Unity.Scripts;
+﻿using System;
+using Assets.LSL4Unity.Scripts;
 using Assets.LSL4Unity.Scripts.Common;
 using LSL;
 using System.Collections;
@@ -46,6 +47,17 @@ public class LSLHeadsetOutlet : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        bool connected;
+        try
+        {
+            connected = FoveInterface.IsHardwareConnected();
+        }
+        catch (Exception)
+        {
+            connected = false;
+        }
+        if(!connected) { Destroy(this);}
+
         // initialize the array once
         currentSample = new float[ChannelCount];
 

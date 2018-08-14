@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LSL;
@@ -32,10 +33,7 @@ public class LSLGazeOutlet : MonoBehaviour {
     //do we have someone listening?
     public bool HasConsumer()
     {
-        if (outlet != null)
-            return outlet.have_consumers();
-
-        return false;
+        return outlet != null && outlet.have_consumers();
     }
 
     public string StreamName = "Unity.PIF.VectorName";
@@ -52,7 +50,7 @@ public class LSLGazeOutlet : MonoBehaviour {
 
     private Raycaster raycast;
 
-    public bool useFOVEGazeCast;
+    private bool useFOVEGazeCast;
 
 
     //Set up our array for the current samples
@@ -68,6 +66,14 @@ public class LSLGazeOutlet : MonoBehaviour {
 
         gameObject.AddComponent<Raycaster>();
         raycast = gameObject.GetComponent<Raycaster>();
+        try
+        {
+            useFOVEGazeCast = FoveInterface.IsHardwareConnected();
+        }
+        catch (Exception e)
+        {
+            useFOVEGazeCast = false;
+        }
     }
 
 
@@ -80,22 +86,15 @@ public class LSLGazeOutlet : MonoBehaviour {
         if (useFOVEGazeCast && FoveInterface.IsEyeTrackingCalibrating())
             return;
 
-        Raycaster.CASTRET CRET;
-
         //Will be using the FOVEGazeCast?
-        if(useFOVEGazeCast)
-        {
-            CRET = raycast.DoFOVECast(FOVERig, TargetTMPDisplayPrefab);
-        }
-        else
-        {
-            CRET = raycast.DoScreencast(Input.mousePosition);
-        }
+        var CRET = useFOVEGazeCast ? raycast.DoFOVECast(FOVERig, TargetTMPDisplayPrefab) : raycast.DoScreencast(Input.mousePosition);
         //if (float.IsInfinity(CRET.x)) return; //missed!
         currentSample[0] = CRET.Name;
         currentSample[1] = "" + CRET.x;
         currentSample[2] = "" + CRET.y;
         currentSample[3] = "" + CRET.z;
+
+        Debug.Log("Looking at word: " + CRET.Name);
 
         outlet.push_sample(currentSample, liblsl.local_clock());
         //Debug.Log("Pushed Word Sample");

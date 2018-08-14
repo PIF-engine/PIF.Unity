@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LSL;
@@ -53,6 +54,25 @@ public class LSLEyeVectorOutlet : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //check if FOVE is connected
+        bool connected;
+        try
+        {
+            connected = FoveInterface.IsHardwareConnected();
+        }
+        catch (Exception)
+        {
+            connected = false;
+        }
+
+        if (!connected)
+        {
+            Debug.Log("FOVE not connected. Removing eye vector LSL outlet");
+            Destroy(this);
+            return;
+        }
+
+
         // initialize the array once
         currentSample = new float[ChannelCount];
 

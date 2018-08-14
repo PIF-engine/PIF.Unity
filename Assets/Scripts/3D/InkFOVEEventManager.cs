@@ -1,15 +1,16 @@
-﻿using Ink.Runtime;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+using Ink.Runtime;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Linq;
+using System.Collections.Generic;
 
 public class InkFOVEEventManager : MonoBehaviour
 {
 
     //[SerializeField]
-    public TextAsset storyJSON;
+    public List<TextAsset> storyJSON;
+    public TextAsset startingStory;
     private Story story;
 
     public GameObject TargetTMPDisplayPrefab;
@@ -20,7 +21,12 @@ public class InkFOVEEventManager : MonoBehaviour
     private LSLChoiceInlet choiceInput;
 
     private bool waitForChoice;
+    private bool endOfCurrentStory;
+
     public bool usingLSL;
+
+    private bool onAdvanceCooldown;
+    private bool setup = true;
 
     // Use this for initialization
     void Start()
@@ -33,6 +39,12 @@ public class InkFOVEEventManager : MonoBehaviour
             choiceInput = LSLChoiceInput.GetComponent<LSLChoiceInlet>();
 
 
+        //Randomize the order of the stories
+        var rand = new System.Random();
+        storyJSON = storyJSON.OrderBy( (x) => (rand.Next())).ToList();
+        if(startingStory != null) storyJSON.Insert(0,startingStory);//start with the starting story
+
+
         waitForChoice = false;
 
         // m_Text = canvas.GetComponentInChildren<TextMeshProUGUI>(); 
@@ -40,9 +52,33 @@ public class InkFOVEEventManager : MonoBehaviour
 
     }
 
+    private bool DoSetupCheck()
+    {
+        try
+        { //fove connected
+            bool inSet = FoveInterface.IsEyeTrackingCalibrating();
+            if (inSet == false)
+            {//setup of headset is done!
+                setup = false;
+                choiceOutlet.WriteCustomMarker("xp start");
+                return false;
+            }
+        }
+        catch (Exception)
+        { //no FOVE connected
+            setup = false;
+            return false;
+        }
+        return true;
+    }
     // Update is called once per frame
     void Update()
     {
+        //if we're in setup, dont allow the story to advance until we're out of it
+        if (setup)
+        {
+            if (DoSetupCheck()) return;
+        }
         bool clear = false;
         bool advance = false;
         int choice = -1;
@@ -101,9 +137,12 @@ public class InkFOVEEventManager : MonoBehaviour
             clear = true;
             advance = true;
         }
-        else if (Input.GetKeyDown("space"))
+        else if (Input.GetKeyDown("space") || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
+            if (onAdvanceCooldown) return;
+            onAdvanceCooldown = true;
             advance = true;
+            StartCoroutine("ResetCooldown");
         }
 
 
@@ -116,10 +155,10 @@ public class InkFOVEEventManager : MonoBehaviour
         {
             targetDisplay.RemoveText();
         }
-        if (advance)
-        {
-            AdvanceStory();
-        }
+
+        if (!advance) return;
+        if(endOfCurrentStory) { targetDisplay.RemoveText(); StartStory();}
+        else AdvanceStory();
 
 
     }
@@ -127,7 +166,17 @@ public class InkFOVEEventManager : MonoBehaviour
 
     void StartStory()
     {
-        story = new Story(storyJSON.text);
+        
+        if (storyJSON.Count == 0)
+        {
+            Debug.Log("End of story collection!");
+            choiceOutlet.WriteCustomMarker("xp end");
+            return;
+        }
+
+        endOfCurrentStory = false; //new story!
+        story = new Story(storyJSON[0].text);
+        choiceOutlet.WriteStoryNameMarkerStart(storyJSON[0].name);
         AdvanceStory();
     }
 
@@ -145,7 +194,8 @@ public class InkFOVEEventManager : MonoBehaviour
                 AdvanceStory();
                 return;
             //Newpage filler word to change the page
-            } else if(text == @"NEWPAGE")
+            }
+            if (text == @"NEWPAGE")
             {
                 targetDisplay.RemoveText();
                 AdvanceStory();
@@ -156,30 +206,31 @@ public class InkFOVEEventManager : MonoBehaviour
             targetDisplay.NewLine();
             return;
         } //otherwise, we're either done or waiting for a choice
-        //if we're at a choice, but havent started waiting yet
-        else if (story.currentChoices.Count > 0)
+          //if we're at a choice, but havent started waiting yet
+
+        if (story.currentChoices.Count > 0)
         {             
             //if We're waiting for a choice
-            if (!waitForChoice)
+            if (waitForChoice) return;
+            //start waiting, and display the choices
+            waitForChoice = true;
+            bool logging = targetDisplay.logging;
+            targetDisplay.logging = false;
+            foreach (var t in story.currentChoices)
             {
-                //start waiting, and display the choices
-                waitForChoice = true;
-                bool logging = targetDisplay.logging;
-                targetDisplay.logging = false;
-                for (int i = 0; i < story.currentChoices.Count; i++)
-                {
-                    string ct = story.currentChoices[i].text.Trim();
-                    //Debug.Log(ct);
-                    targetDisplay.NewLine();
-                    targetDisplay.CreateText(ct);
-                }
-                targetDisplay.logging = logging;
+                string ct = t.text.Trim();
+                //Debug.Log(ct);
+                targetDisplay.NewLine();
+                targetDisplay.CreateText(ct);
             }
+            targetDisplay.logging = logging;
         } else
         {
-            //TODO: Add logic for end of story
-            Debug.Log("End of Story!");
-            return;
+            targetDisplay.RemoveText();
+            targetDisplay.CreateText("End of Story!");
+            choiceOutlet.WriteStoryNameMarkerEnd(storyJSON[0].name);
+            endOfCurrentStory = true;
+            storyJSON.RemoveAt(0); //remove this story from the list
             //End of story
         }
 
@@ -210,5 +261,11 @@ public class InkFOVEEventManager : MonoBehaviour
         return true;
     }
 
+
+    private IEnumerator ResetCooldown()
+    {
+        yield return new WaitForSecondsRealtime(.2F);
+        onAdvanceCooldown = false;
+    }
 
 }

@@ -27,9 +27,13 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// Writes a marker at the begining of the stream to say what the story name is
     /// </summary>
     /// <param name="storyName">Name of the story</param>
-    public void WriteStoryNameMarker(string storyName)
+    public void WriteStoryNameMarkerStart(string storyName)
     {
-        Write("STORY: " + storyName);
+        Write("# LSL_MARKER_STORY_" + storyName + "_START");
+    }
+    public void WriteStoryNameMarkerEnd(string storyName)
+    {
+        Write("# LSL_MARKER_STORY_" + storyName + "_END");
     }
 
     /// <summary>
@@ -49,5 +53,10 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     {
         Write("ENDPAGE: " + (pageNum-1));
         Write("NEXTPAGE: " + pageNum);
+    }
+
+    public void WriteCustomMarker(string marker)
+    {
+        Write(marker);
     }
 }
