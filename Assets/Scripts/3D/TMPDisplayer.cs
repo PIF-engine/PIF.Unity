@@ -32,6 +32,7 @@ public class TMPDisplayer : MonoBehaviour
     private int pageNum;
     private int sentenceNum;
     private int wordNum;
+    private string storyName;
 
     public bool logging;
 
@@ -66,6 +67,21 @@ public class TMPDisplayer : MonoBehaviour
             }
         }
 
+    }
+
+    public void StartNewStory(string sname)
+    {
+        storyName = sname;
+        if(markerOutlet != null) markerOutlet.SetStoryName(sname);
+        StartNewStory();
+    }
+
+    public void StartNewStory()
+    {
+        pageNum = 0;
+        sentenceNum = 0;
+        wordNum = 0;
+        storyChoiceLog = "S";
     }
 
     void UpdateBounds()

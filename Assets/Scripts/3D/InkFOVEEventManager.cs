@@ -179,7 +179,8 @@ public class InkFOVEEventManager : MonoBehaviour
 
         endOfCurrentStory = false; //new story!
         story = new Story(storyJSON[0].text);
-        choiceOutlet.WriteStoryNameMarkerStart(storyJSON[0].name);
+        targetDisplay.StartNewStory(storyJSON[0].name);
+        choiceOutlet.WriteStoryNameMarkerStart();    
         AdvanceStory();
     }
 
@@ -231,7 +232,7 @@ public class InkFOVEEventManager : MonoBehaviour
         {
             targetDisplay.RemoveText();
             targetDisplay.CreateText("End of Story!");
-            choiceOutlet.WriteStoryNameMarkerEnd(storyJSON[0].name);
+            choiceOutlet.WriteStoryNameMarkerEnd();
             endOfCurrentStory = true;
             storyJSON.RemoveAt(0); //remove this story from the list
             //End of story

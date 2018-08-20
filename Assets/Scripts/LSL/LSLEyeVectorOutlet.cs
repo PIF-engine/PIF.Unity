@@ -142,8 +142,10 @@ public class LSLEyeVectorOutlet : MonoBehaviour
             //Otherwise, we project our gaze convergence onto a 2D plane inline with the display
             intersectionplane.Raycast(dat.ray, out dist);
 
-            if (dist <= 0) dist = 0; //location to 0,0,0 if we miss our cast
-            endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
+            if (dist <= 0)
+                endpoint = Vector3.negativeInfinity; // set the vector to negative infinity to indicate a miss
+            else
+                endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
         }
 
         //Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());

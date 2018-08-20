@@ -10,6 +10,13 @@ public class LSLChoiceOutlet : LSLMarkerStream {
 
     private const string unique_source_id = "A256CFBDAA314B8D8CFA64140A219D31";
 
+    private string storyName = "";
+
+    public void SetStoryName(string sname)
+    {
+        storyName = sname;
+    }
+
     /// <summary>
     /// Sends a marker to the director requesting it to make a decision on what story tree to go down
     /// </summary>
@@ -27,11 +34,11 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// Writes a marker at the begining of the stream to say what the story name is
     /// </summary>
     /// <param name="storyName">Name of the story</param>
-    public void WriteStoryNameMarkerStart(string storyName)
+    public void WriteStoryNameMarkerStart()
     {
         Write("STORY_" + storyName + "_START");
     }
-    public void WriteStoryNameMarkerEnd(string storyName)
+    public void WriteStoryNameMarkerEnd()
     {
         Write("STORY_" + storyName + "_END");
     }
@@ -42,7 +49,7 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="storyChoiceLog">The string representing the story choice log</param>
     public void WriteStoryTreeMarker(string storyChoiceLog)
     {
-        Write("CHOICELOG: " + storyChoiceLog);
+        Write("CHOICELOG_" + storyName + ": " + storyChoiceLog);
     }
 
     /// <summary>
@@ -51,8 +58,8 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="pageNum">The page number that has has begun to be displayed</param>
     public void WriteStoryPageMarker(int pageNum)
     {
-        Write("ENDPAGE: " + (pageNum-1));
-        Write("NEXTPAGE: " + pageNum);
+        Write("ENDPAGE_" + storyName + ": " + (pageNum-1));
+        Write("NEXTPAGE_" + storyName + ": " + pageNum);
     }
 
     public void WriteCustomMarker(string marker)
