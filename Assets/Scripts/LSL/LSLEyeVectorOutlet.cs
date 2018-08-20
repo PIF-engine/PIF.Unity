@@ -23,6 +23,11 @@ public class LSLEyeVectorOutlet : MonoBehaviour
 
     private double dataRate;
 
+
+    //This is the plane we will be projecting onto for our endpoint
+    private Plane intersectionplane;
+    private GameObject planeTransform;
+
     public double GetDataRate()
     {
         return dataRate;
@@ -92,6 +97,10 @@ public class LSLEyeVectorOutlet : MonoBehaviour
                 isInvalid = true;
             }
         }
+
+        planeTransform = GameObject.FindGameObjectWithTag("IntersectionPlane");
+        intersectionplane = new Plane();
+        intersectionplane.SetNormalAndPosition(Vector3.forward,planeTransform.transform.position);
     }
 
     /// <summary>
@@ -122,12 +131,19 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         var dat = foveHeadset.GetWorldGazeConvergence();
         if (coll != null)
         {
-            endpoint = coll.transform.position;
+            endpoint = coll.transform.position; //if we found a collider (A word), send that position
         }
         else
         {
+            //endpoint = dat.ray.origin + (dat.ray.direction * dat.distance); original, not relevant now
 
-            endpoint = dat.ray.origin + (dat.ray.direction * dat.distance);
+
+            float dist = 0; //distance from headset to plane will be negative if the user is not looking at the plane
+            //Otherwise, we project our gaze convergence onto a 2D plane inline with the display
+            intersectionplane.Raycast(dat.ray, out dist);
+
+            if (dist <= 0) dist = 0; //location to 0,0,0 if we miss our cast
+            endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
         }
 
         //Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());
