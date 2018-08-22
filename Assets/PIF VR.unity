@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lslStreamName: Unity.Ink.Choice.Request
-  lslStreamType: Choice.Request
+  lslStreamType: Markers
 --- !u!4 &1828031463
 Transform:
   m_ObjectHideFlags: 0

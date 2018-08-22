@@ -111,7 +111,7 @@ namespace Director
 
         public void ProcessChoiceMarker()
         {
-            liblsl.StreamInfo[] results = liblsl.resolve_stream("type", "Choice.Request");
+            liblsl.StreamInfo[] results = liblsl.resolve_stream("type", "Markers");
             liblsl.StreamInlet inlet = new liblsl.StreamInlet(results[0]);
 
             string[] sample = new string[1];
