@@ -13,9 +13,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inkLibrary:
   - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 4b16f3566730e7344b829c49931eb4bb, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 02b2179029f0f9f45b8502ef77ad5646, type: 3}
+  - compileAutomatically: 0
     inkAsset: {fileID: 102900000, guid: ca673226a9c53f340929a91a5b767e14, type: 3}
     jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: ff4bc9967b863324ebf5cda75a76dcd6, type: 3}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 47964b87553457a49888f1b1f731d672, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 8a12e94cc9bf24d4780c77d1741d943f, type: 3}
+  - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 998a640c266f06a4e87162e8c159ea4a, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: d481b6c26f9ee7e47a56902e440d61ae, type: 3}
   - compileAutomatically: 0
     inkAsset: {fileID: 102900000, guid: 86fe133faeab7384c8530fab6f9eb95b, type: 3}
     jsonAssetPath: {fileID: 0}
@@ -36,5 +48,6 @@ MonoBehaviour:
     inkAsset: {fileID: 102900000, guid: 1460e815e969b43b8a83a7caa8b48c27, type: 3}
     jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
-  pendingCompilationStack: []
+  pendingCompilationStack:
+  - Assets/Ink/apartmenthouseSYMBOL.ink
   compilationStack: []
