@@ -3,7 +3,7 @@ LSL Outlet Documentation and Datastructure:
 LSL Gaze Outlet
 Description: This outlet GazeCasts and looks for a collision with a word. If we find the word, we send the words location along with what word we hit. If we miss, we send MISSED along with a vector of negative infinity
 Stream Type: Unity.VectorName
-Poling Rate: Every Fixed Update
+Poling Rate: Late Update, last event that fires before the next update event. Done so we dont gazecast between frames
 Structure: Array of Strings, size 4. (To prevent casting issues, as LSL4Unity doesnt support mixed datatype streams)
 [0]: Collider Name
 [1]: Collider X value, world space. Not nessessary info (EyeVector gives more accurate results), but is included for completion
