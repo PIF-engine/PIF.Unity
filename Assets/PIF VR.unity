@@ -213,10 +213,10 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -231,7 +231,7 @@ Canvas:
   m_GameObject: {fileID: 396861760}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1537799700}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1266,7 +1266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.VectorName
   StreamType: Unity.VectorName
-  sampling: 1
+  sampling: 2
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   FOVERig: {fileID: 1661741242}
 --- !u!224 &1469781285
@@ -1445,7 +1445,12 @@ Prefab:
     - target: {fileID: 114000010313761880, guid: 042142d01b081ab4ca555ec74a04c2cb,
         type: 2}
       propertyPath: skipAutoCalibrationCheck
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114015601388341212, guid: 042142d01b081ab4ca555ec74a04c2cb,
+        type: 2}
+      propertyPath: targetFrameRate
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}

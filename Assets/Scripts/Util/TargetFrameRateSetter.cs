@@ -5,10 +5,10 @@ using UnityEngine;
 public class TargetFrameRateSetter : MonoBehaviour {
 
 
-    public int targetFrameRate = -1;
+    public int targetFrameRate = 90;
 
 	[ExecuteInEditMode]
-	void Update () {
+	void Awake () {
         Application.targetFrameRate = targetFrameRate;
 
     }

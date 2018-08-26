@@ -143,7 +143,7 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         {
             endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
             endpoint = planeTransform.transform.InverseTransformPoint(endpoint); // and turn it into a relative number
-            Debug.Log("Endpoint: " + endpoint.ToString());
+            //Debug.Log("Endpoint: " + endpoint.ToString());
         }
 
 

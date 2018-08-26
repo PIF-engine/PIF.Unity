@@ -109,11 +109,13 @@ public class LSLScreenProjectionOutlet : MonoBehaviour {
 
         var endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
 
+        endpoint = projectionCanvasTransform.InverseTransformPoint(endpoint);
+
         currentSample[0] = endpoint.x;
         currentSample[1] = endpoint.y;
         outlet.push_sample(currentSample, liblsl.local_clock());
-        Debug.Log("Pushed ScreenPlane Sample: " + endpoint.ToString());
-        Debug.Log("Dist to ScreenPlane: " + dist);
+       // Debug.Log("Pushed ScreenPlane Sample: " + endpoint.ToString());
+       // Debug.Log("Dist to ScreenPlane: " + dist);
 
     }
 
