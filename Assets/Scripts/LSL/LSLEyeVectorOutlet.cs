@@ -140,7 +140,11 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         if (dist <= 0)
             endpoint = Vector3.negativeInfinity; // set the vector to negative infinity to indicate a miss
         else
+        {
             endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
+            endpoint = planeTransform.transform.InverseTransformPoint(endpoint); // and turn it into a relative number
+            Debug.Log("Endpoint: " + endpoint.ToString());
+        }
 
 
         //Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());
