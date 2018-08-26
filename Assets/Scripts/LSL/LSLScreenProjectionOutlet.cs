@@ -25,7 +25,7 @@ public class LSLScreenProjectionOutlet : MonoBehaviour {
 
     //This is the plane we will be projecting onto for our endpoint
     private Plane intersectionplane;
-    private RectTransform planeTransform;
+    //private RectTransform planeTransform;
 
     public double GetDataRate()
     {
@@ -111,8 +111,8 @@ public class LSLScreenProjectionOutlet : MonoBehaviour {
 
         endpoint = projectionCanvasTransform.InverseTransformPoint(endpoint);
 
-        float woff = planeTransform.rect.width / 2;
-        float hoff = planeTransform.rect.height / 2;
+        float woff = projectionCanvasTransform.rect.width / 2;
+        float hoff = projectionCanvasTransform.rect.height / 2;
 
         endpoint = endpoint + new Vector3(woff, hoff,0);//convert from center of screen to top left coords, and push the sample
 
@@ -122,7 +122,7 @@ public class LSLScreenProjectionOutlet : MonoBehaviour {
 
         outlet.push_sample(currentSample, liblsl.local_clock());
         Debug.Log("Pushed ScreenPlane Sample: " + endpoint.ToString());
-        Debug.Log("Dist to ScreenPlane: " + dist);
+        //Debug.Log("Dist to ScreenPlane: " + dist);
 
     }
 

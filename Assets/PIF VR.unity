@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 396861764}
   - component: {fileID: 396861763}
   - component: {fileID: 396861762}
+  - component: {fileID: 396861765}
   m_Layer: 0
   m_Name: IntersectionCanvas
   m_TagString: Untagged
@@ -218,7 +219,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -231,7 +232,7 @@ Canvas:
   m_GameObject: {fileID: 396861760}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1537799700}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -243,6 +244,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &396861765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 396861760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c0c69cabd700748a2c4aad9db969c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intersectionCanvas: {fileID: 396861764}
 --- !u!1 &538268280
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,9 +1028,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyJSON:
-  - {fileID: 4900000, guid: 02b2179029f0f9f45b8502ef77ad5646, type: 3}
-  - {fileID: 4900000, guid: d481b6c26f9ee7e47a56902e440d61ae, type: 3}
-  startingStory: {fileID: 4900000, guid: d39ed9bdb7c07d74e81fad897ba90ec2, type: 3}
+  - {fileID: 4900000, guid: d39ed9bdb7c07d74e81fad897ba90ec2, type: 3}
+  startingStory: {fileID: 0}
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   LSLChoiceOutlet: {fileID: 1828031461}
   LSLChoiceInput: {fileID: 787827172}
