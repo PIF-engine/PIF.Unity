@@ -71,7 +71,7 @@ public class LSLHeadsetOutlet : MonoBehaviour {
     /// <summary>
     /// This method pushes our EyeConv data sample. It is called according to the sampling rate.
     /// Our sample is six floats. The first 3 are the x,y,z vector for eyeDirection
-    /// The second 3 are the x,y,z location of the point of covergance
+    /// The second 4 are the w,,x,y,z, as  quartination, location of the point of covergance
     /// </summary>
     private void pushSample()
     {

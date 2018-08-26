@@ -22,6 +22,7 @@ public class InkFOVEEventManager : MonoBehaviour
 
     private bool waitForChoice;
     private bool endOfCurrentStory;
+    private bool endOfExperiment = false;
 
     public bool usingLSL;
 
@@ -74,6 +75,7 @@ public class InkFOVEEventManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (endOfExperiment) return;
         //if we're in setup, dont allow the story to advance until we're out of it
         if (setup)
         {
@@ -174,6 +176,7 @@ public class InkFOVEEventManager : MonoBehaviour
         {
             Debug.Log("End of story collection!");
             choiceOutlet.WriteCustomMarker("xp end");
+            endOfExperiment = true;
             return;
         }
 
@@ -187,6 +190,7 @@ public class InkFOVEEventManager : MonoBehaviour
 
     void AdvanceStory()
     {
+        if (endOfExperiment) return;
         //if the story can continue, continue it
         if (story.canContinue)
         {

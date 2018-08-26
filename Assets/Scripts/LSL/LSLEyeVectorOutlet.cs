@@ -100,7 +100,7 @@ public class LSLEyeVectorOutlet : MonoBehaviour
 
         planeTransform = GameObject.FindGameObjectWithTag("IntersectionPlane");
         intersectionplane = new Plane();
-        intersectionplane.SetNormalAndPosition(Vector3.forward,planeTransform.transform.position);
+        intersectionplane.SetNormalAndPosition(Vector3.forward, planeTransform.transform.position);
     }
 
     /// <summary>
@@ -129,24 +129,19 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         Vector3 endpoint;
 
         var dat = foveHeadset.GetWorldGazeConvergence();
-        if (coll != null)
-        {
-            endpoint = coll.transform.position; //if we found a collider (A word), send that position
-        }
+
+        //endpoint = dat.ray.origin + (dat.ray.direction * dat.distance); original, not relevant now
+
+
+        float dist = 0; //distance from headset to plane will be negative if the user is not looking at the plane
+                        //Otherwise, we project our gaze convergence onto a 2D plane inline with the display
+        intersectionplane.Raycast(dat.ray, out dist);
+
+        if (dist <= 0)
+            endpoint = Vector3.negativeInfinity; // set the vector to negative infinity to indicate a miss
         else
-        {
-            //endpoint = dat.ray.origin + (dat.ray.direction * dat.distance); original, not relevant now
+            endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
 
-
-            float dist = 0; //distance from headset to plane will be negative if the user is not looking at the plane
-            //Otherwise, we project our gaze convergence onto a 2D plane inline with the display
-            intersectionplane.Raycast(dat.ray, out dist);
-
-            if (dist <= 0)
-                endpoint = Vector3.negativeInfinity; // set the vector to negative infinity to indicate a miss
-            else
-                endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
-        }
 
         //Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());
 

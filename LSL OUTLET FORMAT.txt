@@ -1,0 +1,54 @@
+LSL Outlet Documentation and Datastructure:
+
+LSL Gaze Outlet
+Description: This outlet GazeCasts and looks for a collision with a word. If we find the word, we send the words location along with what word we hit. If we miss, we send MISSED along with a vector of negative infinity
+Stream Type: Unity.VectorName
+Poling Rate: Every Fixed Update
+Structure: Array of Strings, size 4. (To prevent casting issues, as LSL4Unity doesnt support mixed datatype streams)
+[0]: Collider Name
+[1]: Collider X value, world space. Not nessessary info (EyeVector gives more accurate results), but is included for completion
+[2]: Collider Y value, world space. See note on X value
+[3]: Collider Z value, world space. Not strictly nessessary, as it will not change, but included for completion
+
+
+LSL Eye Vector Outlet
+Description: This outlet deals with all datagathering related to the eyes and their directional vectors. It also is overloaded to handle pupil dilation
+Stream Type: Unity.EyeConvergance
+Poling Rate: Every Fixed Update
+Structure: Array of Floats, size  10
+[0-2]: Vector that represents the current direction the left eye is facing
+[3-5]: Vector that represents the current direction the right eye is facing
+[6-8]: The convergance point of the users gaze, projected onto a 2D plane with a normal equal to the reading surface. The origin of this plane (AKA, 0,0,0 on the projection) is the top left screw. This can easily be changed by moving the IntersectionPlane gameObject under the Stand gameobject to the location required. Will send negative infinity if the data would be garbage (AKA, a projection with a negative distance -> a miss)
+[9]: Pupil Dilation, normalized with 1.0 being the average value found during calibration
+
+
+LSL Headset Outlet
+Description: This outlet sends all data related to the actual position of the headmounted display. Currently only sends the rotation vector as a quaternion. 
+Stream Type: Unity.HeadsetPosRot
+Poling Rate: Every Fixed Update
+Structure: Array of Floats, size 7
+[0-2]: Headset Position in LOCAL SPACE (aka, relative to starting position). Currently disabled due to bugs in the FOVE tracking
+[3-6]: Headset Rotation as a Quaternion, with the structure w,x,y,z
+
+
+LSL Screen Projection Outlet
+Description: This outlet sends an x,y value for the users gaze on the physical screen of the FOVE device. 0,0 would be the eyes looking at the top left, while 607,465 would be the bottom right.
+Stream Type: Unity.ScreenCoordinates
+Poling Rate: Every Fixed Update
+Structure: Array of Floats, Size 2
+[0]: X value of the gaze convergence, projected into screen coordinates
+[1]: Y value of the gaze convergence, projected into screen coordinates
+
+
+LSL Marker Outlet
+Description: The catch-all outlet for all markers we send
+Stream Type: Markers
+Poling Rate: Does not poll
+Structure: A single string, sent when nessessary
+
+
+
+
+Appendix:
+Word Collider Name Format, for use in the GazeOutlet
+Each word's collider name contains information about the current state of the experiment. Each word is formatted as ({0},P{1})_%w, where %w is the word, {0} is the current choice log (Descisions made by the director) and P{1} is the current page number of the story (P3 would be page three. That is, we have cleared the page three times).

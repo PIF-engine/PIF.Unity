@@ -31,6 +31,7 @@ public class TMPDisplayer : MonoBehaviour
     private Regex closetagrgx;
     private int pageNum;
     private int sentenceNum;
+    private int lineNum;
     private int wordNum;
     private string storyName;
 
@@ -53,6 +54,7 @@ public class TMPDisplayer : MonoBehaviour
         pageNum = 0;
         sentenceNum = 0;
         wordNum = 0;
+        lineNum = 0;
 
         //setup log
 
@@ -146,7 +148,7 @@ public class TMPDisplayer : MonoBehaviour
 
             var wordBounds = new GameObject();
             activeBounds.Add(wordBounds);
-            wordBounds.name = String.Format("({0})_", storyChoiceLog) + word; //(pg,wrdnm) as unique identifier for word
+            wordBounds.name = String.Format("({0},P{1})_", storyChoiceLog, pageNum) + word; //(Choice, Page, Line) as unique identifier for word
             wordNum++; //Next word
             var coll = wordBounds.AddComponent<BoxCollider>();
             coll.transform.SetParent(transform);
@@ -181,6 +183,7 @@ public class TMPDisplayer : MonoBehaviour
         pageNum++;
         sentenceNum = 0; //reset our counters again
         wordNum = 0;
+        lineNum = 0;
         UpdateBounds();
         markerOutlet.WriteStoryPageMarker(pageNum);
         Debug.Log("page++");
@@ -189,6 +192,7 @@ public class TMPDisplayer : MonoBehaviour
     public void NewLine()
     {
         text += "\n";
+        lineNum++;
         logBlankLine();
     }
 
