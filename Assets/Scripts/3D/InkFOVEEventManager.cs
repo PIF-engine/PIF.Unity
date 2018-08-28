@@ -226,6 +226,7 @@ public class InkFOVEEventManager : MonoBehaviour
                 int choiceCount = story.currentChoices.Count;
                 var r = new Random();
                 MakeChoice(r.Next(0, choiceCount));
+                targetDisplay.RemoveText(); //Clear screen for the test runs
                 return;
             }
             //start waiting, and display the choices

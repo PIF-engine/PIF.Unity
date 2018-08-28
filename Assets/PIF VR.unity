@@ -1028,8 +1028,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyJSON:
-  - {fileID: 4900000, guid: d39ed9bdb7c07d74e81fad897ba90ec2, type: 3}
-  startingStory: {fileID: 0}
+  - {fileID: 4900000, guid: d481b6c26f9ee7e47a56902e440d61ae, type: 3}
+  startingStory: {fileID: 4900000, guid: 02b2179029f0f9f45b8502ef77ad5646, type: 3}
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   LSLChoiceOutlet: {fileID: 1828031461}
   LSLChoiceInput: {fileID: 787827172}
@@ -1443,7 +1443,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1645652068882044, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 20000013469000644, guid: 042142d01b081ab4ca555ec74a04c2cb,
         type: 2}

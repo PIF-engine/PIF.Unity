@@ -21,6 +21,10 @@ MonoBehaviour:
     jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: ff4bc9967b863324ebf5cda75a76dcd6, type: 3}
   - compileAutomatically: 0
+    inkAsset: {fileID: 102900000, guid: 0947c41a57357e243901f26a8bd750ad, type: 3}
+    jsonAssetPath: {fileID: 0}
+    jsonAsset: {fileID: 4900000, guid: 66f692c6c0272494e95446e745bccc4a, type: 3}
+  - compileAutomatically: 0
     inkAsset: {fileID: 102900000, guid: 47964b87553457a49888f1b1f731d672, type: 3}
     jsonAssetPath: {fileID: 0}
     jsonAsset: {fileID: 4900000, guid: 8a12e94cc9bf24d4780c77d1741d943f, type: 3}
@@ -50,4 +54,5 @@ MonoBehaviour:
     jsonAsset: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
   pendingCompilationStack:
   - Assets/Ink/apartmenthouseSYMBOL.ink
+  - Assets/Ink/stealingbikeSYMBOLS.ink
   compilationStack: []

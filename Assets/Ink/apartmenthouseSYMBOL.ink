@@ -167,7 +167,7 @@ NEWLINE
 
 I removed my shoes, secured my backpack and put the drugged chloroform cloth in a small plastic bag in my pocket.
 
-NEWLINE
+NEWPAGE
 
 I tiptoed towards the sound of his breathing and found a white haired elderly man lying straight on his back. 
 
