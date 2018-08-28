@@ -4,6 +4,7 @@ using Ink.Runtime;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using Random = System.Random;
 
 public class InkFOVEEventManager : MonoBehaviour
 {
@@ -219,7 +220,14 @@ public class InkFOVEEventManager : MonoBehaviour
         if (story.currentChoices.Count > 0)
         {             
             //if We're waiting for a choice
-            if (waitForChoice) return;
+            if (waitForChoice)
+            {
+                //We pick a random branch to go down
+                int choiceCount = story.currentChoices.Count;
+                var r = new Random();
+                MakeChoice(r.Next(0, choiceCount));
+                return;
+            }
             //start waiting, and display the choices
             waitForChoice = true;
             bool logging = targetDisplay.logging;
