@@ -84,7 +84,7 @@ public class Raycaster : MonoBehaviour {
         } else
         {
             //Debug.Log("Missed!");
-            ret = ParseCast("MISSED CAST!", Vector3.negativeInfinity);
+            ret = ParseCast("M", Vector3.negativeInfinity);
         }
 
 
