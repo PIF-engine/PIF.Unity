@@ -111,10 +111,18 @@ public class LSLScreenProjectionOutlet : MonoBehaviour {
 
         endpoint = projectionCanvasTransform.InverseTransformPoint(endpoint);
 
+        //offsets for center of canvas to top left point
         float woff = projectionCanvasTransform.rect.width / 2;
-        float hoff = projectionCanvasTransform.rect.height / 2;
+        float hoff = -projectionCanvasTransform.rect.height / 2;
 
-        endpoint = endpoint + new Vector3(woff, hoff,0);//convert from center of screen to top left coords, and push the sample
+        endpoint = endpoint + new Vector3(woff, hoff,0);//convert from center of screen to top left coords
+
+        //normalized screen coords.
+        //Thus, 0,0 will be the top left, and 1,1 will be the bottom right of the tablet. NOTE: values can be outside this range, and will be negative or greater than 1!
+        float xNorm = endpoint.x / projectionCanvasTransform.rect.width; //(origin - position) / scale. Origin is 0,0, so it is ignored
+        float yNorm = endpoint.y / projectionCanvasTransform.rect.height; 
+
+        endpoint = new Vector3(xNorm,yNorm);// update to the normalized version, and push the sample
 
         currentSample[0] = endpoint.x; 
         currentSample[1] = endpoint.y; 

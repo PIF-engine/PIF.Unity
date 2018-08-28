@@ -45,7 +45,7 @@ public class LSLEyeVectorOutlet : MonoBehaviour
 
     public string StreamName = "Unity.PIF.EyeConvergance";
     public string StreamType = "Unity.EyeConvergance";
-    private const int ChannelCount = 10; // {  Vector3 EyeLeft, Vector3 EyeRight, Vector3 ConvergPnt, float pupilSize }
+    private const int ChannelCount = 12; // see LSL OUTLET FORMAT.txt for layout
 
     public MomentForSampling sampling;
 
@@ -129,6 +129,8 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         Vector3 endpoint;
 
         var dat = foveHeadset.GetWorldGazeConvergence();
+        var convPoint = dat.ray.GetPoint(dat.distance); //the convergance point in world space
+
 
         //endpoint = dat.ray.origin + (dat.ray.direction * dat.distance); original, not relevant now
 
@@ -146,6 +148,11 @@ public class LSLEyeVectorOutlet : MonoBehaviour
             //Debug.Log("Endpoint: " + endpoint.ToString());
         }
 
+        //normalized coordinates for endpoint. xDist -> .75, yDist -> .5
+        //Thus, 0,0 will be the top left, and 1,1 will be the bottom right of the tablet. NOTE: values can be outside this range, and will be negative or greater than 1!
+        float xNorm = (endpoint.x - planeTransform.transform.position.x) / .75F; //(origin - position) / scale
+        float yNorm = (endpoint.y - planeTransform.transform.position.y) / -.5F; //Negative so that the negative y is positive, as the intersection plane is at the top left
+
 
         //Debug.Log("Attension Value: " + FoveInterfaceBase.GetAttentionValue());
 
@@ -159,13 +166,17 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         currentSample[4] = eyeDirRight.y;
         currentSample[5] = eyeDirRight.z;
 
-        //Converg Point
-        currentSample[6] = endpoint.x;
-        currentSample[7] = endpoint.y;
-        currentSample[8] = endpoint.z;
+        //Converg Point, Normalized
+        currentSample[6] = xNorm;
+        currentSample[7] = yNorm;
+
+        //Real convergance point, not projected
+        currentSample[8] = convPoint.x;
+        currentSample[9] = convPoint.y; 
+        currentSample[10] = convPoint.z; 
 
         //pupilSize
-        currentSample[9] = dat.pupilDilation;
+        currentSample[11] = dat.pupilDilation;
 
         outlet.push_sample(currentSample, liblsl.local_clock());
         //Debug.Log("Pushed EyeConv Sample");

@@ -18,8 +18,9 @@ Poling Rate: Every Fixed Update
 Structure: Array of Floats, size  10
 [0-2]: Vector that represents the current direction the left eye is facing
 [3-5]: Vector that represents the current direction the right eye is facing
-[6-8]: The convergance point of the users gaze, projected onto a 2D plane with a normal equal to the reading surface. The origin of this plane (AKA, 0,0,0 on the projection) is the top left screw. This can easily be changed by moving the IntersectionPlane gameObject under the Stand gameobject to the location required. Will send negative infinity if the data would be garbage (AKA, a projection with a negative distance -> a miss)
-[9]: Pupil Dilation, normalized with 1.0 being the average value found during calibration
+[6,7]: The convergance point of the users gaze, projected onto a 2D plane with a normal equal to the reading surface. The origin of this plane (AKA, 0,0 on the projection) is the top left screw. This can easily be changed by moving the IntersectionPlane gameObject under the Stand gameobject to the location required. Will send negative infinity if the data would be garbage (AKA, a projection with a negative distance -> a miss). This data is normalized, with 0,0 being the top left screw, and 1,1 being the bottom right
+[8-10]: The actual convergence point in world space. No alterations to this number are made
+[11]: Pupil Dilation, normalized with 1.0 being the average value found during calibration
 
 
 LSL Headset Outlet

@@ -22,12 +22,12 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// </summary>
     public void RequestResponceMarker()
     {
-        Write("request");
+       // Write("request"); //Not in use currently
     }
 
     public void ResponceRecieved()
     {
-        Write("recieved");
+       // Write("recieved");
     }
 
     /// <summary>

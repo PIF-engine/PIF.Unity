@@ -148,7 +148,7 @@ public class TMPDisplayer : MonoBehaviour
 
             var wordBounds = new GameObject();
             activeBounds.Add(wordBounds);
-            wordBounds.name = String.Format("({0},P{1})_", storyChoiceLog, pageNum) + word; //(Choice, Page, Line) as unique identifier for word
+            wordBounds.name = String.Format("({0},S{1},P{2})_", storyChoiceLog, storyName, pageNum) + word; //(Choice, Story, Page) as unique identifier for word
             wordNum++; //Next word
             var coll = wordBounds.AddComponent<BoxCollider>();
             coll.transform.SetParent(transform);
