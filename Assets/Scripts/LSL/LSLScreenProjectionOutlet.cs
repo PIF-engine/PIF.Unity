@@ -122,14 +122,14 @@ public class LSLScreenProjectionOutlet : MonoBehaviour {
         float xNorm = endpoint.x / projectionCanvasTransform.rect.width; //(origin - position) / scale. Origin is 0,0, so it is ignored
         float yNorm = endpoint.y / projectionCanvasTransform.rect.height; 
 
-        endpoint = new Vector3(xNorm,yNorm);// update to the normalized version, and push the sample
+        endpoint = new Vector3(xNorm,-yNorm);// update to the normalized version, and push the sample
 
         currentSample[0] = endpoint.x; 
         currentSample[1] = endpoint.y; 
 
 
         outlet.push_sample(currentSample, liblsl.local_clock());
-        Debug.Log("Pushed ScreenPlane Sample: " + endpoint.ToString());
+        Debug.Log("Pushed ScreenPlane Sample: " + endpoint);
         //Debug.Log("Dist to ScreenPlane: " + dist);
 
     }

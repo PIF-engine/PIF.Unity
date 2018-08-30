@@ -184,6 +184,7 @@ public class InkFOVEEventManager : MonoBehaviour
         endOfCurrentStory = false; //new story!
         story = new Story(storyJSON[0].text);
         targetDisplay.StartNewStory(storyJSON[0].name);
+        choiceOutlet.SetStoryName(storyJSON[0].name);
         choiceOutlet.WriteStoryNameMarkerStart();    
         AdvanceStory();
     }

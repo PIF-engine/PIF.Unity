@@ -36,11 +36,11 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="storyName">Name of the story</param>
     public void WriteStoryNameMarkerStart()
     {
-        Write("STORY_" + storyName + "_START");
+        Write("STORY_" + storyName + "_START", liblsl.local_clock());
     }
     public void WriteStoryNameMarkerEnd()
     {
-        Write("STORY_" + storyName + "_END");
+        Write("STORY_" + storyName + "_END", liblsl.local_clock());
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="storyChoiceLog">The string representing the story choice log</param>
     public void WriteStoryTreeMarker(string storyChoiceLog)
     {
-        Write("CHOICELOG_" + storyName + ": " + storyChoiceLog);
+        Write("CHOICELOG_" + storyName + ": " + storyChoiceLog, liblsl.local_clock());
     }
 
     /// <summary>
@@ -58,12 +58,12 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="pageNum">The page number that has has begun to be displayed</param>
     public void WriteStoryPageMarker(int pageNum)
     {
-        Write("ENDPAGE_" + storyName + ": " + (pageNum-1));
-        Write("NEXTPAGE_" + storyName + ": " + pageNum);
+        Write("ENDPAGE_" + storyName + ": " + (pageNum-1), liblsl.local_clock());
+        Write("NEXTPAGE_" + storyName + ": " + pageNum, liblsl.local_clock());
     }
 
     public void WriteCustomMarker(string marker)
     {
-        Write(marker);
+        Write(marker, liblsl.local_clock());
     }
 }

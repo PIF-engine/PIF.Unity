@@ -116,37 +116,21 @@ public class LSLEyeVectorOutlet : MonoBehaviour
         if (FoveInterface.IsEyeTrackingCalibrating())
             return;
 
-        Vector3 eyeDirLeft = FoveInterface.GetLeftEyeVector();
-        Vector3 eyeDirRight = FoveInterface.GetRightEyeVector();
+        var eyeDirLeft = FoveInterface.GetLeftEyeVector();
+        var eyeDirRight = FoveInterface.GetRightEyeVector();
 
         //Convergance Calc. We check for the current bound object first, as reading throws off the convergence number
 
-        TMPDisplayer display = targetTMPDisplay.GetComponent<TMPDisplayer>();
+        var display = targetTMPDisplay.GetComponent<TMPDisplayer>();
         List<GameObject> objects = display.GetActiveBounds();
-
-        Collider coll = Raycaster.GetFOVEGazeRaycastCollider(FOVERig, objects);
-
-        Vector3 endpoint;
 
         var dat = foveHeadset.GetWorldGazeConvergence();
         var convPoint = dat.ray.GetPoint(dat.distance); //the convergance point in world space
 
 
-        //endpoint = dat.ray.origin + (dat.ray.direction * dat.distance); original, not relevant now
-
-
-        float dist = 0; //distance from headset to plane will be negative if the user is not looking at the plane
-                        //Otherwise, we project our gaze convergence onto a 2D plane inline with the display
-        intersectionplane.Raycast(dat.ray, out dist);
-
-        if (dist <= 0)
-            endpoint = Vector3.negativeInfinity; // set the vector to negative infinity to indicate a miss
-        else
-        {
-            endpoint = dat.ray.origin + (dat.ray.direction * dist); //the endpoint on the plane
-            endpoint = planeTransform.transform.InverseTransformPoint(endpoint); // and turn it into a relative number
-            //Debug.Log("Endpoint: " + endpoint.ToString());
-        }
+        //Project onto the intersection plane
+        var endpoint = intersectionplane.ClosestPointOnPlane(convPoint);
+        
 
         //normalized coordinates for endpoint. xDist -> .75, yDist -> .5
         //Thus, 0,0 will be the top left, and 1,1 will be the bottom right of the tablet. NOTE: values can be outside this range, and will be negative or greater than 1!

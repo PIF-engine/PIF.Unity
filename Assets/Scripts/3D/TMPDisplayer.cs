@@ -74,7 +74,6 @@ public class TMPDisplayer : MonoBehaviour
     public void StartNewStory(string sname)
     {
         storyName = sname;
-        if(markerOutlet != null) markerOutlet.SetStoryName(sname);
         StartNewStory();
     }
 
@@ -92,7 +91,7 @@ public class TMPDisplayer : MonoBehaviour
 
         if (activeBounds.Count > 0)
         {
-            activeBounds.ForEach(o => Destroy(o));
+            activeBounds.ForEach(Destroy);
             activeBounds.Clear();
         }
 
