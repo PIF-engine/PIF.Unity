@@ -1028,7 +1028,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyJSON:
+  - {fileID: 4900000, guid: 3112d6be8b9f917459868a52f5471847, type: 3}
   - {fileID: 4900000, guid: 9549b852b7de5cd4981368b324eb2002, type: 3}
+  - {fileID: 4900000, guid: 631f822d087c4ad48bf060bc9cfc61d0, type: 3}
+  - {fileID: 4900000, guid: 2e744c849440e3e4192f7141bedbfdb5, type: 3}
+  - {fileID: 4900000, guid: a9a56e4e98fe58541b8cfa5d56af086f, type: 3}
+  - {fileID: 4900000, guid: 0cda3693b68f0424fb22e782fda70035, type: 3}
   startingStory: {fileID: 0}
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   LSLChoiceOutlet: {fileID: 1828031461}
@@ -1279,7 +1284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.VectorName
   StreamType: Unity.VectorName
-  sampling: 2
+  sampling: 1
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   FOVERig: {fileID: 1661741242}
 --- !u!224 &1469781285
@@ -1443,7 +1448,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1645652068882044, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20000013469000644, guid: 042142d01b081ab4ca555ec74a04c2cb,
         type: 2}
@@ -1463,7 +1468,7 @@ Prefab:
     - target: {fileID: 114015601388341212, guid: 042142d01b081ab4ca555ec74a04c2cb,
         type: 2}
       propertyPath: targetFrameRate
-      value: 90
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 042142d01b081ab4ca555ec74a04c2cb, type: 2}
