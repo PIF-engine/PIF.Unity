@@ -135,7 +135,7 @@ public class Raycaster : MonoBehaviour {
 
         if(coll == null)
         {
-            ret = ParseCast("MISSED CAST!", Vector3.negativeInfinity);
+            ret = ParseCast("M", Vector3.negativeInfinity);
         }
         else
         {
