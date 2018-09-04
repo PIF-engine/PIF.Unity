@@ -10,6 +10,5 @@ public class TargetFrameRateSetter : MonoBehaviour {
 	[ExecuteInEditMode]
 	void Awake () {
         Application.targetFrameRate = targetFrameRate;
-
     }
 }

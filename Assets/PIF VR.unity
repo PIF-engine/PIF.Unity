@@ -285,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.EyeConvergance
   StreamType: Unity.EyeConvergance
-  sampling: 1
+  sampling: 2
   FOVERig: {fileID: 1661741242}
   targetTMPDisplay: {fileID: 0}
 --- !u!4 &538268282
@@ -610,6 +610,21 @@ Prefab:
       propertyPath: m_isRightToLeft
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114683852147871792, guid: 5a718f32d825fcd44ab18bc933f3c83c,
+        type: 2}
+      propertyPath: m_textInfo.lineCount
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a718f32d825fcd44ab18bc933f3c83c, type: 2}
   m_IsPrefabAsset: 0
@@ -836,7 +851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.ScreenProjection
   StreamType: Unity.ScreenCoordinates
-  sampling: 1
+  sampling: 2
   FOVERig: {fileID: 1661741242}
   projectionCanvasTransform: {fileID: 396861761}
 --- !u!1 &1062521645
@@ -1028,12 +1043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyJSON:
-  - {fileID: 4900000, guid: 3112d6be8b9f917459868a52f5471847, type: 3}
-  - {fileID: 4900000, guid: 9549b852b7de5cd4981368b324eb2002, type: 3}
-  - {fileID: 4900000, guid: 631f822d087c4ad48bf060bc9cfc61d0, type: 3}
-  - {fileID: 4900000, guid: 2e744c849440e3e4192f7141bedbfdb5, type: 3}
-  - {fileID: 4900000, guid: a9a56e4e98fe58541b8cfa5d56af086f, type: 3}
-  - {fileID: 4900000, guid: 0cda3693b68f0424fb22e782fda70035, type: 3}
+  - {fileID: 4900000, guid: 8993730c45c46e74cb88a20b9e884636, type: 3}
   startingStory: {fileID: 0}
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   LSLChoiceOutlet: {fileID: 1828031461}
@@ -1284,7 +1294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.VectorName
   StreamType: Unity.VectorName
-  sampling: 1
+  sampling: 2
   TargetTMPDisplayPrefab: {fileID: 1476322100}
   FOVERig: {fileID: 1661741242}
 --- !u!224 &1469781285
@@ -1818,7 +1828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StreamName: Unity.PIF.HeadsetPosRot
   StreamType: Unity.HeadsetPosRot
-  sampling: 1
+  sampling: 2
 --- !u!1 &1880999334
 GameObject:
   m_ObjectHideFlags: 0
