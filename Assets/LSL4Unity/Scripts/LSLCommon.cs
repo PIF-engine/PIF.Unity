@@ -18,6 +18,7 @@ namespace Assets.LSL4Unity.Scripts.Common
         {
             float samplingRateInHertz = 0;
 
+
             if (moment == MomentForSampling.FixedUpdate)
                 samplingRateInHertz = 1000 / (1000 * Time.fixedDeltaTime);
 
@@ -25,13 +26,18 @@ namespace Assets.LSL4Unity.Scripts.Common
             {
                 if (Application.targetFrameRate == DEFAULT_PLATTFORM_SPECIFIC_FRAMERATE && !setRefreshRateToDisplay)
                     throw new InvalidOperationException("When using Update or LateUpdate as sampling moment - specify a target frameRate");
-                else if (setRefreshRateToDisplay)
+                else
                 {
-                    Debug.LogWarning("Application.targetFrameRate get set to Screen.currentResolution.refreshRate!");
-                    Application.targetFrameRate = Screen.currentResolution.refreshRate;
+                    // Framerate / refresh rate in frames per seconds, hence already herz
+                    if (setRefreshRateToDisplay)
+                    {
+                        samplingRateInHertz = Screen.currentResolution.refreshRate;
+                    }
+                    else
+                    {
+                        samplingRateInHertz = Application.targetFrameRate;
+                    }
                 }
-
-               samplingRateInHertz = 1 / Application.targetFrameRate;
             }
             
             return samplingRateInHertz;
