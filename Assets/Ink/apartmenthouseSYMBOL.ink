@@ -70,7 +70,7 @@ NEWPAGE
 
 ===apartment1===
 
-Passing by the zooming cars, I speed-walked to the cemetery’s address… How will I find which apartment he lived in? 
+Passing by the zooming cars, I speedwalked to the cemetery’s address… How will I find which apartment he lived in? 
 
 NEWLINE
 
@@ -80,11 +80,11 @@ NEWLINE
 
 As I was walking up the stairs on the fire escape, I felt my arm make contact with some sticky texture. 
 
-NEWLINE 
+NEWPAGE 
 
 I immediately turned my head to see what it was and found that I walked into a shiny spider web.  
 
-NEWPAGE
+NEWLINE
 
 {reaction == "scared": -> scared1 | -> calm1}
 
@@ -141,23 +141,23 @@ I took a few moments to get accustomed to the darkness and looked around trying 
 
 NEWPAGE
 
-Tossing and turning, he was restless.
+<color=red>Tossing and turning, he was restless.</color>
 
 NEWLINE
 
-His love, his daughter, the only one that has taken care of him in his hardest times was gone.
+<color=red>His love, his daughter, the only one that has taken care of him in his hardest times was gone.</color>
 
 NEWLINE
 
-He wondered: 'What’s the meaning of it all?' 
+<color=red>He wondered: 'What’s the meaning of it all?'</color>
 
 NEWLINE
 
-He had always been strong for her, he didn’t want her to feel sorry for him, she was supposed to live her life fully and enjoy it to the very end.
+<color=red>He had always been strong for her, he didn’t want her to feel sorry for him, she was supposed to live her life fully and enjoy it to the very end.</color>
 
-NEWLINE
+NEWPAGE
 
-How could someone so vibrant and full of light be lying lifeless in a grave? 
+<color=red>How could someone so vibrant and full of light be lying lifeless in a grave? </color>
 
 NEWPAGE
 
