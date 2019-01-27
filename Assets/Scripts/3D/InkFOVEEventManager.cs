@@ -21,6 +21,8 @@ public class InkFOVEEventManager : MonoBehaviour
     private LSLChoiceOutlet choiceOutlet;
     private LSLChoiceInlet choiceInput;
 
+    private Dictionary<string, object> variableStates;
+
     private bool waitForChoice;
     private bool endOfCurrentStory;
     private bool endOfExperiment = false;
@@ -31,7 +33,7 @@ public class InkFOVEEventManager : MonoBehaviour
     private bool setup = true;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
 
         targetDisplay = TargetTMPDisplayPrefab.GetComponent<TMPDisplayer>();
@@ -40,6 +42,8 @@ public class InkFOVEEventManager : MonoBehaviour
         if (LSLChoiceInput != null)
             choiceInput = LSLChoiceInput.GetComponent<LSLChoiceInlet>();
 
+
+       
 
         //Randomize the order of the stories
         var rand = new System.Random();
@@ -74,7 +78,7 @@ public class InkFOVEEventManager : MonoBehaviour
         return true;
     }
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (endOfExperiment) return;
         //if we're in setup, dont allow the story to advance until we're out of it
@@ -86,6 +90,12 @@ public class InkFOVEEventManager : MonoBehaviour
         bool advance = false;
         int choice = -1;
 
+        //If our vars have changed here, it means that the change did not originate from LSL
+        if (HasVarsChanged())
+        {
+            Debug.Log("VARS CHANGED!");
+            UpdateVarDictionary(true);
+        }
 
         //if we have a working LSL connection
         if (usingLSL)
@@ -170,7 +180,7 @@ public class InkFOVEEventManager : MonoBehaviour
     }
 
 
-    void StartStory()
+    private void StartStory()
     {
         
         if (storyJSON.Count == 0)
@@ -186,11 +196,79 @@ public class InkFOVEEventManager : MonoBehaviour
         targetDisplay.StartNewStory(storyJSON[0].name);
         choiceOutlet.SetStoryName(storyJSON[0].name);
         choiceOutlet.WriteStoryNameMarkerStart();    
+        UpdateVarDictionary(true);
         AdvanceStory();
     }
 
+    /// <summary>
+    /// Worker function for updating our variable dictionary
+    /// </summary>
+    /// <param name="sendToDirector">Do we push this update to the director?</param>
+    private void UpdateVarDictionary(bool sendToDirector)
+    {
+        variableStates = new Dictionary<string, object>();
+        VariablesState state = story.variablesState;
+        foreach (string v in state)
+        {
+            Debug.Log("name: " + v+ ", type: " + state[v].GetType() + ", value: " + state[v]);
+            if(sendToDirector) choiceOutlet.WriteVariableMarker(v,state[v].GetType(),state[v]);
+            variableStates.Add(v,state[v]);
+        }
+    }
 
-    void AdvanceStory()
+    /// <summary>
+    /// Simple function to tell us if a variable has changed state
+    /// </summary>
+    /// <returns>returns true if our variabledictionary is out of sysnc with the story</returns>
+    public bool HasVarsChanged()
+    {
+        VariablesState state = story.variablesState;
+        foreach (string v in state)
+        {
+            //Debug.Log("Var is " + v + ", " + variableStates[v] + " : " + state[v]);
+            if (variableStates[v].Equals( state[v])) continue;
+            Debug.Log("Vars have changed");
+            Debug.Log("Var is " + v + ", " + variableStates[v] + " : " + state[v]);
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Sets the story state to the variable dictionary (AKA overwrites it)
+    /// </summary>
+    public void SetStateToDict()
+    {
+        VariablesState state = story.variablesState;
+        foreach(string v in state)
+        {
+            state[v] = variableStates[v];
+        }
+    }
+
+    /// <summary>
+    /// Sets the variable dictionary to the story's state (AKA Updates it)
+    /// </summary>
+    public void SetDictToState()
+    {
+        UpdateVarDictionary(false);
+    }
+
+    /// <summary>
+    /// Makes a change to the variabledictionary. Call SetStateToDict() afterward to update the story's state
+    /// </summary>
+    /// <param name="varname">Name of the variable to be changed</param>
+    /// <param name="value">Value it is changed to</param>
+    public void UpdateDict(string varname, object value)
+    {
+        story.variablesState[varname] = value;
+        SetDictToState();
+    }
+
+
+
+
+    private void AdvanceStory()
     {
         if (endOfExperiment) return;
         //if the story can continue, continue it

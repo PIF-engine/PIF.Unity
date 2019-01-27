@@ -66,4 +66,9 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     {
         Write(marker, liblsl.local_clock());
     }
+
+    public void WriteVariableMarker(string varname, System.Type type, object value)
+    {
+        Write("VARIABLEUPDATE:"+varname+":"+type+":"+value);
+    }
 }

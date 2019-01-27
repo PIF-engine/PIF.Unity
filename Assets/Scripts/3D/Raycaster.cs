@@ -62,9 +62,18 @@ public class Raycaster : MonoBehaviour {
         CASTRET ret;
 
         //pos.y = Screen.currentResolution.height - pos.y;
-        Ray ray = Camera.main.ScreenPointToRay(pos);
+        Ray ray;
 
-        ray.origin = (ray.origin - ray.direction * 100);
+        try
+        {
+            ray = Camera.main.ScreenPointToRay(pos);
+        }
+        catch (Exception e)
+        {
+            return ParseCast("Invalid", Vector3.negativeInfinity);
+        }
+
+         ray.origin = (ray.origin - ray.direction * 100);
 
         //Debug.Log("Raycasting from " + pos.ToString());
         
@@ -123,7 +132,6 @@ public class Raycaster : MonoBehaviour {
 #endif   
     }
 
-    //TODO TEST THIS WITH THE FOVE!
     public CASTRET DoFOVECast(GameObject FOVERig, GameObject TargetTMPDisplay)
     {
         CASTRET ret;

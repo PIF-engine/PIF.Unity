@@ -407,12 +407,20 @@ namespace UnityEngine
 		{
 			if (_sNeedsNewRenderPose)
 			{
-				_sLastPose = _compositor.WaitForRenderPose();
-				EnsureLocalDataConcurrency();
+			    try
+			    {
+			        _sLastPose = _compositor.WaitForRenderPose();
+			        
+			    }
+			    catch (Exception e)
+			    {
+			        Debug.LogWarning("FOVE not connected");
+			    }
+			    EnsureLocalDataConcurrency();
 
-				_sHasUpdatedStaticData = false;
-				_sNeedsNewRenderPose = false;
-			}
+			    _sHasUpdatedStaticData = false;
+			    _sNeedsNewRenderPose = false;
+            }
 		}
 
 		/****************************************************************************************************\

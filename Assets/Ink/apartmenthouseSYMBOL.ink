@@ -1,5 +1,6 @@
 VAR location = "house" 
 VAR reaction = "scared"
+VAR num = 3433
 
 * [apartment]
 ~ location = "apartment"
@@ -27,11 +28,11 @@ NEWLINE
 
 I desperately needed the money and promised my sweet sister that I’d get us out of our hell hole of a home.
 
-NEWLINE
+NEWPAGE
 
 I wasn’t your typical delinquent teen despite what others may believe; I just wanted a fresh start. 
 
-NEWPAGE
+NEWLINE
 
 Yet another night had passed and I was still shaken up after my father’s return from the bar, the regular bruises, broken glass, tears and spite remained. 
 
@@ -43,11 +44,11 @@ NEWLINE
 
 As the warm tea flowed down my throat and the tears seeped into my t-shirt, I noticed a newspaper on the seat next to me. 
 
-NEWLINE
+NEWPAGE
 
 I mindlessly flipped through its faded pages and read “Medically retired veteran receives a $500,000 cash settlement over the tragic death of his only daughter”. 
 
-NEWPAGE
+NEWLINE
 
 The paper went on to discuss how the drunken driver was only serving a miniscule amount of prison time as she came from a wealthy… the words began to blur… imagine all the things I could do with this money… I could finally escape.
 
@@ -107,7 +108,7 @@ NEWPAGE
 ===scared1===
 Panic rose in my body and I felt goose bumps forming on my skin, I could not bear the thought of encountering a hairy eight legged vermin right now.
 
-NEWLINE
+NEWPAGE
 
 I tried to balance my breathing, ignored the voices in my head that told me to turn around and go back and focused on my goal: drug him, get the money, leave and restart.
 
@@ -122,7 +123,7 @@ NEWLINE
 
 Seeing a spider would be the least of my issues now. 
 
-NEWLINE
+NEWPAGE
 
 I shook my head and focused on my goal: drug him, get the money, leave and restart.
  
@@ -141,23 +142,23 @@ I took a few moments to get accustomed to the darkness and looked around trying 
 
 NEWPAGE
 
-<color=red>Tossing and turning, he was restless.</color>
+<color=#b5651d>Tossing and turning, he was restless.</color>
 
 NEWLINE
 
-<color=red>His love, his daughter, the only one that has taken care of him in his hardest times was gone.</color>
+<color=#b5651d>His love, his daughter, the only one that has taken care of him in his hardest times was gone.</color>
 
 NEWLINE
 
-<color=red>He wondered: 'What’s the meaning of it all?'</color>
+<color=#b5651d>He wondered: 'What’s the meaning of it all?'</color>
 
 NEWLINE
 
-<color=red>He had always been strong for her, he didn’t want her to feel sorry for him, she was supposed to live her life fully and enjoy it to the very end.</color>
+<color=#b5651d>He had always been strong for her, he didn’t want her to feel sorry for him, she was supposed to live her life fully and enjoy it to the very end.</color>
 
 NEWPAGE
 
-<color=red>How could someone so vibrant and full of light be lying lifeless in a grave? </color>
+<color=#b5651d>How could someone so vibrant and full of light be lying lifeless in a grave? </color>
 
 NEWPAGE
 
