@@ -32,6 +32,10 @@ public class InkFOVEEventManager : MonoBehaviour
     private bool onAdvanceCooldown;
     private bool setup = true;
 
+
+    private static bool varUpdateReady = false;
+    private static string varUpdateCode = "";
+
     // Use this for initialization
     private void Start()
     {
@@ -50,11 +54,16 @@ public class InkFOVEEventManager : MonoBehaviour
         storyJSON = storyJSON.OrderBy( (x) => (rand.Next())).ToList();
         if(startingStory != null) storyJSON.Insert(0,startingStory);//start with the starting story
 
+        //Sends the initial vars to the director as soon as its connected
+        StartCoroutine(SendInitialVarsToDirector());
+        //And start listening for updates
+        StartCoroutine(UpdateVars());
 
         waitForChoice = false;
 
         // m_Text = canvas.GetComponentInChildren<TextMeshProUGUI>(); 
         StartStory();
+
 
     }
 
@@ -262,7 +271,7 @@ public class InkFOVEEventManager : MonoBehaviour
     public void UpdateDict(string varname, object value)
     {
         story.variablesState[varname] = value;
-        SetDictToState();
+        UpdateVarDictionary(true);
     }
 
 
@@ -358,10 +367,49 @@ public class InkFOVEEventManager : MonoBehaviour
     }
 
 
+    public void ProcessUpdateFromDirector(string message)
+    {
+        string[] updates = message.Split(';');
+        foreach (string s in updates)
+        {
+            if (s.Equals("")) continue;
+            var comp = s.Split(':');
+            UpdateDict(comp[0],comp[1]);
+            Debug.Log("Processed update from director: " + comp[0] + "," + comp[1]);
+        }
+    }
+
     private IEnumerator ResetCooldown()
     {
         yield return new WaitForSecondsRealtime(.2F);
         onAdvanceCooldown = false;
+    }
+
+
+    private IEnumerator SendInitialVarsToDirector()
+    {
+        yield return new WaitUntil(() => choiceInput.IsConnected());
+        yield return new WaitForSecondsRealtime(1F);
+        Debug.Log("UPDATED VAR DICT ON STARTUP");
+        UpdateVarDictionary(true);
+    }
+
+    private IEnumerator UpdateVars()
+    {
+        while (true)
+        {
+            yield return new WaitUntil(() => varUpdateReady);
+            varUpdateReady = false;
+            ProcessUpdateFromDirector(varUpdateCode);
+            varUpdateCode = "";
+        }
+    }
+
+    public static void DoDirectorUpdate(string message)
+    {
+        
+        varUpdateCode = message;
+        varUpdateReady = true;
     }
 
 }

@@ -11,6 +11,7 @@ public class LSLChoiceInlet : InletIntSamples {
 
     private int lastChoice = -1;
 
+    [SerializeField]
     private bool connected = false;
 
     protected override void Process(int[] newSample, double timeStamp)
@@ -56,4 +57,9 @@ public class LSLChoiceInlet : InletIntSamples {
         if(manager.IsWaitingForChoice() && connected)
             pullSamples();
 	}
+
+    public bool IsConnected()
+    {
+        return connected;
+    }
 }

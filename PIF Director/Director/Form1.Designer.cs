@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.streamNameText = new System.Windows.Forms.TextBox();
             this.streamNameLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,6 +41,15 @@
             this.Choice2Button = new System.Windows.Forms.Button();
             this.Choice3Button = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
+            this.varGridView = new System.Windows.Forms.DataGridView();
+            this.varNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.currentValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.newValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.inkVarBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.lastVarTextbox = new System.Windows.Forms.TextBox();
+            this.varUpdateButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.varGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inkVarBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // streamNameText
@@ -152,11 +162,71 @@
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click_1);
             // 
+            // varGridView
+            // 
+            this.varGridView.AutoGenerateColumns = false;
+            this.varGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.varGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.varNameDataGridViewTextBoxColumn,
+            this.currentValueDataGridViewTextBoxColumn,
+            this.newValueDataGridViewTextBoxColumn});
+            this.varGridView.DataSource = this.inkVarBindingSource;
+            this.varGridView.Location = new System.Drawing.Point(564, 13);
+            this.varGridView.Name = "varGridView";
+            this.varGridView.RowTemplate.Height = 33;
+            this.varGridView.Size = new System.Drawing.Size(948, 590);
+            this.varGridView.TabIndex = 12;
+            // 
+            // varNameDataGridViewTextBoxColumn
+            // 
+            this.varNameDataGridViewTextBoxColumn.DataPropertyName = "VarName";
+            this.varNameDataGridViewTextBoxColumn.HeaderText = "VarName";
+            this.varNameDataGridViewTextBoxColumn.Name = "varNameDataGridViewTextBoxColumn";
+            this.varNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // currentValueDataGridViewTextBoxColumn
+            // 
+            this.currentValueDataGridViewTextBoxColumn.DataPropertyName = "CurrentValue";
+            this.currentValueDataGridViewTextBoxColumn.HeaderText = "CurrentValue";
+            this.currentValueDataGridViewTextBoxColumn.Name = "currentValueDataGridViewTextBoxColumn";
+            this.currentValueDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // newValueDataGridViewTextBoxColumn
+            // 
+            this.newValueDataGridViewTextBoxColumn.DataPropertyName = "NewValue";
+            this.newValueDataGridViewTextBoxColumn.HeaderText = "NewValue";
+            this.newValueDataGridViewTextBoxColumn.Name = "newValueDataGridViewTextBoxColumn";
+            // 
+            // inkVarBindingSource
+            // 
+            this.inkVarBindingSource.DataSource = typeof(Director.InkVar);
+            // 
+            // lastVarTextbox
+            // 
+            this.lastVarTextbox.Location = new System.Drawing.Point(564, 609);
+            this.lastVarTextbox.Name = "lastVarTextbox";
+            this.lastVarTextbox.Size = new System.Drawing.Size(100, 31);
+            this.lastVarTextbox.TabIndex = 13;
+            this.lastVarTextbox.Text = "None";
+            // 
+            // varUpdateButton
+            // 
+            this.varUpdateButton.Location = new System.Drawing.Point(442, 567);
+            this.varUpdateButton.Name = "varUpdateButton";
+            this.varUpdateButton.Size = new System.Drawing.Size(116, 73);
+            this.varUpdateButton.TabIndex = 14;
+            this.varUpdateButton.Text = "Send Var Update";
+            this.varUpdateButton.UseVisualStyleBackColor = true;
+            this.varUpdateButton.Click += new System.EventHandler(this.SendVarUpdate);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1026, 825);
+            this.ClientSize = new System.Drawing.Size(2058, 1133);
+            this.Controls.Add(this.varUpdateButton);
+            this.Controls.Add(this.lastVarTextbox);
+            this.Controls.Add(this.varGridView);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.Choice3Button);
             this.Controls.Add(this.Choice2Button);
@@ -173,6 +243,8 @@
             this.Text = "Form1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnFormClose);
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.varGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.inkVarBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -192,6 +264,13 @@
         private System.Windows.Forms.Button Choice2Button;
         private System.Windows.Forms.Button Choice3Button;
         private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.BindingSource inkVarBindingSource;
+        private System.Windows.Forms.DataGridView varGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn varNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn currentValueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn newValueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.TextBox lastVarTextbox;
+        private System.Windows.Forms.Button varUpdateButton;
     }
 }
 
