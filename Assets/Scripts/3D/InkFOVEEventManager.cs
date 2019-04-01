@@ -298,6 +298,12 @@ public class InkFOVEEventManager : MonoBehaviour
                 AdvanceStory();
                 return;
             }
+            if (text.StartsWith("##") )
+            {
+                choiceOutlet.WriteCustomMarker(text);
+                AdvanceStory();
+                return;
+            }
             targetDisplay.CreateText(text);
             Debug.Log(text);
             targetDisplay.NewLine();
