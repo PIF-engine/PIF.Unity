@@ -13,7 +13,7 @@ ExportedObj/
 .consulo/
 *.csproj
 *.unityproj
-*.sln
+#*.sln
 *.suo
 *.tmp
 *.user
@@ -79,3 +79,4 @@ Assets/0.txt.meta
 Assets/0.txt
 LinuxOutput/
 PIFStoryTreeOutput_Data/
+Ink.sln
