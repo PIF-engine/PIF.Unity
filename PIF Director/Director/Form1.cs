@@ -59,16 +59,14 @@ namespace Director
             VectorStreamInlet = new Thread(this.ProcessVectorStream);
             VectorStreamInlet.Start();
 
-            ChoiceInlet = new Thread(this.ProcessChoiceMarker);
-            ChoiceInlet.Start();
+            //ChoiceInlet = new Thread(this.ProcessChoiceMarker);
+            //ChoiceInlet.Start();
 
             ChoiceOutlet = new Thread(this.SendChoiceOutlet);
             ChoiceOutlet.Start();
 
             MarkerInlet = new Thread(ProcessMarkerStreamUpdate);
             MarkerInlet.Start(); 
-            
-
 
             varOutletInfo = new liblsl.StreamInfo("Unity.Ink.Var", "Ink.Var", 1, 0, liblsl.channel_format_t.cf_string, "sddssssfsdf");
             varOutlet = new liblsl.StreamOutlet(varOutletInfo);
@@ -99,10 +97,10 @@ namespace Director
             while (true)
             {
                 choiceEventHandler.WaitOne();
-                if (currentChoice != -1)
+                if (currentChoice != -2)
                 {
                     data[0] = currentChoice;
-                    currentChoice = -1;
+                    currentChoice = -2;
                     outlet.push_sample(data);
                 }
 
@@ -140,6 +138,8 @@ namespace Director
         {
             liblsl.StreamInfo[] results = liblsl.resolve_stream("name", "Unity.Ink.Choice.Request");
             liblsl.StreamInlet inlet = new liblsl.StreamInlet(results[0]);
+
+            
 
             string[] sample = new string[1];
 
@@ -268,6 +268,24 @@ namespace Director
 
                     ProcessContextStop(param);
                 }
+                if (sample[0] == "request")
+                {
+                    MethodInvoker inv = delegate
+                    {
+                        ResponceStatus.Text = "Responce Requested!";
+                        responceRequested = true;
+                    };
+                    this.Invoke(inv);
+                }
+                if (sample[0] == "recieved")
+                {
+                    MethodInvoker inv = delegate
+                    {
+                        ResponceStatus.Text = "No Responce Requested";
+                        responceRequested = false;
+                    };
+                    this.Invoke(inv);
+                }
             }
         }
 
@@ -305,7 +323,15 @@ namespace Director
                 lastVarTextbox.Text = sample;
                 varGridView.Refresh();
             };
-            Invoke(inv); //And make it so!
+            try
+            {
+                Invoke(inv); //And make it so!
+#pragma warning disable CS0168 // Variable is declared but never used
+            } catch (Exception e)
+#pragma warning restore CS0168 // Variable is declared but never used
+            {
+
+            }
         }
 
         private void ProcessContextCommand(string command)
@@ -367,6 +393,7 @@ namespace Director
         private void ExitButton_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
+            Environment.Exit(0);
         }
 
         private void OnFormClose(object sender, FormClosedEventArgs e)
@@ -400,6 +427,17 @@ namespace Director
             string[] data = { varState };
 
             varOutlet.push_sample(data);
+        }
+
+        private void streamNameText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Advance_Click(object sender, EventArgs e)
+        {
+            currentChoice = -1;
+            choiceEventHandler.Set();
         }
     }
 }

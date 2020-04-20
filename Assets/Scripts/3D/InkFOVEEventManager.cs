@@ -10,7 +10,7 @@ public class InkFOVEEventManager : MonoBehaviour
 {
 
     //[SerializeField]
-    public List<TextAsset> storyJSON;
+    private List<TextAsset> storyJSON = new List<TextAsset>();
     public TextAsset startingStory;
     private Story story;
 
@@ -36,6 +36,11 @@ public class InkFOVEEventManager : MonoBehaviour
     private static bool varUpdateReady = false;
     private static string varUpdateCode = "";
 
+    [SerializeField]
+    private GameObject FOVERig;
+    [SerializeField]
+    private GameObject backupCam;
+
     // Use this for initialization
     private void Start()
     {
@@ -47,13 +52,16 @@ public class InkFOVEEventManager : MonoBehaviour
             choiceInput = LSLChoiceInput.GetComponent<LSLChoiceInlet>();
 
 
-       
+
 
         //Randomize the order of the stories
-        var rand = new System.Random();
-        storyJSON = storyJSON.OrderBy( (x) => (rand.Next())).ToList();
-        if(startingStory != null) storyJSON.Insert(0,startingStory);//start with the starting story
+        //var rand = new System.Random();
+        //storyJSON = storyJSON.OrderBy( (x) => (rand.Next())).ToList();
 
+        startingStory = Resources.Load<TextAsset>("InkStory");
+
+        if (startingStory != null) storyJSON.Insert(0, startingStory);//start with the starting story
+        else { Debug.LogError("Null Story!"); }
         //Sends the initial vars to the director as soon as its connected
         StartCoroutine(SendInitialVarsToDirector());
         //And start listening for updates
@@ -81,6 +89,8 @@ public class InkFOVEEventManager : MonoBehaviour
         }
         catch (Exception)
         { //no FOVE connected
+            FOVERig.SetActive(false);
+            backupCam.SetActive(true);
             setup = false;
             return false;
         }
@@ -174,15 +184,15 @@ public class InkFOVEEventManager : MonoBehaviour
             // a valid choice has been made, reset LSL input if any, send back acknowledgment
             if (usingLSL)
             {
-                choiceInput.ClearLastChoice();
+                choiceInput.ChoiceRecieved();
                 // NB: reding a "recieved" on keyboard input could confuse the Director?
                 choiceOutlet.ResponceRecieved();
             }
-            
+
         }
 
         if (!advance) return;
-        if(endOfCurrentStory) { targetDisplay.RemoveText(); StartStory();}
+        if (endOfCurrentStory) { targetDisplay.RemoveText(); StartStory(); }
         else AdvanceStory();
 
 
@@ -191,7 +201,7 @@ public class InkFOVEEventManager : MonoBehaviour
 
     private void StartStory()
     {
-        
+
         if (storyJSON.Count == 0)
         {
             Debug.Log("End of story collection!");
@@ -204,7 +214,7 @@ public class InkFOVEEventManager : MonoBehaviour
         story = new Story(storyJSON[0].text);
         targetDisplay.StartNewStory(storyJSON[0].name);
         choiceOutlet.SetStoryName(storyJSON[0].name);
-        choiceOutlet.WriteStoryNameMarkerStart();    
+        choiceOutlet.WriteStoryNameMarkerStart();
         UpdateVarDictionary(true);
         AdvanceStory();
     }
@@ -219,9 +229,9 @@ public class InkFOVEEventManager : MonoBehaviour
         VariablesState state = story.variablesState;
         foreach (string v in state)
         {
-            Debug.Log("name: " + v+ ", type: " + state[v].GetType() + ", value: " + state[v]);
-            if(sendToDirector) choiceOutlet.WriteVariableMarker(v,state[v].GetType(),state[v]);
-            variableStates.Add(v,state[v]);
+            Debug.Log("name: " + v + ", type: " + state[v].GetType() + ", value: " + state[v]);
+            if (sendToDirector) choiceOutlet.WriteVariableMarker(v, state[v].GetType(), state[v]);
+            variableStates.Add(v, state[v]);
         }
     }
 
@@ -235,7 +245,7 @@ public class InkFOVEEventManager : MonoBehaviour
         foreach (string v in state)
         {
             //Debug.Log("Var is " + v + ", " + variableStates[v] + " : " + state[v]);
-            if (variableStates[v].Equals( state[v])) continue;
+            if (variableStates[v].Equals(state[v])) continue;
             Debug.Log("Vars have changed");
             Debug.Log("Var is " + v + ", " + variableStates[v] + " : " + state[v]);
             return true;
@@ -249,7 +259,7 @@ public class InkFOVEEventManager : MonoBehaviour
     public void SetStateToDict()
     {
         VariablesState state = story.variablesState;
-        foreach(string v in state)
+        foreach (string v in state)
         {
             state[v] = variableStates[v];
         }
@@ -275,22 +285,26 @@ public class InkFOVEEventManager : MonoBehaviour
     }
 
 
-
-
-    private void AdvanceStory()
+    public void AdvanceStory()
     {
         if (endOfExperiment) return;
         //if the story can continue, continue it
         if (story.canContinue)
         {
             string text = story.Continue().Trim();
+            if (text.ToLower().Contains("<color="))
+            {
+                int colorend = text.ToLower().IndexOf("<color=") + 7;
+                text = text.Substring(0, colorend) + "#" + text.Substring(colorend);
+            }
+
             //Newline filler word for a break
-            if(text == @"NEWLINE")
+            if (text == @"NEWLINE")
             {
                 targetDisplay.NewLine();
                 AdvanceStory();
                 return;
-            //Newpage filler word to change the page
+                //Newpage filler word to change the page
             }
             if (text == @"NEWPAGE")
             {
@@ -298,21 +312,21 @@ public class InkFOVEEventManager : MonoBehaviour
                 AdvanceStory();
                 return;
             }
-            if (text.StartsWith("##") )
+            if (text.StartsWith("##"))
             {
                 choiceOutlet.WriteCustomMarker(text);
                 AdvanceStory();
                 return;
             }
             targetDisplay.CreateText(text);
-            Debug.Log(text);
+            Debug.Log(text + "\n");
             targetDisplay.NewLine();
             return;
         } //otherwise, we're either done or waiting for a choice
           //if we're at a choice, but havent started waiting yet
 
         if (story.currentChoices.Count > 0)
-        {             
+        {
             //if We're waiting for a choice
             if (waitForChoice)
             {
@@ -335,7 +349,8 @@ public class InkFOVEEventManager : MonoBehaviour
                 targetDisplay.CreateText(ct);
             }
             targetDisplay.logging = logging;
-        } else
+        }
+        else
         {
             targetDisplay.RemoveText();
             targetDisplay.CreateText("End of Story!");
@@ -362,7 +377,7 @@ public class InkFOVEEventManager : MonoBehaviour
             //Log the error and ignore the message received
             //TODO: Implement proper communication for this case
             Debug.Log("Invalid choice recieved!");
-            choiceInput.ClearLastChoice();
+            choiceInput.ChoiceRecieved();
             return false;
         }
         story.ChooseChoiceIndex(i);
@@ -380,7 +395,7 @@ public class InkFOVEEventManager : MonoBehaviour
         {
             if (s.Equals("")) continue;
             var comp = s.Split(':');
-            UpdateDict(comp[0],comp[1]);
+            UpdateDict(comp[0], comp[1]);
             Debug.Log("Processed update from director: " + comp[0] + "," + comp[1]);
         }
     }
@@ -413,7 +428,7 @@ public class InkFOVEEventManager : MonoBehaviour
 
     public static void DoDirectorUpdate(string message)
     {
-        
+
         varUpdateCode = message;
         varUpdateReady = true;
     }

@@ -902,7 +902,7 @@ public class liblsl
     {
         /// Name of the binary to include -- replace this if you are on a non-Windows platform (e.g., liblsl64.so)
         /// TODO: Fix this so it uses a local reference
-        const string libname = @"C:\DEV\Ink\PIF Director\Director\liblsl32.dll";
+        const string libname = @"E:\DEV\perceptual-interactive-fiction\PIF Director\Director" + @"\liblsl32.dll";
 
         [DllImport(libname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, ExactSpelling = true)]
         public static extern int lsl_protocol_version();

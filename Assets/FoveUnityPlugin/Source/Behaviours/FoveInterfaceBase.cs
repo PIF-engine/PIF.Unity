@@ -414,7 +414,7 @@ namespace UnityEngine
 			    }
 			    catch (Exception e)
 			    {
-			        Debug.LogWarning("FOVE not connected");
+			        //Debug.LogWarning("FOVE not connected");
 			    }
 			    EnsureLocalDataConcurrency();
 

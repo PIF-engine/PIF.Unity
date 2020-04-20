@@ -9,7 +9,7 @@ public class LSLChoiceInlet : InletIntSamples {
     public GameObject EventSystem;
     private InkFOVEEventManager manager;
 
-    private int lastChoice = -1;
+    private int lastChoice = -2;
 
     [SerializeField]
     private bool connected = false;
@@ -22,7 +22,16 @@ public class LSLChoiceInlet : InletIntSamples {
 
             return;
         }
-        lastChoice = newSample[0];
+        if (newSample[0] == -1)
+        {
+            manager.AdvanceStory();
+            lastChoice = -2;
+        }
+        else if(newSample[0] >= 0)
+        {
+            lastChoice = newSample[0];
+        }
+        
     }
 
 
@@ -32,9 +41,9 @@ public class LSLChoiceInlet : InletIntSamples {
     }
 
 
-    public void ClearLastChoice()
+    public void ChoiceRecieved()
     {
-        lastChoice = -1;
+        lastChoice = -2;
     }
 
     protected override void OnStreamAvailable()
@@ -54,7 +63,7 @@ public class LSLChoiceInlet : InletIntSamples {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        if(manager.IsWaitingForChoice() && connected)
+        if(connected)
             pullSamples();
 	}
 

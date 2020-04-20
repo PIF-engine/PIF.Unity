@@ -5,12 +5,15 @@ using LSL;
 using Assets.LSL4Unity.Scripts.Common;
 using Assets.LSL4Unity.Scripts;
 
-public class LSLChoiceOutlet : LSLMarkerStream {
+public class LSLChoiceOutlet : LSLMarkerStream
+{
 
 
     private const string unique_source_id = "A256CFBDAA314B8D8CFA64140A219D31";
 
     private string storyName = "";
+
+    private bool requestSent = false;
 
     public void SetStoryName(string sname)
     {
@@ -22,12 +25,15 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// </summary>
     public void RequestResponceMarker()
     {
-       // Write("request"); //Not in use currently
+        if (requestSent) return;
+        Write("request");
+        requestSent = true;
     }
 
     public void ResponceRecieved()
     {
-       // Write("recieved");
+        Write("recieved");
+        requestSent = false;
     }
 
     /// <summary>
@@ -58,7 +64,7 @@ public class LSLChoiceOutlet : LSLMarkerStream {
     /// <param name="pageNum">The page number that has has begun to be displayed</param>
     public void WriteStoryPageMarker(int pageNum)
     {
-        Write("ENDPAGE_" + storyName + ": " + (pageNum-1), liblsl.local_clock());
+        Write("ENDPAGE_" + storyName + ": " + (pageNum - 1), liblsl.local_clock());
         Write("NEXTPAGE_" + storyName + ": " + pageNum, liblsl.local_clock());
     }
 
@@ -69,6 +75,6 @@ public class LSLChoiceOutlet : LSLMarkerStream {
 
     public void WriteVariableMarker(string varname, System.Type type, object value)
     {
-        Write("VARIABLEUPDATE:"+varname+":"+type+":"+value);
+        Write("VARIABLEUPDATE:" + varname + ":" + type + ":" + value);
     }
 }

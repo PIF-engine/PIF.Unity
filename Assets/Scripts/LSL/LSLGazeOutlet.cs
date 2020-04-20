@@ -81,7 +81,10 @@ public class LSLGazeOutlet : MonoBehaviour {
     private void pushSample()
     {
         if (outlet == null)
+        {
+            Debug.Log("No Outlet");
             return;
+        }
 
         if (useFOVEGazeCast && FoveInterface.IsEyeTrackingCalibrating())
             return;
@@ -94,7 +97,7 @@ public class LSLGazeOutlet : MonoBehaviour {
         currentSample[2] = "" + CRET.y;
         currentSample[3] = "" + CRET.z;
 
-        Debug.Log("Looking at word: " + CRET.Name);
+        //Debug.Log("Looking at word: " + CRET.Name);
 
         outlet.push_sample(currentSample, liblsl.local_clock());
         //Debug.Log("Pushed Word Sample");

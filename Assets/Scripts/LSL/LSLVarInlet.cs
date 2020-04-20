@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LSLVarInlet : InletStringSamples {
 
+    bool pull = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -12,8 +14,19 @@ public class LSLVarInlet : InletStringSamples {
 	
 	// Update is called once per frame
 	void Update () {
-	    pullSamples();	
+        
+	    if(pull) pullSamples();	
 	}
+
+    protected override void OnStreamAvailable()
+    {
+        pull = true;
+    }
+
+    protected override void OnStreamLost()
+    {
+        pull = false;
+    }
 
     protected override void Process(string[] newSample, double timeStamp)
     {

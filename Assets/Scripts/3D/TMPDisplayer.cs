@@ -111,6 +111,9 @@ public class TMPDisplayer : MonoBehaviour
             var wordInfo = m_Text.textInfo.wordInfo[i];
             var charInfoArr = m_Text.textInfo.characterInfo;
 
+            //If the word is invalid, such as with a special character
+            if (wordInfo.lastCharacterIndex < 0) continue;
+
             var start = charInfoArr[wordInfo.firstCharacterIndex];
             var end = charInfoArr[wordInfo.lastCharacterIndex];
 
