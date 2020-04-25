@@ -14,5 +14,3 @@ This is a simple project for experimenting with the Ink / Unity engines for the 
 
 
 ### Who do I talk to? ###
-
-* For full access to this Repo, contact me on the IDC HCI Slack (Gilad Ostrin)
